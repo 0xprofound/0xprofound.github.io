@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>0xProfound - Cybersecurity Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a1a 100%);
+            color: #00ff00;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: rgba(0, 0, 0, 0.9);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 2px solid #00ff00;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        nav li {
+            margin: 0 20px;
+        }
+
+        nav a {
+            color: #00ff00;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: #ffffff;
+            text-shadow: 0 0 5px #00ff00;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: 
+                radial-gradient(circle at 50% 50%, rgba(0, 255, 0, 0.1) 0%, transparent 50%),
+                linear-gradient(135deg, #0c0c0c 0%, #1a1a1a 100%);
+        }
+
+        .hero-content h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 20px #00ff00;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        .hero-content .subtitle {
+            font-size: 1.5rem;
+            color: #888;
+            margin-bottom: 2rem;
+        }
+
+        .terminal-text {
+            font-family: 'Courier New', monospace;
+            color: #00ff00;
+        }
+
+        .typing::after {
+            content: "|";
+            animation: blink 1s infinite;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 20px #00ff00; }
+            to { text-shadow: 0 0 30px #00ff00, 0 0 40px #00ff00; }
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        /* Sections */
+        section {
+            padding: 4rem 0;
+            margin-top: 2rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: #00ff00;
+            text-shadow: 0 0 10px #00ff00;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .stat-card {
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid #00ff00;
+            padding: 2rem;
+            text-align: center;
+            border-radius: 10px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0, 255, 0, 0.3);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #00ff00;
+            text-shadow: 0 0 15px #00ff00;
+        }
+
+        .stat-label {
+            font-size: 1.2rem;
+            color: #888;
+            margin-top: 0.5rem;
+        }
+
+        /* Skills Section */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .skill-category {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid #00ff00;
+            padding: 2rem;
+            border-radius: 10px;
+        }
+
+        .skill-category h3 {
+            color: #00ff00;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .skill-list {
+            list-style: none;
+        }
+
+        .skill-list li {
+            padding: 0.5rem 0;
+            color: #ccc;
+            border-bottom: 1px solid #333;
+        }
+
+        .skill-list li:before {
+            content: "→ ";
+            color: #00ff00;
+            font-weight: bold;
+        }
+
+        /* HTB Machines Grid */
+        .machines-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .machine-card {
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid #333;
+            border-radius: 10px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .machine-card:hover {
+            border-color: #00ff00;
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 255, 0, 0.2);
+        }
+
+        .machine-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #00ff00, transparent);
+            transition: left 0.5s ease;
+        }
+
+        .machine-card:hover::before {
+            left: 100%;
+        }
+
+        .machine-name {
+            font-size: 1.3rem;
+            color: #00ff00;
+            margin-bottom: 0.5rem;
+        }
+
+        .machine-os {
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .machine-difficulty {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .difficulty-easy { background: #28a745; color: white; }
+        .difficulty-medium { background: #ffc107; color: black; }
+        .difficulty-hard { background: #dc3545; color: white; }
+        .difficulty-insane { background: #6f42c1; color: white; }
+
+        .writeup-link {
+            color: #00ff00;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        .writeup-link:hover {
+            color: #ffffff;
+            text-shadow: 0 0 5px #00ff00;
+        }
+
+        /* Projects Section */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid #333;
+            padding: 2rem;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .project-card:hover {
+            border-color: #00ff00;
+            box-shadow: 0 10px 30px rgba(0, 255, 0, 0.2);
+        }
+
+        .project-title {
+            color: #00ff00;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .project-tech {
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Contact Section */
+        .contact {
+            text-align: center;
+            background: rgba(0, 0, 0, 0.9);
+            padding: 4rem 2rem;
+            border-top: 2px solid #00ff00;
+        }
+
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .contact-link {
+            color: #00ff00;
+            text-decoration: none;
+            font-size: 1.2rem;
+            padding: 1rem 2rem;
+            border: 2px solid #00ff00;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .contact-link:hover {
+            background: #00ff00;
+            color: #000;
+            box-shadow: 0 5px 15px rgba(0, 255, 0, 0.4);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+            
+            .hero-content .subtitle {
+                font-size: 1.2rem;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            nav li {
+                margin: 10px 0;
+            }
+            
+            .contact-links {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #1a1a1a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #00ff00;
+            border-radius: 6px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00cc00;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#machines">HTB Machines</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>0xProfound</h1>
+            <p class="subtitle terminal-text">Penetration Tester | DEPI VAPT Track</p>
+            <p class="terminal-text typing" id="typing-text">root@hackthebox:~# whoami</p>
+        </div>
+    </section>
+
+    <section id="about" class="container">
+        <h2 class="section-title">About Me</h2>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">37</div>
+                <div class="stat-label">HTB Machines Solved</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">DEPI</div>
+                <div class="stat-label">VAPT Track Student</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">Python</div>
+                <div class="stat-label">& Bash Scripting</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">Obsidian</div>
+                <div class="stat-label">Knowledge Base</div>
+            </div>
+        </div>
+        <div style="text-align: center; max-width: 800px; margin: 0 auto; color: #ccc; font-size: 1.1rem;">
+            <p>I'm a cybersecurity enthusiast currently pursuing the DEPI VAPT track, with hands-on experience solving 37+ Hack The Box machines. I'm passionate about penetration testing, vulnerability assessment, and documenting my learning journey through detailed writeups and notes.</p>
+        </div>
+    </section>
+
+    <section id="skills" class="container">
+        <h2 class="section-title">Skills & Tools</h2>
+        <div class="skills-grid">
+            <div class="skill-category">
+                <h3>Penetration Testing</h3>
+                <ul class="skill-list">
+                    <li>Network Reconnaissance</li>
+                    <li>Web Application Testing</li>
+                    <li>Privilege Escalation</li>
+                    <li>Post-Exploitation</li>
+                    <li>Report Writing</li>
+                </ul>
+            </div>
+            <div class="skill-category">
+                <h3>Tools & Frameworks</h3>
+                <ul class="skill-list">
+                    <li>Nmap, Burp Suite, Metasploit</li>
+                    <li>Gobuster, ffuf, Dirbuster</li>
+                    <li>SQLmap, Hydra, John</li>
+                    <li>Wireshark, Netcat</li>
+                    <li>OWASP Testing Guide</li>
+                </ul>
+            </div>
+            <div class="skill-category">
+                <h3>Programming</h3>
+                <ul class="skill-list">
+                    <li>Python Scripting</li>
+                    <li>Bash Automation</li>
+                    <li>PowerShell</li>
+                    <li>SQL Injection</li>
+                    <li>Reverse Engineering</li>
+                </ul>
+            </div>
+            <div class="skill-category">
+                <h3>Operating Systems</h3>
+                <ul class="skill-list">
+                    <li>Kali Linux</li>
+                    <li>Ubuntu/Debian</li>
+                    <li>Windows</li>
+                    <li>Active Directory</li>
+                    <li>Virtual Environments</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="machines" class="container">
+        <h2 class="section-title">HTB Machine Writeups</h2>
+        <div class="machines-grid">
+            <!-- Sample machines - you can replace with your actual solved machines -->
+            <div class="machine-card">
+                <div class="machine-name">Lame</div>
+                <div class="machine-os">Linux</div>
+                <span class="machine-difficulty difficulty-easy">Easy</span>
+                <p style="color: #ccc; margin: 1rem 0;">Classic beginner box focusing on SMB enumeration and exploitation.</p>
+                <a href="#" class="writeup-link">Read Writeup →</a>
+            </div>
+            
+            <div class="machine-card">
+                <div class="machine-name">Legacy</div>
+                <div class="machine-os">Windows</div>
+                <span class="machine-difficulty difficulty-easy">Easy</span>
+                <p style="color: #ccc; margin: 1rem 0;">Windows XP machine vulnerable to MS17-010 (EternalBlue).</p>
+                <a href="#" class="writeup-link">Read Writeup →</a>
+            </div>
+            
+            <div class="machine-card">
+                <div class="machine-name">Shocker</div>
+                <div class="machine-os">Linux</div>
+                <span class="machine-difficulty difficulty-easy">Easy</span>
+                <p style="color: #ccc; margin: 1rem 0;">Shellshock vulnerability exploitation and privilege escalation.</p>
+                <a href="#" class="writeup-link">Read Writeup →</a>
+            </div>
+            
+            <div class="machine-card">
+                <div class="machine-name">Bashed</div>
+                <div class="machine-os">Linux</div>
+                <span class="machine-difficulty difficulty-easy">Easy</span>
+                <p style="color: #ccc; margin: 1rem 0;">Web shell discovery and sudo privilege escalation.</p>
+                <a href="#" class="writeup-link">Read Writeup →</a>
+            </div>
+            
+            <div class="machine-card">
+                <div class="machine-name">Nibbles</div>
+                <div class="machine-os">Linux</div>
+                <span class="machine-difficulty difficulty-easy">Easy</span>
+                <p style="color: #ccc; margin: 1rem 0;">Nibbleblog CMS exploitation and path hijacking.</p>
+                <a href="#" class="writeup-link">Read Writeup →</a>
+            </div>
+            
+            <div class="machine-card">
+                <div class="machine-name">Beep</div>
+                <div class="machine-os">Linux</div>
+                <span class="machine-difficulty difficulty-easy">Easy</span>
+                <p style="color: #ccc; margin: 1rem 0;">Elastix PBX system with multiple attack vectors.</p>
+                <a href="#" class="writeup-link">Read Writeup →</a>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 3rem;">
+            <p style="color: #888; font-size: 1.1rem;">Showing 6 of 37 machines solved. <a href="#" style="color: #00ff00;">View all writeups →</a></p>
+        </div>
+    </section>
+
+    <section id="projects" class="container">
+        <h2 class="section-title">Projects & Scripts</h2>
+        <div class="projects-grid">
+            <div class="project-card">
+                <div class="project-title">HTB Enumeration Script</div>
+                <div class="project-tech">Python, Subprocess, Threading</div>
+                <p style="color: #ccc; margin: 1rem 0;">Automated reconnaissance script that performs comprehensive enumeration of HTB targets including port scanning, service detection, and directory busting.</p>
+                <a href="#" class="writeup-link">View on GitHub →</a>
+            </div>
+            
+            <div class="project-card">
+                <div class="project-title">Obsidian HTB Template</div>
+                <div class="project-tech">Markdown, Templates</div>
+                <p style="color: #ccc; margin: 1rem 0;">Structured note-taking template for HTB machine documentation, including methodology, findings, and lessons learned sections.</p>
+                <a href="#" class="writeup-link">View Template →</a>
+            </div>
+            
+            <div class="project-card">
+                <div class="project-title">Privilege Escalation Checker</div>
+                <div class="project-tech">Bash, System Administration</div>
+                <p style="color: #ccc; margin: 1rem 0;">Collection of bash scripts to automate common privilege escalation checks on Linux systems during penetration tests.</p>
+                <a href="#" class="writeup-link">View Scripts →</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 class="section-title">Get In Touch</h2>
+            <p style="color: #ccc; font-size: 1.2rem; margin-bottom: 2rem;">Let's connect and discuss cybersecurity, HTB machines, or collaboration opportunities.</p>
+            <div class="contact-links">
+                <a href="https://github.com/yourusername" class="contact-link">GitHub</a>
+                <a href="https://linkedin.com/in/yourprofile" class="contact-link">LinkedIn</a>
+                <a href="mailto:your.email@example.com" class="contact-link">Email</a>
+                <a href="https://app.hackthebox.com/profile/yourprofile" class="contact-link">HTB Profile</a>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Typing effect
+        const typingText = document.getElementById('typing-text');
+        const messages = [
+            'root@0xProfound:~# whoami',
+            'root@0xProfound:~# cat /etc/passwd',
+            'root@0xProfound:~# python3 exploit.py',
+            'root@0xProfound:~# nc -lvnp 4444'
+        ];
+        
+        let messageIndex = 0;
+        let charIndex = 0;
+        let currentMessage = '';
+        let isDeleting = false;
+
+        function typeEffect() {
+            if (isDeleting) {
+                currentMessage = messages[messageIndex].substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                currentMessage = messages[messageIndex].substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            typingText.textContent = currentMessage;
+
+            let typeSpeed = isDeleting ? 50 : 100;
+
+            if (!isDeleting && charIndex === messages[messageIndex].length) {
+                typeSpeed = 2000;
+                isDeleting = true;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                messageIndex = (messageIndex + 1) % messages.length;
+                typeSpeed = 500;
+            }
+
+            setTimeout(typeEffect, typeSpeed);
+        }
+
+        // Start typing effect
+        setTimeout(typeEffect, 1000);
+
+        // Add scroll effect to navigation
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(0, 0, 0, 0.95)';
+            } else {
+                header.style.background = 'rgba(0, 0, 0, 0.9)';
+            }
+        });
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>0xProfound - Cybersecurity Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a1a 100%);
+            color: #00ff00;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: rgba(0, 0, 0, 0.9);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 2px solid #00ff00;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        nav li {
+            margin: 0 20px;
+        }
+
+        nav a {
+            color: #00ff00;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: #ffffff;
+            text-shadow: 0 0 5px #00ff00;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: 
+                radial-gradient(circle at 50% 50%, rgba(0, 255, 0, 0.1) 0%, transparent 50%),
+                linear-gradient(135deg, #0c0c0c 0%, #1a1a1a 100%);
+        }
+
+        .hero-content h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 20px #00ff00;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        .hero-content .subtitle {
+            font-size: 1.5rem;
+            color: #888;
+            margin-bottom: 2rem;
+        }
+
+        .terminal-text {
+            font-family: 'Courier New', monospace;
+            color: #00ff00;
+        }
+
+        .typing::after {
+            content: "|";
+            animation: blink 1s infinite;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 20px #00ff00; }
+            to { text-shadow: 0 0 30px #00ff00, 0 0 40px #00ff00; }
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        /* Sections */
+        section {
+            padding: 4rem 0;
+            margin-top: 2rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: #00ff00;
+            text-shadow: 0 0 10px #00ff00;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .stat-card {
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid #00ff00;
+            padding: 2rem;
+            text-align: center;
+            border-radius: 10px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0, 255, 0, 0.3);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #00ff00;
+            text-shadow: 0 0 15px #00ff00;
+        }
+
+        .stat-label {
+            font-size: 1.2rem;
+            color: #888;
+            margin-top: 0.5rem;
+        }
+
+        /* Skills Section */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .skill-category {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid #00ff00;
+            padding: 2rem;
+            border-radius: 10px;
+        }
+
+        .skill-category h3 {
+            color: #00ff00;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .skill-list {
+            list-style: none;
+        }
+
+        .skill-list li {
+            padding: 0.5rem 0;
+            color: #ccc;
+            border-bottom: 1px solid #333;
+        }
+
+        .skill-list li:before {
+            content: "→ ";
+            color: #00ff00;
+            font-weight: bold;
+        }
+
+        /* HTB Machines Grid */
+        .machines-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .machine-card {
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid #333;
+            border-radius: 10px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .machine-card:hover {
+            border-color: #00ff00;
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 255, 0, 0.2);
+        }
+
+        .machine-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #00ff00, transparent);
+            transition: left 0.5s ease;
+        }
+
+        .machine-card:hover::before {
+            left: 100%;
+        }
+
+        .machine-name {
+            font-size: 1.3rem;
+            color: #00ff00;
+            margin-bottom: 0.5rem;
+        }
+
+        .machine-os {
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .machine-difficulty {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .difficulty-easy { background: #28a745; color: white; }
+        .difficulty-medium { background: #ffc107; color: black; }
+        .difficulty-hard { background: #dc3545; color: white; }
+        .difficulty-insane { background: #6f42c1; color: white; }
+
+        .writeup-link {
+            color: #00ff00;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        .writeup-link:hover {
+            color: #ffffff;
+            text-shadow: 0 0 5px #00ff00;
+        }
+
+        /* Projects Section */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid #333;
+            padding: 2rem;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .project-card:hover {
+            border-color: #00ff00;
+            box-shadow: 0 10px 30px rgba(0, 255, 0, 0.2);
+        }
+
+        .project-title {
+            color: #00ff00;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .project-tech {
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Contact Section */
+        .contact {
+            text-align: center;
+            background: rgba(0, 0, 0, 0.9);
+            padding: 4rem 2rem;
+            border-top: 2px solid #00ff00;
+        }
+
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .contact-link {
+            color: #00ff00;
+            text-decoration: none;
+            font-size: 1.2rem;
+            padding: 1rem 2rem;
+            border: 2px solid #00ff00;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .contact-link:hover {
+            background: #00ff00;
+            color: #000;
+            box-shadow: 0 5px 15px rgba(0, 255, 0, 0.4);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+            
+            .hero-content .subtitle {
+                font-size: 1.2rem;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            nav li {
+                margin: 10px 0;
+            }
+            
+            .contact-links {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #1a1a1a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #00ff00;
+            border-radius: 6px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00cc00;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#machines">HTB Machines</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>0xProfound</h1>
+            <p class="subtitle terminal-text">Penetration Tester | DEPI VAPT Track</p>
+            <p class="terminal-text typing" id="typing-text">root@hackthebox:~# whoami</p>
+        </div>
+    </section>
+
+    <section id="about" class="container">
+        <h2 class="section-title">About Me</h2>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">37</div>
+                <div class="stat-label">HTB Machines Solved</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">DEPI</div>
+                <div class="stat-label">VAPT Track Student</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">Python</div>
+                <div class="stat-label">& Bash Scripting</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">Obsidian</div>
+                <div class="stat-label">Knowledge Base</div>
+            </div>
+        </div>
+        <div style="text-align: center; max-width: 800px; margin: 0 auto; color: #ccc; font-size: 1.1rem;">
+            <p>I'm a cybersecurity enthusiast currently pursuing the DEPI VAPT track, with hands-on experience solving 37+ Hack The Box machines. I'm passionate about penetration testing, vulnerability assessment, and documenting my learning journey through detailed writeups and notes.</p>
+        </div>
+    </section>
+
+    <section id="skills" class="container">
+        <h2 class="section-title">Skills & Tools</h2>
+        <div class="skills-grid">
+            <div class="skill-category">
+                <h3>Penetration Testing</h3>
+                <ul class="skill-list">
+                    <li>Network Reconnaissance</li>
+                    <li>Web Application Testing</li>
+                    <li>Privilege Escalation</li>
+                    <li>Post-Exploitation</li>
+                    <li>Report Writing</li>
+                </ul>
+            </div>
+            <div class="skill-category">
+                <h3>Tools & Frameworks</h3>
+                <ul class="skill-list">
+                    <li>Nmap, Burp Suite, Metasploit</li>
+                    <li>Gobuster, ffuf, Dirbuster</li>
+                    <li>SQLmap, Hydra, John</li>
+                    <li>Wireshark, Netcat</li>
+                    <li>OWASP Testing Guide</li>
+                </ul>
+            </div>
+            <div class="skill-category">
+                <h3>Programming</h3>
+                <ul class="skill-list">
+                    <li>Python Scripting</li>
+                    <li>Bash Automation</li>
+                    <li>PowerShell</li>
+                    <li>SQL Injection</li>
+                    <li>Reverse Engineering</li>
+                </ul>
+            </div>
+            <div class="skill-category">
+                <h3>Operating Systems</h3>
+                <ul class="skill-list">
+                    <li>Kali Linux</li>
+                    <li>Ubuntu/Debian</li>
+                    <li>Windows</li>
+                    <li>Active Directory</li>
+                    <li>Virtual Environments</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="machines" class="container">
+        <h2 class="section-title">HTB Machine Writeups</h2>
+        <div class="machines-grid">
+            <!-- Sample machines - you can replace with your actual solved machines -->
+            <div class="machine-card">
+                <div class="machine-name">Lame</div>
+                <div class="machine-os">Linux</div>
+                <span class="machine-difficulty difficulty-easy">Easy</span>
+                <p style="color: #ccc; margin: 1rem 0;">Classic beginner box focusing on SMB enumeration and exploitation.</p>
+                <a href="#" class="writeup-link">Read Writeup →</a>
+            </div>
+            
+            <div class="machine-card">
+                <div class="machine-name">Legacy</div>
+                <div class="machine-os">Windows</div>
+                <span class="machine-difficulty difficulty-easy">Easy</span>
+                <p style="color: #ccc; margin: 1rem 0;">Windows XP machine vulnerable to MS17-010 (EternalBlue).</p>
+                <a href="#" class="writeup-link">Read Writeup →</a>
+            </div>
+            
+            <div class="machine-card">
+                <div class="machine-name">Shocker</div>
+                <div class="machine-os">Linux</div>
+                <span class="machine-difficulty difficulty-easy">Easy</span>
+                <p style="color: #ccc; margin: 1rem 0;">Shellshock vulnerability exploitation and privilege escalation.</p>
+                <a href="#" class="writeup-link">Read Writeup →</a>
+            </div>
+            
+            <div class="machine-card">
+                <div class="machine-name">Bashed</div>
+                <div class="machine-os">Linux</div>
+                <span class="machine-difficulty difficulty-easy">Easy</span>
+                <p style="color: #ccc; margin: 1rem 0;">Web shell discovery and sudo privilege escalation.</p>
+                <a href="#" class="writeup-link">Read Writeup →</a>
+            </div>
+            
+            <div class="machine-card">
+                <div class="machine-name">Nibbles</div>
+                <div class="machine-os">Linux</div>
+                <span class="machine-difficulty difficulty-easy">Easy</span>
+                <p style="color: #ccc; margin: 1rem 0;">Nibbleblog CMS exploitation and path hijacking.</p>
+                <a href="#" class="writeup-link">Read Writeup →</a>
+            </div>
+            
+            <div class="machine-card">
+                <div class="machine-name">Beep</div>
+                <div class="machine-os">Linux</div>
+                <span class="machine-difficulty difficulty-easy">Easy</span>
+                <p style="color: #ccc; margin: 1rem 0;">Elastix PBX system with multiple attack vectors.</p>
+                <a href="#" class="writeup-link">Read Writeup →</a>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 3rem;">
+            <p style="color: #888; font-size: 1.1rem;">Showing 6 of 37 machines solved. <a href="#" style="color: #00ff00;">View all writeups →</a></p>
+        </div>
+    </section>
+
+    <section id="projects" class="container">
+        <h2 class="section-title">Projects & Scripts</h2>
+        <div class="projects-grid">
+            <div class="project-card">
+                <div class="project-title">HTB Enumeration Script</div>
+                <div class="project-tech">Python, Subprocess, Threading</div>
+                <p style="color: #ccc; margin: 1rem 0;">Automated reconnaissance script that performs comprehensive enumeration of HTB targets including port scanning, service detection, and directory busting.</p>
+                <a href="#" class="writeup-link">View on GitHub →</a>
+            </div>
+            
+            <div class="project-card">
+                <div class="project-title">Obsidian HTB Template</div>
+                <div class="project-tech">Markdown, Templates</div>
+                <p style="color: #ccc; margin: 1rem 0;">Structured note-taking template for HTB machine documentation, including methodology, findings, and lessons learned sections.</p>
+                <a href="#" class="writeup-link">View Template →</a>
+            </div>
+            
+            <div class="project-card">
+                <div class="project-title">Privilege Escalation Checker</div>
+                <div class="project-tech">Bash, System Administration</div>
+                <p style="color: #ccc; margin: 1rem 0;">Collection of bash scripts to automate common privilege escalation checks on Linux systems during penetration tests.</p>
+                <a href="#" class="writeup-link">View Scripts →</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 class="section-title">Get In Touch</h2>
+            <p style="color: #ccc; font-size: 1.2rem; margin-bottom: 2rem;">Let's connect and discuss cybersecurity, HTB machines, or collaboration opportunities.</p>
+            <div class="contact-links">
+                <a href="https://github.com/yourusername" class="contact-link">GitHub</a>
+                <a href="https://linkedin.com/in/yourprofile" class="contact-link">LinkedIn</a>
+                <a href="mailto:your.email@example.com" class="contact-link">Email</a>
+                <a href="https://app.hackthebox.com/profile/yourprofile" class="contact-link">HTB Profile</a>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Typing effect
+        const typingText = document.getElementById('typing-text');
+        const messages = [
+            'root@0xProfound:~# whoami',
+            'root@0xProfound:~# cat /etc/passwd',
+            'root@0xProfound:~# python3 exploit.py',
+            'root@0xProfound:~# nc -lvnp 4444'
+        ];
+        
+        let messageIndex = 0;
+        let charIndex = 0;
+        let currentMessage = '';
+        let isDeleting = false;
+
+        function typeEffect() {
+            if (isDeleting) {
+                currentMessage = messages[messageIndex].substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                currentMessage = messages[messageIndex].substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            typingText.textContent = currentMessage;
+
+            let typeSpeed = isDeleting ? 50 : 100;
+
+            if (!isDeleting && charIndex === messages[messageIndex].length) {
+                typeSpeed = 2000;
+                isDeleting = true;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                messageIndex = (messageIndex + 1) % messages.length;
+                typeSpeed = 500;
+            }
+
+            setTimeout(typeEffect, typeSpeed);
+        }
+
+        // Start typing effect
+        setTimeout(typeEffect, 1000);
+
+        // Add scroll effect to navigation
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(0, 0, 0, 0.95)';
+            } else {
+                header.style.background = 'rgba(0, 0, 0, 0.9)';
+            }
+        });
+    </script>
+</body>
+</html>
