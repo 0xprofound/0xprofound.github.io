@@ -1,12 +1,13 @@
 {
   "machines": [
     {
-      "name": "Sorcery",
+      "name": "Lame",
       "os": "Linux",
-      "difficulty": "Insane",
-      "description": "Insane machine with multiple pivoting and source code review.",
-      "techniques": ["Source Code Review", "Cypher Query Injection", "Remote Code Execution"],
-      "writeup": "Sorcery.html"
+      "difficulty": "easy",
+      "description": "Classic SMB enumeration and exploitation. Perfect entry point for beginners.",
+      "techniques": ["SMB", "Samba 3.0.20", "Remote Code Execution"],
+      "writeup": "lame.html",
+      "date_solved": "2024-02-15"
     },
     {
       "name": "Blue",
@@ -14,7 +15,57 @@
       "difficulty": "medium",
       "description": "EternalBlue exploitation on Windows 7. Classic NSA exploit demonstration.",
       "techniques": ["MS17-010", "EternalBlue", "SMB Exploitation"],
-      "writeup": "blue.html"
+      "writeup": "blue.html",
+      "date_solved": "2024-03-02"
+    },
+    {
+      "name": "Cronos",
+      "os": "Linux",
+      "difficulty": "hard",
+      "description": "DNS zone transfer, SQL injection, and cron job privilege escalation.",
+      "techniques": ["DNS Enumeration", "SQLi", "Cron Jobs"],
+      "writeup": "cronos.html",
+      "date_solved": "2024-04-18"
+    },
+    {
+      "name": "Legacy",
+      "os": "Windows",
+      "difficulty": "easy",
+      "description": "Windows XP vulnerable to MS08-067. Historical vulnerability showcase.",
+      "techniques": ["MS08-067", "Buffer Overflow", "RPC"],
+      "writeup": "legacy.html",
+      "date_solved": "2024-02-28"
+    },
+    {
+      "name": "Rope",
+      "os": "Linux",
+      "difficulty": "insane",
+      "description": "Advanced binary exploitation, ROP chains, and custom exploit development.",
+      "techniques": ["Binary Exploitation", "ROP", "Custom Exploits"],
+      "writeup": "rope.html",
+      "date_solved": "2024-05-30"
+    },
+    {
+      "name": "Poison",
+      "os": "FreeBSD",
+      "difficulty": "medium",
+      "description": "Log poisoning, LFI to RCE, and VNC tunneling techniques.",
+      "techniques": ["Log Poisoning", "LFI", "VNC Tunneling"],
+      "writeup": "poison.html",
+      "date_solved": "2024-04-05"
     }
-  ]
+  ],
+  "stats": {
+    "total": 37,
+    "by_difficulty": {
+      "easy": 15,
+      "medium": 12,
+      "hard": 8,
+      "insane": 2
+    },
+    "by_os": {
+      "linux": 22,
+      "windows": 15
+    }
+  }
 }
