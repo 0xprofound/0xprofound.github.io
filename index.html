@@ -5,71 +5,248 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>0xProfound - Elite Cybersecurity Portfolio</title>
     <link rel="stylesheet" href="assets/css/main.css">
-    <link rel="stylesheet" href="assets/css/terminal.css">
     <link rel="stylesheet" href="assets/css/animations.css">
+    <link rel="stylesheet" href="assets/css/terminal.css">
 </head>
 <body>
     <div class="particles" id="particles"></div>
 
+    <!-- Mobile Menu Button -->
+    <div class="mobile-menu-btn" id="mobileMenuBtn">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
     <header>
-        <nav class="container">
-            <ul>
-                <li><a href="#home">Home</a></li>
-                <li><a href="#terminal">Terminal</a></li>
-                <li><a href="pages/about.html">About</a></li>
-                <li><a href="#skills">Skills</a></li>
-                <li><a href="#machines">HTB Machines</a></li>
-                <li><a href="blog/blog_index.html">Blog</a></li>
-                <li><a href="#timeline">Journey</a></li>
-                <li><a href="#learning">Learning Path</a></li>
-                <li><a href="#tools">Tools</a></li>
-                <li><a href="#activity">Activity</a></li>
-                <li><a href="#contact">Contact</a></li>
+        <nav class="nav-container">
+            <div class="nav-brand">
+                <span class="logo-text">0xProfound</span>
+            </div>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#home" class="nav-link active">Home</a></li>
+                <li><a href="#terminal" class="nav-link">Terminal</a></li>
+                <li><a href="pages/about.html" class="nav-link">About</a></li>
+                <li><a href="#skills" class="nav-link">Skills</a></li>
+                <li><a href="pages/machines.html" class="nav-link">HTB Machines</a></li>
+                <li><a href="blog/index.html" class="nav-link">Blog</a></li>
+                <li><a href="pages/timeline.html" class="nav-link">Journey</a></li>
+                <li><a href="#learning" class="nav-link">Learning Path</a></li>
+                <li><a href="pages/tools.html" class="nav-link">Tools</a></li>
+                <li><a href="#activity" class="nav-link">Activity</a></li>
+                <li><a href="pages/contact.html" class="nav-link">Contact</a></li>
             </ul>
         </nav>
     </header>
 
-    <section id="home" class="hero">
-        <div class="hero-content">
-            <h1>0xProfound</h1>
-            <p class="subtitle terminal-text">Jr Penetration Tester | DEPI VAPT Track | HTB Pro Hacker</p>
-            <p class="terminal-text typing" id="typing-text">root@0xProfound:~# whoami</p>
-        </div>
-    </section>
-
-    <!-- Interactive Terminal -->
-    <section id="terminal" class="container">
-        <h2 class="section-title">Interactive Terminal</h2>
-        <div class="terminal-section">
-            <div class="terminal-header">
-                <div class="terminal-button red"></div>
-                <div class="terminal-button yellow"></div>
-                <div class="terminal-button green"></div>
-                <span>0xProfound@hackthebox: ~</span>
-            </div>
-            <div class="terminal-body" id="terminal-body">
-                <div class="terminal-line">Welcome to 0xProfound's Interactive Terminal</div>
-                <div class="terminal-line">Type 'help' to see available commands</div>
-                <div class="terminal-line">
-                    <span>root@0xProfound:~# </span>
-                    <input type="text" class="terminal-input" id="terminal-input" placeholder="Type a command..." autocomplete="off">
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <h1 class="hero-title">0xProfound</h1>
+                <p class="hero-subtitle">Elite Penetration Tester | DEPI VAPT Track | HTB Conqueror</p>
+                <p class="terminal-text typing" id="typing-text">root@0xProfound:~# whoami</p>
+                <div class="hero-actions">
+                    <a href="#terminal" class="btn-primary">Explore Terminal</a>
+                    <a href="pages/contact.html" class="btn-secondary">Get In Touch</a>
                 </div>
             </div>
-        </div>
-    </section>
+            <div class="scroll-indicator">
+                <span>Scroll Down</span>
+                <div class="scroll-arrow"></div>
+            </div>
+        </section>
 
-    <!-- Other sections will be loaded dynamically -->
-    <div id="content-container"></div>
+        <!-- Interactive Terminal -->
+        <section id="terminal" class="terminal-section">
+            <div class="section-container">
+                <h2 class="section-title">Interactive Terminal</h2>
+                <div class="terminal-window">
+                    <div class="terminal-header">
+                        <div class="terminal-button red"></div>
+                        <div class="terminal-button yellow"></div>
+                        <div class="terminal-button green"></div>
+                        <span>0xProfound@hackthebox: ~</span>
+                    </div>
+                    <div class="terminal-body" id="terminal-body">
+                        <div class="terminal-line">Welcome to 0xProfound's Interactive Terminal</div>
+                        <div class="terminal-line">Type 'help' to see available commands</div>
+                        <div class="terminal-line">
+                            <span>root@0xProfound:~# </span>
+                            <input type="text" class="terminal-input" id="terminal-input" placeholder="Type a command..." autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-    <!-- Modal for writeup/blog content -->
-    <div id="modal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal()">×</span>
-            <div id="modal-body">
-                <!-- Content will be loaded here -->
+        <!-- About Preview -->
+        <section id="about-preview" class="about-preview">
+            <div class="section-container">
+                <h2 class="section-title">About Me</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number" id="machineCount">37</div>
+                        <div class="stat-label">HTB Machines Solved</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">DEPI</div>
+                        <div class="stat-label">VAPT Track Student</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="toolCount">25+</div>
+                        <div class="stat-label">Security Tools Mastered</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="writeupCount">37+</div>
+                        <div class="stat-label">Detailed Writeups</div>
+                    </div>
+                </div>
+                <div class="about-content">
+                    <p>I'm 0xProfound, a dedicated cybersecurity professional specializing in penetration testing and vulnerability assessment. Currently advancing through the DEPI VAPT track while conquering Hack The Box machines.</p>
+                    <a href="pages/about.html" class="btn-primary">Learn More About Me</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="skills-section">
+            <div class="section-container">
+                <h2 class="section-title">Skills & Expertise</h2>
+                <div class="skills-grid">
+                    <div class="skill-category">
+                        <h3>Penetration Testing</h3>
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>Network Penetration Testing</span>
+                                <span>95%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 95%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>Web Application Security</span>
+                                <span>90%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 90%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="skill-category">
+                        <h3>Programming & Scripting</h3>
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>Python</span>
+                                <span>92%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 92%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>Bash/Shell Scripting</span>
+                                <span>89%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 89%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Learning Path -->
+        <section id="learning" class="learning-section">
+            <div class="section-container">
+                <h2 class="section-title">Learning Roadmap</h2>
+                <div class="learning-path">
+                    <div class="learning-stage completed">
+                        <h3>✓ Fundamentals</h3>
+                        <p>Linux/Windows basics, networking, protocols, and basic security concepts.</p>
+                        <div>Completed</div>
+                    </div>
+                    <div class="learning-stage completed">
+                        <h3>✓ DEPI VAPT Track</h3>
+                        <p>Comprehensive penetration testing methodology, tools, and techniques.</p>
+                        <div>In Progress - Week 12/16</div>
+                    </div>
+                    <div class="learning-stage current">
+                        <h3>⚡ HTB Mastery</h3>
+                        <p>Solving diverse machines, documenting methodologies, and building expertise.</p>
+                        <div>Current Focus - 37/100 Goal</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Activity Feed -->
+        <section id="activity" class="activity-section">
+            <div class="section-container">
+                <h2 class="section-title">Recent Activity</h2>
+                <div class="activity-grid">
+                    <div class="activity-feed">
+                        <h3>Latest Achievements</h3>
+                        <div class="activity-item">
+                            <div class="activity-icon">🎯</div>
+                            <div>
+                                <div>Solved HTB Machine: "Rope"</div>
+                                <div>Advanced binary exploitation - 2 days ago</div>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-icon">📝</div>
+                            <div>
+                                <div>Published: AD Enumeration Guide</div>
+                                <div>New blog post - 3 days ago</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="activity-feed">
+                        <h3>GitHub Activity</h3>
+                        <div class="activity-item">
+                            <div class="activity-icon">📊</div>
+                            <div>
+                                <div>37 commits this month</div>
+                                <div>Mostly automation scripts and writeups</div>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-icon">🔀</div>
+                            <div>
+                                <div>Merged: Privilege Escalation Checker</div>
+                                <div>Enhanced Linux enumeration - 4 days ago</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="section-container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h3>0xProfound</h3>
+                    <p>Elite Cybersecurity Specialist</p>
+                </div>
+                <div class="footer-links">
+                    <a href="pages/contact.html">Contact</a>
+                    <a href="https://github.com/0xProfound" target="_blank">GitHub</a>
+                    <a href="https://linkedin.com/in/josephgamil" target="_blank">LinkedIn</a>
+                    <a href="https://app.hackthebox.com/profile/1335712" target="_blank">HTB Profile</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 0xProfound. All rights reserved.</p>
             </div>
         </div>
-    </div>
+    </footer>
 
     <script src="assets/js/particles.js"></script>
     <script src="assets/js/terminal.js"></script>
