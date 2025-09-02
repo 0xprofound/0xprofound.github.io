@@ -1,0 +1,36 @@
+{
+  "posts": [
+    {
+      "title": "Advanced Active Directory Enumeration Techniques",
+      "slug": "ad-enumeration",
+      "excerpt": "Deep dive into BloodHound, PowerView, and custom LDAP queries for comprehensive AD reconnaissance...",
+      "date": "2024-06-10",
+      "tags": ["Active Directory", "Enumeration", "BloodHound", "PowerView"],
+      "read_time": "12 min"
+    },
+    {
+      "title": "Automating HTB Machine Reconnaissance",
+      "slug": "htb-automation",
+      "excerpt": "My custom Python framework for automated enumeration, including port scanning, service detection, and vulnerability assessment...",
+      "date": "2024-06-03",
+      "tags": ["Automation", "Python", "Reconnaissance", "HTB"],
+      "read_time": "8 min"
+    },
+    {
+      "title": "Building an Obsidian Knowledge Base for Pentesting",
+      "slug": "obsidian-knowledge-base",
+      "excerpt": "How I organize my penetration testing notes, methodologies, and findings using Obsidian's powerful linking system...",
+      "date": "2024-05-27",
+      "tags": ["Knowledge Management", "Obsidian", "Documentation", "Workflow"],
+      "read_time": "10 min"
+    },
+    {
+      "title": "DEPI VAPT Track: Lessons from Week 8",
+      "slug": "depi-week8",
+      "excerpt": "Reflections on advanced exploitation techniques, report writing, and the practical application of theoretical knowledge...",
+      "date": "2024-05-20",
+      "tags": ["DEPI", "Education", "VAPT", "Learning"],
+      "read_time": "6 min"
+    }
+  ]
+}
