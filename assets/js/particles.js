@@ -1,6 +1,8 @@
 // Create floating particles
 function createParticles() {
     const particles = document.getElementById('particles');
+    if (!particles) return;
+    
     for (let i = 0; i < 50; i++) {
         const particle = document.createElement('div');
         particle.className = 'particle';
