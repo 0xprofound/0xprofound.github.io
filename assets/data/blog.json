@@ -6,7 +6,8 @@
       "excerpt": "Exploiting Misconfigured Certificate Templates for Domain Privilege Escalation. Learn how to identify and exploit ESC1 vulnerabilities in Active Directory Certificate Services.",
       "date": "2024-06-15",
       "read_time": "15 min",
-      "tags": ["ADCS", "Active Directory", "Privilege Escalation", "Windows", "HTB"]
+      "tags": ["ADCS", "Active Directory", "Privilege Escalation", "Windows", "HTB"],
+      "type": "json"
     },
     {
       "title": "ADCS ESC2: Certificate Templates with Any Purpose EKU",
@@ -14,7 +15,8 @@
       "excerpt": "Understanding how certificate templates with 'Any Purpose' Extended Key Usage can be abused for authentication and privilege escalation.",
       "date": "2024-06-20",
       "read_time": "12 min",
-      "tags": ["ADCS", "Active Directory", "Privilege Escalation", "Windows"]
+      "tags": ["ADCS", "Active Directory", "Privilege Escalation", "Windows"],
+      "type": "json"
     },
     {
       "title": "ADCS ESC3: Enrollment Agent Abuse",
@@ -22,7 +24,8 @@
       "excerpt": "Exploiting Enrollment Agent certificate templates to request certificates on behalf of other users and gain unauthorized access.",
       "date": "2024-06-25",
       "read_time": "10 min",
-      "tags": ["ADCS", "Active Directory", "Privilege Escalation", "Windows"]
+      "tags": ["ADCS", "Active Directory", "Privilege Escalation", "Windows"],
+      "type": "json"
     },
     {
       "title": "ADCS ESC4: Writeable Certificate Templates",
@@ -30,7 +33,8 @@
       "excerpt": "How attackers can modify certificate templates with write permissions to create vulnerable configurations for privilege escalation.",
       "date": "2024-06-30",
       "read_time": "14 min",
-      "tags": ["ADCS", "Active Directory", "Privilege Escalation", "Windows"]
+      "tags": ["ADCS", "Active Directory", "Privilege Escalation", "Windows"],
+      "type": "json"
     },
     {
       "title": "ADCS ESC6: EDITF_ATTRIBUTESUBJECTALTNAME2 Abuse",
@@ -38,7 +42,8 @@
       "excerpt": "Exploiting the dangerous EDITF_ATTRIBUTESUBJECTALTNAME2 flag that affects all certificates issued by a CA.",
       "date": "2024-07-05",
       "read_time": "16 min",
-      "tags": ["ADCS", "Active Directory", "Privilege Escalation", "Windows"]
+      "tags": ["ADCS", "Active Directory", "Privilege Escalation", "Windows"],
+      "type": "json"
     },
     {
       "title": "ADCS ESC8: HTTP Web Enrollment NTLM Relay",
@@ -46,7 +51,8 @@
       "excerpt": "Using NTLM relay attacks against AD CS HTTP Web Enrollment endpoints to achieve domain compromise.",
       "date": "2024-07-10",
       "read_time": "18 min",
-      "tags": ["ADCS", "Active Directory", "Privilege Escalation", "Windows", "NTLM"]
+      "tags": ["ADCS", "Active Directory", "Privilege Escalation", "Windows", "NTLM"],
+      "type": "json"
     },
     {
       "title": "Advanced Active Directory Enumeration Techniques",
@@ -54,7 +60,8 @@
       "excerpt": "Deep dive into BloodHound, PowerView, and custom LDAP queries for comprehensive AD reconnaissance.",
       "date": "2024-07-15",
       "read_time": "12 min",
-      "tags": ["Active Directory", "Enumeration", "BloodHound", "PowerView"]
+      "tags": ["Active Directory", "Enumeration", "BloodHound", "PowerView"],
+      "type": "json"
     },
     {
       "title": "Automating HTB Machine Reconnaissance",
@@ -62,7 +69,8 @@
       "excerpt": "My custom Python framework for automated enumeration, including port scanning, service detection, and vulnerability assessment.",
       "date": "2024-07-20",
       "read_time": "8 min",
-      "tags": ["Automation", "Python", "Reconnaissance", "HTB"]
+      "tags": ["Automation", "Python", "Reconnaissance", "HTB"],
+      "type": "json"
     },
     {
       "title": "Building an Obsidian Knowledge Base for Pentesting",
@@ -70,7 +78,8 @@
       "excerpt": "How I organize my penetration testing notes, methodologies, and findings using Obsidian's powerful linking system.",
       "date": "2024-07-25",
       "read_time": "10 min",
-      "tags": ["Knowledge Management", "Obsidian", "Documentation", "Workflow"]
+      "tags": ["Knowledge Management", "Obsidian", "Documentation", "Workflow"],
+      "type": "json"
     },
     {
       "title": "DEPI VAPT Track: Lessons from Week 8",
@@ -78,7 +87,8 @@
       "excerpt": "Reflections on advanced exploitation techniques, report writing, and the practical application of theoretical knowledge.",
       "date": "2024-07-30",
       "read_time": "6 min",
-      "tags": ["DEPI", "Education", "VAPT", "Learning"]
+      "tags": ["DEPI", "Education", "VAPT", "Learning"],
+      "type": "json"
     }
   ]
 }
