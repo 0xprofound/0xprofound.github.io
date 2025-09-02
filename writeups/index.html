@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTB Writeups - 0xProfound</title>
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <style>
+        .writeups-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .writeups-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        .stat-box {
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid var(--primary-color);
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .writeups-filter {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .writeups-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .writeup-card {
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid #333;
+            border-radius: 15px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .writeup-card:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 255, 0, 0.2);
+        }
+        
+        .writeup-meta {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .writeup-difficulty {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .difficulty-easy {
+            background: rgba(0, 255, 0, 0.2);
+            color: var(--primary-color);
+        }
+        
+        .difficulty-medium {
+            background: rgba(255, 165, 0, 0.2);
+            color: orange;
+        }
+        
+        .difficulty-hard {
+            background: rgba(255, 0, 0, 0.2);
+            color: #ff5252;
+        }
+        
+        .difficulty-insane {
+            background: rgba(128, 0, 128, 0.2);
+            color: #bb86fc;
+        }
+        
+        .writeup-os {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            background: rgba(100, 100, 255, 0.2);
+            color: #82b1ff;
+        }
+        
+        .writeup-title {
+            color: var(--primary-color);
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+        }
+        
+        .writeup-description {
+            color: var(--text-color);
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+        
+        .writeup-techniques {
+            margin-bottom: 1.5rem;
+        }
+        
+        .technique-tag {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            background: rgba(0, 255, 0, 0.1);
+            color: var(--text-color);
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin: 0.25rem;
+        }
+        
+        .writeup-link {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            text-decoration: none;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .writeup-link:hover {
+            background: rgba(0, 255, 0, 0.1);
+        }
+        
+        @media (max-width: 768px) {
+            .writeups-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+
+    <header>
+        <nav class="container">
+            <ul>
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../index.html#terminal">Terminal</a></li>
+                <li><a href="../pages/about.html">About</a></li>
+                <li><a href="../index.html#skills">Skills</a></li>
+                <li><a href="../pages/machines.html">HTB Machines</a></li>
+                <li><a href="../pages/blog.html">Blog</a></li>
+                <li><a href="../pages/timeline.html">Journey</a></li>
+                <li><a href="../index.html#learning">Learning Path</a></li>
+                <li><a href="../pages/tools.html">Tools</a></li>
+                <li><a href="../index.html#activity">Activity</a></li>
+                <li><a href="../pages/contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="container">
+        <div class="writeups-header">
+            <h1 class="section-title">HTB Writeups</h1>
+            <p class="subtitle">Detailed walkthroughs of Hack The Box machines I've solved</p>
+        </div>
+        
+        <div class="writeups-stats">
+            <div class="stat-box">
+                <div class="stat-number">37</div>
+                <div class="stat-label">Total Writeups</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">15</div>
+                <div class="stat-label">Easy Machines</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">12</div>
+                <div class="stat-label">Medium Machines</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">8</div>
+                <div class="stat-label">Hard Machines</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">2</div>
+                <div class="stat-label">Insane Machines</div>
+            </div>
+        </div>
+        
+        <div class="writeups-filter">
+            <div class="filter-btn active" data-filter="all">All Writeups</div>
+            <div class="filter-btn" data-filter="easy">Easy</div>
+            <div class="filter-btn" data-filter="medium">Medium</div>
+            <div class="filter-btn" data-filter="hard">Hard</div>
+            <div class="filter-btn" data-filter="insane">Insane</div>
+            <div class="filter-btn" data-filter="linux">Linux</div>
+            <div class="filter-btn" data-filter="windows">Windows</div>
+        </div>
+        
+        <div class="writeups-grid" id="writeupsGrid">
+            <!-- Writeups will be loaded dynamically -->
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Load machines data
+            const response = await fetch('../assets/data/machines.json');
+            const data = await response.json();
+            const machines = data.machines;
+            
+            const writeupsGrid = document.getElementById('writeupsGrid');
+            
+            // Render writeups
+            machines.forEach(machine => {
+                const writeupCard = document.createElement('div');
+                writeupCard.className = 'writeup-card';
+                writeupCard.dataset.difficulty = machine.difficulty;
+                writeupCard.dataset.os = machine.os.toLowerCase();
+                
+                writeupCard.innerHTML = `
+                    <div class="writeup-meta">
+                        <span class="writeup-difficulty difficulty-${machine.difficulty}">${machine.difficulty.charAt(0).toUpperCase() + machine.difficulty.slice(1)}</span>
+                        <span class="writeup-os">${machine.os}</span>
+                    </div>
+                    <h3 class="writeup-title">${machine.name}</h3>
+                    <p class="writeup-description">${machine.description}</p>
+                    <div class="writeup-techniques">
+                        ${machine.techniques.map(tech => `<span class="technique-tag">${tech}</span>`).join('')}
+                    </div>
+                    <a href="${machine.writeup}" class="writeup-link">Read Writeup</a>
+                `;
+                
+                writeupsGrid.appendChild(writeupCard);
+            });
+            
+            // Filter functionality
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // Remove active class from all buttons
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    
+                    const filter = btn.dataset.filter;
+                    const writeupCards = document.querySelectorAll('.writeup-card');
+                    
+                    writeupCards.forEach(card => {
+                        if (filter === 'all') {
+                            card.style.display = 'flex';
+                        } else if (filter === 'linux' || filter === 'windows') {
+                            if (card.dataset.os === filter) {
+                                card.style.display = 'flex';
+                            } else {
+                                card.style.display = 'none';
+                            }
+                        } else {
+                            if (card.dataset.difficulty === filter) {
+                                card.style.display = 'flex';
+                            } else {
+                                card.style.display = 'none';
+                            }
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+    <script src="../assets/js/particles.js"></script>
+</body>
+</html>
