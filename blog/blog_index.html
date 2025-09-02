@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - 0xProfound</title>
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <style>
+        .blog-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+        }
+        
+        .blog-card {
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid #333;
+            border-radius: 15px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .blog-card:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 255, 0, 0.2);
+        }
+        
+        .blog-date {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        
+        .blog-title {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .blog-excerpt {
+            color: var(--text-color);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+        
+        .blog-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .blog-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .blog-tag {
+            padding: 0.25rem 0.5rem;
+            background: rgba(0, 255, 0, 0.1);
+            color: var(--text-color);
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+        
+        .blog-read-time {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        
+        .blog-read-more {
+            margin-top: 1rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        @media (max-width: 768px) {
+            .blog-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+
+    <header>
+        <nav class="container">
+            <ul>
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../index.html#terminal">Terminal</a></li>
+                <li><a href="../pages/about.html">About</a></li>
+                <li><a href="../index.html#skills">Skills</a></li>
+                <li><a href="../pages/machines.html">HTB Machines</a></li>
+                <li><a class="active" href="index.html">Blog</a></li>
+                <li><a href="../pages/timeline.html">Journey</a></li>
+                <li><a href="../index.html#learning">Learning Path</a></li>
+                <li><a href="../pages/tools.html">Tools</a></li>
+                <li><a href="../index.html#activity">Activity</a></li>
+                <li><a href="../pages/contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="container">
+        <div class="blog-header">
+            <h1 class="section-title">Research & Blog</h1>
+            <p class="subtitle">Cybersecurity insights, techniques, and knowledge sharing</p>
+        </div>
+        
+        <div class="blog-grid" id="blogGrid">
+            <!-- Blog posts will be loaded dynamically -->
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Load blog data
+            const response = await fetch('../assets/data/blog.json');
+            const data = await response.json();
+            const posts = data.posts;
+            
+            const blogGrid = document.getElementById('blogGrid');
+            
+            // Render blog posts
+            posts.forEach(post => {
+                const blogCard = document.createElement('div');
+                blogCard.className = 'blog-card';
+                blogCard.onclick = () => window.location.href = `${post.slug}.html`;
+                
+                blogCard.innerHTML = `
+                    <div class="blog-date">${new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</div>
+                    <h3 class="blog-title">${post.title}</h3>
+                    <p class="blog-excerpt">${post.excerpt}</p>
+                    <div class="blog-meta">
+                        <div class="blog-tags">
+                            ${post.tags.map(tag => `<span class="blog-tag">${tag}</span>`).join('')}
+                        </div>
+                        <span class="blog-read-time">${post.read_time} read</span>
+                    </div>
+                    <a href="${post.slug}.html" class="blog-read-more">Read More →</a>
+                `;
+                
+                blogGrid.appendChild(blogCard);
+            });
+        });
+    </script>
+    <script src="../assets/js/particles.js"></script>
+</body>
+</html>
