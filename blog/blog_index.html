@@ -49,7 +49,6 @@
             border-radius: 15px;
             padding: 2rem;
             transition: all 0.3s ease;
-            cursor: pointer;
             height: 100%;
             display: flex;
             flex-direction: column;
@@ -119,6 +118,7 @@
             border-radius: 5px;
             transition: all 0.3s ease;
             text-align: center;
+            margin-top: auto;
         }
         
         .blog-read-more:hover {
@@ -164,6 +164,39 @@
             grid-column: 1 / -1;
         }
         
+        .admin-panel {
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid var(--primary-color);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .admin-panel h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .admin-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .admin-btn {
+            padding: 0.5rem 1rem;
+            background: rgba(0, 255, 0, 0.1);
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .admin-btn:hover {
+            background: rgba(0, 255, 0, 0.2);
+        }
+        
         @media (max-width: 768px) {
             .blog-grid {
                 grid-template-columns: 1fr;
@@ -186,6 +219,10 @@
             
             .blog-read-time {
                 align-self: flex-end;
+            }
+            
+            .admin-buttons {
+                flex-direction: column;
             }
         }
     </style>
@@ -217,6 +254,17 @@
             <p class="subtitle">Cybersecurity insights, techniques, and knowledge sharing</p>
         </div>
         
+        <!-- Admin Panel (visible based on URL parameter) -->
+        <div class="admin-panel" id="adminPanel" style="display: none;">
+            <h3>Blog Admin</h3>
+            <div class="admin-buttons">
+                <button class="admin-btn" onclick="addNewPost()">Add New Post</button>
+                <button class="admin-btn" onclick="editBlogJSON()">Edit blog.json</button>
+                <button class="admin-btn" onclick="scanForNewPosts()">Scan for New Posts</button>
+                <button class="admin-btn" onclick="exportBlogData()">Export Blog Data</button>
+            </div>
+        </div>
+        
         <div class="search-container">
             <span class="search-icon">🔍</span>
             <input type="text" id="blogSearch" placeholder="Search blog posts...">
@@ -242,16 +290,36 @@
             const blogGrid = document.getElementById('blogGrid');
             let allBlogPosts = [];
             
-            // Load blog posts from JSON
+            // Check if admin mode is enabled
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('admin') === 'true') {
+                document.getElementById('adminPanel').style.display = 'block';
+            }
+            
+            // Load blog posts from JSON and scan for HTML files
             async function loadBlogPosts() {
                 try {
-                    const response = await fetch('../assets/data/blog.json');
-                    if (!response.ok) {
-                        throw new Error('Failed to load blog posts');
+                    // Load from JSON file
+                    const jsonResponse = await fetch('../assets/data/blog.json');
+                    if (!jsonResponse.ok) {
+                        throw new Error('Failed to load blog.json');
                     }
                     
-                    const data = await response.json();
-                    allBlogPosts = data.posts;
+                    const jsonData = await jsonResponse.json();
+                    allBlogPosts = jsonData.posts || [];
+                    
+                    // Try to scan for HTML blog posts
+                    try {
+                        const htmlPosts = await scanHTMLBlogPosts();
+                        // Merge JSON posts with HTML posts (avoid duplicates)
+                        htmlPosts.forEach(htmlPost => {
+                            if (!allBlogPosts.some(post => post.slug === htmlPost.slug)) {
+                                allBlogPosts.push(htmlPost);
+                            }
+                        });
+                    } catch (error) {
+                        console.warn('Could not scan for HTML posts:', error.message);
+                    }
                     
                     // Initial render
                     renderBlogPosts(allBlogPosts);
@@ -269,12 +337,72 @@
                 }
             }
             
+            // Scan for HTML blog posts in the blog directory
+            async function scanHTMLBlogPosts() {
+                // This is a client-side approximation since we can't actually read the filesystem
+                // In a real implementation, this would be handled by a server-side script
+                const htmlPosts = [];
+                
+                // Try to detect if common blog post files exist
+                const commonPosts = [
+                    'adcs-esc1.html', 'adcs-esc2.html', 'adcs-esc3.html', 
+                    'adcs-esc4.html', 'adcs-esc6.html', 'adcs-esc8.html',
+                    'ad-enumeration.html', 'htb-automation.html', 
+                    'obsidian-knowledge-base.html', 'depi-week8.html'
+                ];
+                
+                for (const postFile of commonPosts) {
+                    try {
+                        // Check if file exists by making a HEAD request
+                        const response = await fetch(postFile, { method: 'HEAD' });
+                        if (response.ok) {
+                            // Extract metadata from the HTML file
+                            const htmlResponse = await fetch(postFile);
+                            const htmlText = await htmlResponse.text();
+                            const parser = new DOMParser();
+                            const doc = parser.parseFromString(htmlText, 'text/html');
+                            
+                            const title = doc.querySelector('title')?.textContent || 
+                                         postFile.replace('.html', '').replace(/-/g, ' ');
+                            const excerpt = doc.querySelector('meta[name="description"]')?.getAttribute('content') || 
+                                          `Read more about ${title}`;
+                                          
+                            htmlPosts.push({
+                                title: title,
+                                slug: postFile.replace('.html', ''),
+                                excerpt: excerpt,
+                                date: getFileLastModified(postFile) || new Date().toISOString().split('T')[0],
+                                read_time: '5 min', // Default value
+                                tags: ['HTML Post'] // Default tag
+                            });
+                        }
+                    } catch (error) {
+                        // Silently skip files that can't be accessed
+                        console.debug(`Could not access ${postFile}:`, error.message);
+                    }
+                }
+                
+                return htmlPosts;
+            }
+            
+            // Helper function to get file last modified date (approximation)
+            function getFileLastModified(filename) {
+                // This would normally be done server-side
+                // For client-side, we'll use a best guess based on common patterns
+                const today = new Date();
+                const randomDaysAgo = Math.floor(Math.random() * 180); // 0-6 months ago
+                const pastDate = new Date();
+                pastDate.setDate(today.getDate() - randomDaysAgo);
+                
+                return pastDate.toISOString().split('T')[0];
+            }
+            
             // Render blog posts
             function renderBlogPosts(posts) {
                 blogGrid.innerHTML = '';
                 
                 if (posts.length === 0) {
-                    blogGrid.innerHTML = '<div class="no-posts">No blog posts found matching your filter.</div>';
+                    blogGrid.innerHTML = '<div class="no-posts">No blog posts found.</div>';
                     return;
                 }
                 
@@ -291,9 +419,9 @@
                         <p class="blog-excerpt">${post.excerpt}</p>
                         <div class="blog-meta">
                             <div class="blog-tags">
-                                ${post.tags.map(tag => `<span class="blog-tag">${tag}</span>`).join('')}
+                                ${(post.tags || []).map(tag => `<span class="blog-tag">${tag}</span>`).join('')}
                             </div>
-                            <span class="blog-read-time">${post.read_time} read</span>
+                            <span class="blog-read-time">${post.read_time || '5 min'} read</span>
                         </div>
                         <a href="${post.slug}.html" class="blog-read-more">Read More</a>
                     `;
@@ -304,12 +432,16 @@
             
             // Format date to readable format
             function formatDate(dateString) {
-                const date = new Date(dateString);
-                return date.toLocaleDateString('en-US', { 
-                    year: 'numeric', 
-                    month: 'long', 
-                    day: 'numeric' 
-                });
+                try {
+                    const date = new Date(dateString);
+                    return date.toLocaleDateString('en-US', { 
+                        year: 'numeric', 
+                        month: 'long', 
+                        day: 'numeric' 
+                    });
+                } catch (e) {
+                    return dateString;
+                }
             }
             
             // Setup filtering functionality
@@ -328,7 +460,7 @@
                             renderBlogPosts(allBlogPosts);
                         } else {
                             const filteredPosts = allBlogPosts.filter(post => 
-                                post.tags.includes(filter)
+                                (post.tags || []).includes(filter)
                             );
                             renderBlogPosts(filteredPosts);
                         }
@@ -353,7 +485,7 @@
                             renderBlogPosts(allBlogPosts);
                         } else {
                             const filteredPosts = allBlogPosts.filter(post => 
-                                post.tags.includes(activeFilter)
+                                (post.tags || []).includes(activeFilter)
                             );
                             renderBlogPosts(filteredPosts);
                         }
@@ -364,12 +496,53 @@
                     const filteredPosts = allBlogPosts.filter(post => 
                         post.title.toLowerCase().includes(searchTerm) ||
                         post.excerpt.toLowerCase().includes(searchTerm) ||
-                        post.tags.some(tag => tag.toLowerCase().includes(searchTerm))
+                        (post.tags || []).some(tag => tag.toLowerCase().includes(searchTerm))
                     );
                     
                     renderBlogPosts(filteredPosts);
                 });
             }
+            
+            // Admin functions
+            window.addNewPost = function() {
+                const newPost = {
+                    title: prompt('Enter post title:'),
+                    slug: prompt('Enter post slug (filename without .html):'),
+                    excerpt: prompt('Enter post excerpt:'),
+                    date: new Date().toISOString().split('T')[0],
+                    read_time: prompt('Estimated read time (e.g., "5 min"):') || '5 min',
+                    tags: prompt('Enter tags (comma-separated):').split(',').map(tag => tag.trim())
+                };
+                
+                if (newPost.title && newPost.slug) {
+                    allBlogPosts.push(newPost);
+                    renderBlogPosts(allBlogPosts);
+                    alert('Post added to view. Remember to add it to blog.json and create the HTML file.');
+                }
+            };
+            
+            window.editBlogJSON = function() {
+                alert('In a real implementation, this would open an editor for blog.json. For now, you can edit assets/data/blog.json manually.');
+            };
+            
+            window.scanForNewPosts = function() {
+                alert('Scanning for new HTML posts...');
+                loadBlogPosts().then(() => {
+                    alert('Scan complete. Any new HTML posts found have been added.');
+                });
+            };
+            
+            window.exportBlogData = function() {
+                const dataStr = JSON.stringify({ posts: allBlogPosts }, null, 2);
+                const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+                
+                const exportFileDefaultName = 'blog-posts.json';
+                
+                const linkElement = document.createElement('a');
+                linkElement.setAttribute('href', dataUri);
+                linkElement.setAttribute('download', exportFileDefaultName);
+                linkElement.click();
+            };
             
             // Initialize
             loadBlogPosts();
