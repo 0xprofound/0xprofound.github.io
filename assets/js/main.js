@@ -9,6 +9,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // Smooth scrolling
     initSmoothScrolling();
     
+    // Scroll indicator functionality
+    initScrollIndicator();
+    
     // Animated counters for stats
     initAnimatedCounters();
     
@@ -17,6 +20,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Header background change on scroll
     initHeaderScroll();
+    
+    // Back to top functionality
+    initBackToTop();
 });
 
 // Mobile menu functionality
@@ -111,6 +117,26 @@ function initSmoothScrolling() {
     });
 }
 
+// Scroll indicator functionality
+function initScrollIndicator() {
+    const scrollIndicator = document.getElementById('scrollIndicator');
+    if (!scrollIndicator) return;
+    
+    scrollIndicator.addEventListener('click', () => {
+        const terminalSection = document.getElementById('terminal');
+        if (terminalSection) {
+            const headerOffset = 80;
+            const elementPosition = terminalSection.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+            
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
+            });
+        }
+    });
+}
+
 // Animated counters for stats
 function initAnimatedCounters() {
     const counters = document.querySelectorAll('.stat-number');
@@ -178,6 +204,7 @@ function initHeaderScroll() {
         }
     });
 }
+
 // Back to top functionality
 function initBackToTop() {
     const backToTopBtn = document.getElementById('backToTop');
@@ -198,11 +225,3 @@ function initBackToTop() {
         });
     });
 }
-
-// Add this to your DOMContentLoaded event
-document.addEventListener('DOMContentLoaded', function() {
-    // ... existing code ...
-    
-    // Initialize back to top button
-    initBackToTop();
-});
