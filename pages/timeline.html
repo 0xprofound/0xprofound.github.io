@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Journey - 0xProfound</title>
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="stylesheet" href="../assets/css/blog.css">
+    <style>
+        .timeline-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            height: 100%;
+            width: 2px;
+            background: var(--primary-color);
+            transform: translateX(-50%);
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin: 2rem 0;
+            padding: 2rem;
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid #333;
+            border-radius: 15px;
+            width: 45%;
+            transition: all 0.3s ease;
+        }
+        
+        .timeline-item:nth-child(odd) {
+            left: 0;
+        }
+        
+        .timeline-item:nth-child(even) {
+            left: 55%;
+        }
+        
+        .timeline-item:hover {
+            border-color: var(--primary-color);
+            box-shadow: 0 10px 30px rgba(0, 255, 0, 0.2);
+        }
+        
+        .timeline-dot {
+            position: absolute;
+            top: 2rem;
+            width: 20px;
+            height: 20px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            box-shadow: 0 0 20px var(--primary-color);
+        }
+        
+        .timeline-item:nth-child(odd) .timeline-dot {
+            right: -45px;
+        }
+        
+        .timeline-item:nth-child(even) .timeline-dot {
+            left: -45px;
+        }
+        
+        .timeline-date {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .timeline-title {
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+        
+        @media (max-width: 768px) {
+            .timeline::before {
+                left: 20px;
+            }
+            
+            .timeline-item {
+                width: calc(100% - 60px);
+                left: 40px !important;
+            }
+            
+            .timeline-dot {
+                left: -45px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+
+    <header>
+        <nav class="container">
+            <ul>
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../index.html#terminal">Terminal</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="../index.html#skills">Skills</a></li>
+                <li><a href="machines.html">HTB Machines</a></li>
+                <li><a href="blog/index.html">Blog</a></li>
+                <li><a class="active" href="timeline.html">Journey</a></li>
+                <li><a href="../index.html#learning">Learning Path</a></li>
+                <li><a href="tools.html">Tools</a></li>
+                <li><a href="../index.html#activity">Activity</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="container">
+        <div class="timeline-header">
+            <h1 class="section-title">My Cybersecurity Journey</h1>
+            <p class="subtitle">The path from beginner to cybersecurity professional</p>
+        </div>
+        
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-date"> 2024</div>
+                <h3 class="timeline-title">Started DEPI VAPT Track</h3>
+                <p>Enrolled in the comprehensive Vulnerability Assessment and Penetration Testing program. Learning foundations of ethical hacking and security assessment.</p>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-date">February 2024</div>
+                <h3 class="timeline-title">First HTB Machine Solved</h3>
+                <p>Successfully compromised "Lame" - my first Hack The Box machine. The satisfaction of getting that initial foothold sparked my passion for penetration testing.</p>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-date">April 2024</div>
+                <h3 class="timeline-title">Built Custom Enumeration Framework</h3>
+                <p>Developed Python-based automation tools for reconnaissance and enumeration. Reduced manual work by 70% and improved consistency across engagements.</p>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-date">June 2024</div>
+                <h3 class="timeline-title">Milestone: 20 Machines Solved</h3>
+                <p>Reached a significant milestone with diverse machines across different operating systems and difficulty levels. Started documenting detailed methodologies.</p>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-date">July 2024</div>
+                <h3 class="timeline-title">Advanced DEPI Modules</h3>
+                <p>Completed advanced modules on web application security, network penetration testing, and report writing. Applied knowledge to real-world scenarios.</p>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-date">Present</div>
+                <h3 class="timeline-title">Current: 37 Machines & Counting</h3>
+                <p>Continuing to push boundaries with increasingly challenging machines. Focus on advanced exploitation techniques and developing original research.</p>
+            </div>
+        </div>
+    </section>
+
+    <script src="../assets/js/particles.js"></script>
+</body>
+</html>
