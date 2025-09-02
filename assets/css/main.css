@@ -603,8 +603,8 @@ section {
     margin-top: 0.5rem;
 }
 
-/* Hero sections for subpages */
-.blog-hero, .writeups-hero {
+/* Hero sections for all pages */
+.about-hero, .machines-hero, .tools-hero, .contact-hero, .timeline-hero {
     height: 60vh;
     display: flex;
     align-items: center;
@@ -614,14 +614,16 @@ section {
                 linear-gradient(135deg, var(--dark-color) 0%, var(--medium-dark) 100%);
 }
 
-.blog-subtitle, .writeups-subtitle {
+.about-subtitle, .machines-subtitle, .tools-subtitle, 
+.contact-subtitle, .timeline-subtitle {
     font-size: 1.2rem;
     color: var(--text-light);
     margin-bottom: 2rem;
 }
 
 /* Section hero content */
-.blog-hero-content, .writeups-hero-content {
+.about-hero-content, .machines-hero-content, .tools-hero-content,
+.contact-hero-content, .timeline-hero-content {
     max-width: 800px;
 }
 
