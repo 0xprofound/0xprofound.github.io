@@ -1,8 +1,15 @@
-/* Interactive Terminal */
+/* Terminal Styles */
 .terminal-section {
     background: rgba(0, 0, 0, 0.9);
     margin: 4rem 0;
-    border-radius: 15px;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    border: 2px solid var(--primary-color);
+}
+
+.terminal-window {
+    background: rgba(0, 0, 0, 0.9);
+    border-radius: var(--border-radius);
     overflow: hidden;
     border: 2px solid var(--primary-color);
 }
@@ -44,4 +51,22 @@
     font-family: 'Courier New', monospace;
     width: 70%;
     outline: none;
+}
+
+@media (max-width: 768px) {
+    .terminal-section {
+        margin: 2rem 0;
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
+    }
+    
+    .terminal-body {
+        height: 300px;
+        padding: 15px;
+    }
+    
+    .terminal-input {
+        width: 60%;
+    }
 }
