@@ -1,0 +1,47 @@
+/* Interactive Terminal */
+.terminal-section {
+    background: rgba(0, 0, 0, 0.9);
+    margin: 4rem 0;
+    border-radius: 15px;
+    overflow: hidden;
+    border: 2px solid var(--primary-color);
+}
+
+.terminal-header {
+    background: #333;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.terminal-button {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+}
+
+.red { background: #ff5f5f; }
+.yellow { background: #ffff5f; }
+.green { background: #5fff5f; }
+
+.terminal-body {
+    padding: 20px;
+    height: 400px;
+    overflow-y: auto;
+    background: #000;
+}
+
+.terminal-line {
+    margin: 5px 0;
+    font-family: 'Courier New', monospace;
+}
+
+.terminal-input {
+    background: transparent;
+    border: none;
+    color: var(--primary-color);
+    font-family: 'Courier New', monospace;
+    width: 70%;
+    outline: none;
+}
