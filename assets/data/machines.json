@@ -1,0 +1,20 @@
+{
+  "machines": [
+    {
+      "name": "Sorcery",
+      "os": "Linux",
+      "difficulty": "Insane",
+      "description": "Insane machine with multiple pivoting and source code review.",
+      "techniques": ["Source Code Review", "Cypher Query Injection", "Remote Code Execution"],
+      "writeup": "Sorcery.html"
+    },
+    {
+      "name": "Blue",
+      "os": "Windows",
+      "difficulty": "medium",
+      "description": "EternalBlue exploitation on Windows 7. Classic NSA exploit demonstration.",
+      "techniques": ["MS17-010", "EternalBlue", "SMB Exploitation"],
+      "writeup": "blue.html"
+    }
+  ]
+}
