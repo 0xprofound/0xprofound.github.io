@@ -9,12 +9,12 @@
       "read_time": "12 min"
     },
     {
-      "title": "Automating HTB Machine Reconnaissance",
+      "title": "ADCS - ESC1",
       "slug": "htb-automation",
       "excerpt": "My custom Python framework for automated enumeration, including port scanning, service detection, and vulnerability assessment...",
-      "date": "2024-06-03",
-      "tags": ["Automation", "Python", "Reconnaissance", "HTB"],
-      "read_time": "8 min"
+      "date": "2025-08-16",
+      "tags": ["ADCS", "Active Directory","HTB"],
+      "read_time": "20 min "
     },
     {
       "title": "Building an Obsidian Knowledge Base for Pentesting",
