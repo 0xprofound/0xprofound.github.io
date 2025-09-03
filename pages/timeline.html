@@ -3,329 +3,545 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Portfolio - Journey</title>
+    <title>My Journey - 0xProfound</title>
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="stylesheet" href="../assets/css/animations.css">
+    <link rel="stylesheet" href="../assets/css/blog.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        .timeline-hero {
+            padding: 8rem 0 4rem;
+            text-align: center;
         }
         
-        body {
-            background-color: #f5f7fa;
-            color: #333;
-            line-height: 1.6;
-            padding: 20px;
+        .timeline-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            margin-top: 1rem;
         }
         
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
+        .timeline {
+            position: relative;
+            max-width: 900px;
+            margin: 3rem auto 0;
+            padding: 0 2rem;
         }
         
-        /* Header Styles */
-        header {
-            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
-            color: white;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            height: 100%;
+            width: 3px;
+            background: linear-gradient(to bottom, var(--primary-color), transparent);
+            transform: translateX(-50%);
+            box-shadow: 0 0 10px var(--primary-color);
         }
         
-        .header-content {
+        .timeline-item {
+            position: relative;
+            margin: 3rem 0;
+            padding: 2.5rem;
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid #333;
+            border-radius: 20px;
+            width: 45%;
+            transition: all 0.4s ease;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+        
+        .timeline-item.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .timeline-item:nth-child(odd) {
+            left: 0;
+        }
+        
+        .timeline-item:nth-child(even) {
+            left: 55%;
+        }
+        
+        .timeline-item:hover {
+            border-color: var(--primary-color);
+            box-shadow: 0 15px 40px rgba(0, 255, 0, 0.3);
+            transform: translateY(-10px);
+        }
+        
+        .timeline-dot {
+            position: absolute;
+            top: 3rem;
+            width: 25px;
+            height: 25px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            box-shadow: 0 0 25px var(--primary-color);
+            border: 3px solid #000;
+            z-index: 10;
+        }
+        
+        .timeline-item:nth-child(odd) .timeline-dot {
+            right: -50px;
+        }
+        
+        .timeline-item:nth-child(even) .timeline-dot {
+            left: -50px;
+        }
+        
+        .timeline-date {
+            color: var(--primary-color);
+            font-size: 1rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
             display: flex;
-            justify-content: space-between;
             align-items: center;
         }
         
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 15px;
+        .timeline-date i {
+            margin-right: 0.5rem;
+            font-size: 1.2rem;
         }
         
-        .logo h1 {
-            font-size: 28px;
-            font-weight: 700;
-        }
-        
-        .logo span {
-            color: #d1f7c4;
-        }
-        
-        /* Navigation Styles */
-        .navbar {
-            background: linear-gradient(135deg, #27ae60 0%, #219653 100%);
-            color: white;
-            padding: 0;
-            border-radius: 8px;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            position: sticky;
-            top: 20px;
-            z-index: 1000;
-        }
-        
-        .nav-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 20px;
-        }
-        
-        .nav-logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 15px 0;
-        }
-        
-        .nav-logo h2 {
-            font-size: 22px;
+        .timeline-title {
+            color: #fff;
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
             font-weight: 600;
         }
         
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 5px;
+        .timeline-description {
+            color: var(--text-color);
+            line-height: 1.6;
+            font-size: 1rem;
         }
         
-        .nav-links a {
-            display: flex;
-            align-items: center;
-            padding: 15px 20px;
-            color: #e0f7e9;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            font-size: 16px;
-            border-radius: 5px;
+        .timeline-achievements {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #333;
         }
         
-        .nav-links a:hover {
-            background: rgba(255, 255, 255, 0.15);
-            color: white;
-        }
-        
-        .nav-links a i {
-            margin-right: 10px;
-            font-size: 18px;
-        }
-        
-        .active {
-            background: rgba(255, 255, 255, 0.15);
-            color: white !important;
-        }
-        
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            color: white;
-            font-size: 24px;
-            cursor: pointer;
-            padding: 10px;
-        }
-        
-        /* Content Styles */
-        .content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-        }
-        
-        .card {
-            background: white;
-            border-radius: 10px;
-            padding: 25px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-        }
-        
-        .card h3 {
-            color: #27ae60;
-            margin-bottom: 15px;
-            font-size: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .card ul {
-            list-style: none;
-            margin-left: 10px;
-        }
-        
-        .card li {
-            padding: 8px 0;
-            border-bottom: 1px solid #f1f1f1;
+        .achievement-item {
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
             display: flex;
             align-items: center;
         }
         
-        .card li:before {
-            content: "•";
-            color: #27ae60;
-            font-weight: bold;
-            display: inline-block;
-            width: 1em;
-            margin-right: 10px;
+        .achievement-item i {
+            color: var(--primary-color);
+            margin-right: 0.5rem;
         }
         
-        .full-width {
-            grid-column: 1 / -1;
+        @media (max-width: 768px) {
+            .timeline::before {
+                left: 30px;
+            }
+            
+            .timeline-item {
+                width: calc(100% - 80px);
+                left: 60px !important;
+                margin: 2rem 0;
+            }
+            
+            .timeline-dot {
+                left: -50px !important;
+            }
         }
         
-        /* Responsive Styles */
-        @media screen and (max-width: 900px) {
-            .content {
-                grid-template-columns: 1fr;
-            }
-        }
-        
-        @media screen and (max-width: 768px) {
-            .nav-links {
-                display: none;
-                flex-direction: column;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                right: 0;
-                background: linear-gradient(135deg, #27ae60 0%, #219653 100%);
-                padding: 10px 20px;
-                border-radius: 0 0 8px 8px;
-                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        @media (max-width: 480px) {
+            .timeline {
+                padding: 0 1rem;
             }
             
-            .nav-links.active {
-                display: flex;
-            }
-            
-            .mobile-menu-btn {
-                display: block;
-            }
-            
-            .nav-links a {
-                padding: 15px;
-                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            }
-            
-            .header-content {
-                flex-direction: column;
-                text-align: center;
-                gap: 15px;
+            .timeline-item {
+                padding: 1.5rem;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <div class="header-content">
-                <div class="logo">
-                    <i class="fas fa-leaf fa-2x"></i>
-                    <!-- CHANGE THE PAGE TITLE HERE -->
-                    <h1>My <span>Journey</span></h1>
-                </div>
-                <div class="header-info">
-                    <p>Cybersecurity Enthusiast & Penetration Tester</p>
-                </div>
+    <div class="particles" id="particles"></div>
+    
+    <!-- Navigation Bar -->
+    <header>
+        <nav class="nav-container">
+            <div class="nav-brand">
+                <a href="../index.html" class="logo-link">
+                    <span class="logo-text">0xProfound</span>
+                </a>
             </div>
-        </header>
-        
-        <nav class="navbar">
-            <div class="nav-container">
-                <div class="nav-logo">
-                    <i class="fas fa-compass"></i>
-                    <!-- CHANGE THE NAVBAR TITLE HERE -->
-                    <h2>Navigation</h2>
-                </div>
-                
-                <button class="mobile-menu-btn">
-                    <i class="fas fa-bars"></i>
-                </button>
-                
-                <ul class="nav-links">
-                    <li><a href="#home" class="active"><i class="fas fa-home"></i> Home</a></li>
-                    <li><a href="#about"><i class="fas fa-user"></i> About</a></li>
-                    <li><a href="#projects"><i class="fas fa-code"></i> Projects</a></li>
-                    <li><a href="#tools"><i class="fas fa-tools"></i> Tools</a></li>
-                    <li><a href="#blog"><i class="fas fa-blog"></i> Blog</a></li>
-                    <li><a href="#contact"><i class="fas fa-envelope"></i> Contact</a></li>
-                </ul>
-            </div>
+            
+            <!-- Mobile menu button -->
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="../index.html" class="nav-link">Home</a></li>
+                <li><a href="../index.html#terminal" class="nav-link">Terminal</a></li>
+                <li><a href="../pages/about.html" class="nav-link">About</a></li>
+                <li><a href="../index.html#skills" class="nav-link">Skills</a></li>
+                <li><a href="../pages/machines.html" class="nav-link">HTB Machines</a></li>
+                <li><a href="../writeups/index.html" class="nav-link">Writeups</a></li>
+                <li><a href="../blog/index.html" class="nav-link">Blog</a></li>
+                <li><a href="../projects/index.html" class="nav-link">Projects</a></li>
+                <li><a href="../pages/timeline.html" class="nav-link active">Journey</a></li>
+                <li><a href="../pages/tools.html" class="nav-link">Tools</a></li>
+                <li><a href="../pages/contact.html" class="nav-link">Contact</a></li>
+            </ul>
         </nav>
-        
-        <div class="content">
-            <div class="card">
-                <h3><i class="fas fa-shield-alt"></i> Security Tools</h3>
-                <ul>
-                    <li>Burp Suite - Integrated platform for web app security testing</li>
-                    <li>SQLMap - Automatic SQL injection exploitation tool</li>
-                    <li>Metasploit - Advanced penetration testing framework</li>
-                    <li>OWASP ZAP - Free security testing proxy</li>
-                    <li>Nmap - Web server scanner for vulnerabilities</li>
-                </ul>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="timeline-hero">
+            <div class="section-container">
+                <h1 class="section-title">My Cybersecurity Journey</h1>
+                <p class="timeline-subtitle">The path from beginner to cybersecurity professional</p>
+            </div>
+        </section>
+
+        <!-- Timeline Section -->
+        <section class="timeline-section">
+            <div class="section-container">
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-date">
+                            <i class="fas fa-calendar-alt"></i>
+                            January 2024
+                        </div>
+                        <h3 class="timeline-title">Started DEPI VAPT Track</h3>
+                        <p class="timeline-description">Enrolled in the comprehensive Vulnerability Assessment and Penetration Testing program. Learning foundations of ethical hacking and security assessment methodologies.</p>
+                        <div class="timeline-achievements">
+                            <div class="achievement-item">
+                                <i class="fas fa-check"></i>
+                                Completed network fundamentals module
+                            </div>
+                            <div class="achievement-item">
+                                <i class="fas fa-check"></i>
+                                Mastered reconnaissance techniques
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-date">
+                            <i class="fas fa-calendar-alt"></i>
+                            February 2024
+                        </div>
+                        <h3 class="timeline-title">First HTB Machine Solved</h3>
+                        <p class="timeline-description">Successfully compromised "Lame" - my first Hack The Box machine. The satisfaction of getting that initial foothold sparked my passion for penetration testing and drove me to pursue more challenges.</p>
+                        <div class="timeline-achievements">
+                            <div class="achievement-item">
+                                <i class="fas fa-trophy"></i>
+                                First root flag captured
+                            </div>
+                            <div class="achievement-item">
+                                <i class="fas fa-trophy"></i>
+                                Documented complete methodology
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-date">
+                            <i class="fas fa-calendar-alt"></i>
+                            April 2024
+                        </div>
+                        <h3 class="timeline-title">Built Custom Enumeration Framework</h3>
+                        <p class="timeline-description">Developed Python-based automation tools for reconnaissance and enumeration. This framework reduced manual work by 70% and improved consistency across all my penetration testing engagements.</p>
+                        <div class="timeline-achievements">
+                            <div class="achievement-item">
+                                <i class="fas fa-code"></i>
+                                500+ lines of Python code
+                            </div>
+                            <div class="achievement-item">
+                                <i class="fas fa-code"></i>
+                                Automated 15+ recon tools
+                            </div>
+                            <div class="achievement-item">
+                                <i class="fas fa-code"></i>
+                                Open-sourced on GitHub
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-date">
+                            <i class="fas fa-calendar-alt"></i>
+                            June 2024
+                        </div>
+                        <h3 class="timeline-title">Milestone: 20 Machines Solved</h3>
+                        <p class="timeline-description">Reached a significant milestone with diverse machines across different operating systems and difficulty levels. Started documenting detailed methodologies and sharing knowledge with the community.</p>
+                        <div class="timeline-achievements">
+                            <div class="achievement-item">
+                                <i class="fas fa-server"></i>
+                                12 Linux machines conquered
+                            </div>
+                            <div class="achievement-item">
+                                <i class="fas fa-server"></i>
+                                8 Windows machines pwned
+                            </div>
+                            <div class="achievement-item">
+                                <i class="fas fa-file-alt"></i>
+                                20+ detailed writeups published
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-date">
+                            <i class="fas fa-calendar-alt"></i>
+                            July 2024
+                        </div>
+                        <h3 class="timeline-title">Advanced DEPI Modules</h3>
+                        <p class="timeline-description">Completed advanced modules on web application security, network penetration testing, and professional report writing. Applied theoretical knowledge to real-world penetration testing scenarios.</p>
+                        <div class="timeline-achievements">
+                            <div class="achievement-item">
+                                <i class="fas fa-graduation-cap"></i>
+                                Web application security certified
+                            </div>
+                            <div class="achievement-item">
+                                <i class="fas fa-graduation-cap"></i>
+                                Advanced exploitation techniques
+                            </div>
+                            <div class="achievement-item">
+                                <i class="fas fa-graduation-cap"></i>
+                                Professional reporting standards
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-date">
+                            <i class="fas fa-calendar-alt"></i>
+                            Present - 2024
+                        </div>
+                        <h3 class="timeline-title">Current: 37 Machines & Counting</h3>
+                        <p class="timeline-description">Continuing to push boundaries with increasingly challenging machines. Current focus includes advanced Active Directory exploitation, developing original research, and contributing to the cybersecurity community.</p>
+                        <div class="timeline-achievements">
+                            <div class="achievement-item">
+                                <i class="fas fa-chart-line"></i>
+                                37 total machines solved
+                            </div>
+                            <div class="achievement-item">
+                                <i class="fas fa-chart-line"></i>
+                                2 Insane difficulty completed
+                            </div>
+                            <div class="achievement-item">
+                                <i class="fas fa-chart-line"></i>
+                                Active community contributor
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Journey Stats Section -->
+        <section class="journey-stats-section">
+            <div class="section-container">
+                <h2 class="section-title">Journey Statistics</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">10</div>
+                        <div class="stat-label">Months of Learning</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-number">37</div>
+                        <div class="stat-label">HTB Machines Solved</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-number">500+</div>
+                        <div class="stat-label">Hours of Practice</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-number">25+</div>
+                        <div class="stat-label">Tools Mastered</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="section-container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h3>0xProfound</h3>
+                    <p>Elite Penetration Tester | DEPI VAPT Track | HTB Conqueror</p>
+                    <div class="footer-social">
+                        <a href="#" class="social-icon" aria-label="GitHub">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="#" class="social-icon" aria-label="LinkedIn">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="#" class="social-icon" aria-label="Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="social-icon" aria-label="Hack The Box">
+                            <i class="fas fa-cube"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <a href="../pages/about.html">About Me</a>
+                    <a href="../pages/machines.html">HTB Machines</a>
+                    <a href="../blog/index.html">Blog Posts</a>
+                    <a href="../pages/timeline.html">Journey</a>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Resources</h4>
+                    <a href="../writeups/index.html">Writeups</a>
+                    <a href="../projects/index.html">Projects</a>
+                    <a href="../pages/tools.html">Tools</a>
+                    <a href="../pages/contact.html">Contact</a>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Learning</h4>
+                    <a href="https://hackthebox.com" target="_blank">Hack The Box</a>
+                    <a href="https://tryhackme.com" target="_blank">TryHackMe</a>
+                    <a href="https://portswigger.net/web-security" target="_blank">PortSwigger Academy</a>
+                    <a href="https://owasp.org" target="_blank">OWASP</a>
+                </div>
             </div>
             
-            <div class="card">
-                <h3><i class="fas fa-code"></i> Custom Scripts</h3>
-                <ul>
-                    <li>Autorecon.py - My custom reconnaissance automation framework</li>
-                    <li>ExploitHelper.sh - Setup script for exploit module deployment</li>
-                    <li>ReportGen.py - Automated penetration test report generator</li>
-                    <li>NoteTemplate.md - Structured note-taking templates for consistency</li>
-                </ul>
-            </div>
-            
-            <div class="card full-width">
-                <h3><i class="fas fa-graduation-cap"></i> Learning Path</h3>
-                <ul>
-                    <li>Completed HTB Modules on Web Application Security</li>
-                    <li>Studied Advanced Penetration Testing Techniques</li>
-                    <li>Developed Custom Security Assessment Methodology</li>
-                    <li>Participated in Bug Bounty Programs</li>
-                </ul>
+            <div class="footer-bottom">
+                <p class="footer-credits">&copy; 2024 0xProfound. All rights reserved.</p>
+                <p>Built with passion for cybersecurity</p>
             </div>
         </div>
-    </div>
+    </footer>
 
+    <!-- Back to top button -->
+    <button class="back-to-top" id="backToTop" aria-label="Back to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script src="../assets/js/particles.js"></script>
     <script>
-        // Mobile menu toggle
-        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
-            document.querySelector('.nav-links').classList.toggle('active');
-        });
-        
-        // Close mobile menu when clicking on a link
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', function() {
-                document.querySelector('.nav-links').classList.remove('active');
+        // Mobile menu functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const navMenu = document.getElementById('navMenu');
+            const backToTop = document.getElementById('backToTop');
+
+            // Mobile menu toggle
+            if (mobileMenuBtn && navMenu) {
+                mobileMenuBtn.addEventListener('click', function() {
+                    mobileMenuBtn.classList.toggle('active');
+                    navMenu.classList.toggle('active');
+                });
+
+                // Close menu when clicking nav links
+                const navLinks = navMenu.querySelectorAll('.nav-link');
+                navLinks.forEach(link => {
+                    link.addEventListener('click', function() {
+                        mobileMenuBtn.classList.remove('active');
+                        navMenu.classList.remove('active');
+                    });
+                });
+
+                // Close menu when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (!mobileMenuBtn.contains(e.target) && !navMenu.contains(e.target)) {
+                        mobileMenuBtn.classList.remove('active');
+                        navMenu.classList.remove('active');
+                    }
+                });
+            }
+
+            // Back to top button
+            if (backToTop) {
+                window.addEventListener('scroll', function() {
+                    if (window.pageYOffset > 300) {
+                        backToTop.classList.add('visible');
+                    } else {
+                        backToTop.classList.remove('visible');
+                    }
+                });
+
+                backToTop.addEventListener('click', function() {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                });
+            }
+
+            // Timeline animation on scroll
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            
+            const observerOptions = {
+                threshold: 0.2,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const timelineObserver = new IntersectionObserver((entries) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.classList.add('animate');
+                        }, index * 200);
+                    }
+                });
+            }, observerOptions);
+
+            timelineItems.forEach(item => {
+                timelineObserver.observe(item);
             });
-        });
-        
-        // Update active link on scroll
-        window.addEventListener('scroll', function() {
-            const sections = document.querySelectorAll('section');
-            const navLinks = document.querySelectorAll('.nav-links a');
-            
-            let current = '';
-            
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                const sectionHeight = section.clientHeight;
-                
-                if (pageYOffset >= sectionTop - 100) {
-                    current = section.getAttribute('id');
-                }
-            });
-            
-            navLinks.forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href').substring(1) === current) {
-                    link.classList.add('active');
-                }
+
+            // Update stats dynamically
+            const animateCounter = (element, target) => {
+                let current = 0;
+                const increment = target / 50;
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        element.textContent = target;
+                        clearInterval(timer);
+                    } else {
+                        element.textContent = Math.floor(current);
+                    }
+                }, 30);
+            };
+
+            // Animate stats when they come into view
+            const statsObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const statNumber = entry.target.querySelector('.stat-number');
+                        const targetValue = parseInt(statNumber.textContent);
+                        if (!isNaN(targetValue)) {
+                            animateCounter(statNumber, targetValue);
+                        }
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            document.querySelectorAll('.stat-card').forEach(card => {
+                statsObserver.observe(card);
             });
         });
     </script>
