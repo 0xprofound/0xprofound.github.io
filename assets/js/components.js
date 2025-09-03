@@ -208,34 +208,54 @@ class PortfolioComponents {
     }
 
     // Set active navigation link based on current page
-    setActiveNavLink() {
-        const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-        const navLinks = document.querySelectorAll('.nav-link');
+    // Set active navigation link based on current page
+setActiveNavLink() {
+    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+    const navLinks = document.querySelectorAll('.nav-link');
+    
+    // First, remove active class from all links
+    navLinks.forEach(link => link.classList.remove('active'));
+    
+    // Then find and activate the correct link
+    navLinks.forEach(link => {
+        const linkHref = link.getAttribute('href');
         
-        navLinks.forEach(link => {
-            const linkHref = link.getAttribute('href');
-            
-            // Remove active class from all links first
-            link.classList.remove('active');
-            
-            // Check if this link points to the current page
-            if (linkHref === currentPage) {
-                link.classList.add('active');
-            } 
-            // Handle index page specifically
-            else if (currentPage === 'index.html' && (linkHref === '../index.html' || linkHref === 'index.html')) {
+        // Handle index page
+        if (currentPage === 'index.html') {
+            if (linkHref === '../index.html' || linkHref === 'index.html' || linkHref === '#') {
                 link.classList.add('active');
             }
-            // Handle hash links (like #terminal on homepage)
-            else if (currentPage === 'index.html' && linkHref.includes('#')) {
+            // Handle hash links on homepage
+            else if (linkHref.includes('#') && linkHref.startsWith('#')) {
                 link.classList.add('active');
             }
-            // Handle links to sections of the current page
-            else if (linkHref.includes(currentPage.replace('.html', '')) && currentPage !== 'index.html') {
-                link.classList.add('active');
-            }
-        });
-    }
+        }
+        // Handle about page
+        else if (currentPage === 'about.html' && linkHref.includes('about')) {
+            link.classList.add('active');
+        }
+        // Handle machines page
+        else if (currentPage === 'machines.html' && linkHref.includes('machines')) {
+            link.classList.add('active');
+        }
+        // Handle contact page
+        else if (currentPage === 'contact.html' && linkHref.includes('contact')) {
+            link.classList.add('active');
+        }
+        // Handle tools page
+        else if (currentPage === 'tools.html' && linkHref.includes('tools')) {
+            link.classList.add('active');
+        }
+        // Handle timeline page
+        else if (currentPage === 'timeline.html' && linkHref.includes('timeline')) {
+            link.classList.add('active');
+        }
+        // Handle blog pages
+        else if (currentPage.includes('blog') && linkHref.includes('blog')) {
+            link.classList.add('active');
+         }
+      });
+  }
 }
 
 // Initialize components when DOM is loaded
