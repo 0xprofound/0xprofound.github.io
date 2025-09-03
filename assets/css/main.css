@@ -1531,3 +1531,38 @@ section {
 .nav-link {
     position: relative;
 }
+
+/* Search Container Styles */
+.search-container {
+    position: relative;
+    margin: 2rem auto;
+    max-width: 500px;
+}
+
+.search-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-light);
+    z-index: 2;
+}
+
+#writeupsSearch, #blogSearch {
+    width: 100%;
+    padding: 1rem 1rem 1rem 3rem;
+    background: rgba(0, 0, 0, 0.8);
+    border: 2px solid #333;
+    border-radius: 25px;
+    color: var(--text-color);
+    font-family: 'Courier New', monospace;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+#writeupsSearch:focus, #blogSearch:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+}
+
