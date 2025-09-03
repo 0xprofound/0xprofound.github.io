@@ -7,30 +7,14 @@ document.addEventListener('DOMContentLoaded', function() {
     // Load writeups from machines.json
     async function loadWriteups() {
         try {
-            const response = await fetch('../assets/data/machines.json');
+            const response = await fetch('../assets/data/writeups.json');
             if (!response.ok) {
                 throw new Error('Failed to load machine data');
             }
             
             const data = await response.json();
             allMachines = data.machines || [];
-            
-            // Convert machines to writeup format
-            allWriteups = allMachines.map(machine => ({
-                title: machine.name,
-                slug: machine.name.toLowerCase().replace(/\s+/g, '-'),
-                excerpt: machine.description || `Detailed walkthrough of ${machine.name}, a ${machine.difficulty} ${machine.os} machine from Hack The Box.`,
-                date: machine.date || new Date().toISOString().split('T')[0],
-                read_time: estimateReadingTime(machine.difficulty),
-                tags: [machine.difficulty, machine.os, ...machine.techniques],
-                difficulty: machine.difficulty,
-                os: machine.os,
-                ip: machine.ip,
-                techniques: machine.techniques || [],
-                status: machine.status || 'completed',
-                rating: machine.rating || 4
-            }));
-            
+                                 
             // Update stats
             updateStats(data.stats);
             
@@ -69,17 +53,6 @@ document.addEventListener('DOMContentLoaded', function() {
             const insaneCount = document.getElementById('insaneCount');
             if (insaneCount) insaneCount.textContent = stats.insane || 0;
         }
-    }
-
-    // Estimate reading time based on difficulty
-    function estimateReadingTime(difficulty) {
-        const readingTimes = {
-            'Easy': '8 min',
-            'Medium': '12 min',
-            'Hard': '18 min',
-            'Insane': '25 min'
-        };
-        return readingTimes[difficulty] || '10 min';
     }
     
     // Render writeups
