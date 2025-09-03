@@ -6,117 +6,142 @@
     <title>My Journey - 0xProfound</title>
     <link rel="stylesheet" href="../assets/css/main.css">
     <link rel="stylesheet" href="../assets/css/blog.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        .timeline-header {
-            text-align: center;
-            margin-bottom: 3rem;
+      /* Navigation Styles */
+      .navbar {
+        background: linear-gradient(135deg, #1a56db 0%, #0d3aa9 100%);
+        color: white;
+        padding: 0;
+        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+      }
+      
+      .nav-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 20px;
+      }
+      
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      
+      .logo h1 {
+        font-size: 24px;
+        font-weight: 700;
+      }
+      
+      .logo span {
+        color: #93c5fd;
+      }
+      
+      .nav-links {
+        display: flex;
+        list-style: none;
+        gap: 5px;
+      }
+      
+      .nav-links a {
+        display: flex;
+        align-items: center;
+        padding: 10px 15px;
+        color: #e0f2fe;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        font-size: 15px;
+        border-radius: 5px;
+      }
+      
+      .nav-links a:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+      }
+      
+      .nav-links a i {
+        margin-right: 8px;
+        font-size: 16px;
+      }
+      
+      .active {
+        background: rgba(255, 255, 255, 0.15);
+        color: white !important;
+      }
+      
+      .mobile-menu-btn {
+        display: none;
+        background: none;
+        border: none;
+        color: white;
+        font-size: 24px;
+        cursor: pointer;
+      }
+      
+      /* Responsive Styles */
+      @media screen and (max-width: 768px) {
+        .nav-links {
+          display: none;
+          flex-direction: column;
+          position: absolute;
+          top: 100%;
+          left: 0;
+          right: 0;
+          background: linear-gradient(135deg, #1a56db 0%, #0d3aa9 100%);
+          padding: 10px 20px;
+          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
         
-        .timeline {
-            position: relative;
-            max-width: 800px;
-            margin: 0 auto;
+        .nav-links.active {
+          display: flex;
         }
         
-        .timeline::before {
-            content: '';
-            position: absolute;
-            left: 50%;
-            top: 0;
-            height: 100%;
-            width: 2px;
-            background: var(--primary-color);
-            transform: translateX(-50%);
+        .mobile-menu-btn {
+          display: block;
         }
         
-        .timeline-item {
-            position: relative;
-            margin: 2rem 0;
-            padding: 2rem;
-            background: rgba(0, 0, 0, 0.8);
-            border: 2px solid #333;
-            border-radius: 15px;
-            width: 45%;
-            transition: all 0.3s ease;
+        .nav-links a {
+          padding: 12px 15px;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
-        
-        .timeline-item:nth-child(odd) {
-            left: 0;
-        }
-        
-        .timeline-item:nth-child(even) {
-            left: 55%;
-        }
-        
-        .timeline-item:hover {
-            border-color: var(--primary-color);
-            box-shadow: 0 10px 30px rgba(0, 255, 0, 0.2);
-        }
-        
-        .timeline-dot {
-            position: absolute;
-            top: 2rem;
-            width: 20px;
-            height: 20px;
-            background: var(--primary-color);
-            border-radius: 50%;
-            box-shadow: 0 0 20px var(--primary-color);
-        }
-        
-        .timeline-item:nth-child(odd) .timeline-dot {
-            right: -45px;
-        }
-        
-        .timeline-item:nth-child(even) .timeline-dot {
-            left: -45px;
-        }
-        
-        .timeline-date {
-            color: var(--text-light);
-            font-size: 0.9rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        .timeline-title {
-            color: var(--primary-color);
-            font-size: 1.2rem;
-            margin-bottom: 1rem;
-        }
-        
-        @media (max-width: 768px) {
-            .timeline::before {
-                left: 20px;
-            }
-            
-            .timeline-item {
-                width: calc(100% - 60px);
-                left: 40px !important;
-            }
-            
-            .timeline-dot {
-                left: -45px !important;
-            }
-        }
+      }
     </style>
 </head>
 <body>
     <div class="particles" id="particles"></div>
 
     <header>
-        <nav class="container">
-            <ul>
-                <li><a href="../index.html">Home</a></li>
-                <li><a href="../index.html#terminal">Terminal</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="../index.html#skills">Skills</a></li>
-                <li><a href="machines.html">HTB Machines</a></li>
-                <li><a href="blog/index.html">Blog</a></li>
-                <li><a class="active" href="timeline.html">Journey</a></li>
-                <li><a href="../index.html#learning">Learning Path</a></li>
-                <li><a href="tools.html">Tools</a></li>
-                <li><a href="../index.html#activity">Activity</a></li>
-                <li><a href="contact.html">Contact</a></li>
-            </ul>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="logo">
+                    <i class="fas fa-shield-alt"></i>
+                  <h1>Security<span>Portfolio</span></h1>
+                </div>
+        
+                <button class="mobile-menu-btn">
+                  <i class="fas fa-bars"></i>
+                </button>
+                <ul class="nav-links">
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../index.html#terminal">Terminal</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="../index.html#skills">Skills</a></li>
+                    <li><a href="machines.html">HTB Machines</a></li>
+                    <li><a href="blog/index.html">Blog</a></li>
+                    <li><a class="active" href="timeline.html">Journey</a></li>
+                    <li><a href="../index.html#learning">Learning Path</a></li>
+                    <li><a href="tools.html">Tools</a></li>
+                    <li><a href="../index.html#activity">Activity</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+
+            </div>
         </nav>
     </header>
 
@@ -170,6 +195,43 @@
             </div>
         </div>
     </section>
+    <script>
+      // Mobile menu toggle
+      document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+        document.querySelector('.nav-links').classList.toggle('active');
+      });
+      
+      // Close mobile menu when clicking on a link
+      document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', function() {
+          document.querySelector('.nav-links').classList.remove('active');
+        });
+      });
+      
+      // Update active link on scroll
+      window.addEventListener('scroll', function() {
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.nav-links a');
+        
+        let current = '';
+        
+        sections.forEach(section => {
+          const sectionTop = section.offsetTop;
+          const sectionHeight = section.clientHeight;
+          
+          if (pageYOffset >= sectionTop - 100) {
+            current = section.getAttribute('id');
+          }
+        });
+        
+        navLinks.forEach(link => {
+          link.classList.remove('active');
+          if (link.getAttribute('href').substring(1) === current) {
+            link.classList.add('active');
+          }
+        });
+      });
+    </script>
 
     <script src="../assets/js/particles.js"></script>
 </body>
