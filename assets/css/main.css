@@ -1253,3 +1253,281 @@ section {
         opacity: 0;
     }
 }
+
+
+/* Additional CSS for Universal Navbar System */
+/* Add this to your main.css file or create a new navbar.css file */
+
+/* Logo link styling */
+.logo-link {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.logo-link:hover .logo-text {
+    text-shadow: 0 0 15px var(--primary-color);
+    transform: scale(1.05);
+}
+
+/* Enhanced mobile menu button */
+.mobile-menu-btn {
+    display: none;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 2rem;
+    height: 2rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 1002;
+    transition: var(--transition);
+}
+
+.mobile-menu-btn span {
+    width: 100%;
+    height: 3px;
+    background: var(--primary-color);
+    border-radius: 3px;
+    transition: var(--transition);
+    transform-origin: center;
+}
+
+.mobile-menu-btn:hover span {
+    background: var(--secondary-color);
+    box-shadow: 0 0 8px var(--primary-color);
+}
+
+.mobile-menu-btn.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.mobile-menu-btn.active span:nth-child(2) {
+    opacity: 0;
+    transform: translateX(-20px);
+}
+
+.mobile-menu-btn.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -6px);
+}
+
+/* Footer enhancements */
+.footer h4 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+.footer-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.footer-links a {
+    color: var(--text-color);
+    text-decoration: none;
+    transition: var(--transition);
+    padding: 0.25rem 0;
+}
+
+.footer-links a:hover {
+    color: var(--primary-color);
+    transform: translateX(5px);
+}
+
+/* Active nav link styling */
+.nav-link.active {
+    background: rgba(0, 255, 0, 0.2);
+    text-shadow: 0 0 15px var(--primary-color);
+    border-radius: var(--border-radius);
+}
+
+/* Navbar responsive improvements */
+@media (max-width: 1024px) {
+    .nav-menu {
+        gap: 1rem;
+    }
+    
+    .nav-link {
+        padding: 0.4rem 0.6rem;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .mobile-menu-btn {
+        display: flex;
+        position: fixed;
+        top: 1.25rem;
+        right: 1.5rem;
+    }
+    
+    .nav-menu {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        height: 100vh;
+        width: 80%;
+        max-width: 350px;
+        background: rgba(0, 0, 0, 0.98);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 2rem;
+        transition: right 0.3s ease;
+        z-index: 1001;
+        backdrop-filter: blur(10px);
+        border-left: 2px solid var(--primary-color);
+    }
+    
+    .nav-menu.active {
+        right: 0;
+    }
+    
+    .nav-menu::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, rgba(0, 255, 0, 0.05) 0%, transparent 50%);
+        pointer-events: none;
+    }
+    
+    .nav-link {
+        font-size: 1.1rem;
+        padding: 1rem 2rem;
+        border-radius: var(--border-radius);
+        min-width: 200px;
+        text-align: center;
+        border: 1px solid transparent;
+        transition: all 0.3s ease;
+    }
+    
+    .nav-link:hover {
+        border-color: var(--primary-color);
+        background: rgba(0, 255, 0, 0.1);
+        transform: scale(1.05);
+    }
+    
+    /* Footer responsive */
+    .footer-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 2rem;
+    }
+    
+    .footer-social {
+        justify-content: center;
+        margin-top: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-menu {
+        width: 90%;
+        max-width: none;
+    }
+    
+    .mobile-menu-btn {
+        top: 1rem;
+        right: 1rem;
+    }
+    
+    .nav-link {
+        min-width: auto;
+        width: 100%;
+    }
+}
+
+/* Smooth transitions for page loads */
+.nav-menu,
+.footer {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Back to top button styling */
+.back-to-top {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 3rem;
+    height: 3rem;
+    background: rgba(0, 255, 0, 0.1);
+    border: 2px solid var(--primary-color);
+    border-radius: 50%;
+    color: var(--primary-color);
+    cursor: pointer;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    transition: var(--transition);
+    backdrop-filter: blur(10px);
+    opacity: 0;
+    transform: translateY(100px);
+}
+
+.back-to-top.visible {
+    display: flex;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.back-to-top:hover {
+    background: rgba(0, 255, 0, 0.2);
+    transform: translateY(-3px) scale(1.1);
+    box-shadow: 0 5px 15px rgba(0, 255, 0, 0.3);
+}
+
+.back-to-top i {
+    font-size: 1rem;
+}
+
+/* Loading animation for navigation */
+.nav-container {
+    animation: slideDown 0.8s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Active page indicator */
+.nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 2px;
+    background: var(--primary-color);
+    border-radius: 2px;
+}
+
+/* Ensure nav links are positioned relative for the active indicator */
+.nav-link {
+    position: relative;
+}
