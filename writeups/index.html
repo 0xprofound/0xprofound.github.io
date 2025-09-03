@@ -86,6 +86,12 @@
                     </div>
                 </div>
                 
+                <!-- Add this after the stats section -->
+                <div class="search-container" style="margin: 2rem auto; max-width: 500px;">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="writeupsSearch" placeholder="Search writeups...">
+                </div>
+                
                 <!-- Filters -->
                 <div class="writeups-filters">
                     <div class="filter-btn active" data-filter="all">All Writeups</div>
@@ -215,65 +221,7 @@
                     });
                 });
             }
-
-            // Update stats from JSON data
-            fetch('../assets/data/machines.json')
-                .then(response => response.json())
-                .then(data => {
-                    const writeupCount = document.getElementById('writeupCount');
-                    if (writeupCount) writeupCount.textContent = data.stats.total;
-                    
-                    // Update individual difficulty counts
-                    const easyCount = document.getElementById('easyCount');
-                    if (easyCount && data.stats.easy) easyCount.textContent = data.stats.easy;
-                    
-                    const mediumCount = document.getElementById('mediumCount');
-                    if (mediumCount && data.stats.medium) mediumCount.textContent = data.stats.medium;
-                    
-                    const hardCount = document.getElementById('hardCount');
-                    if (hardCount && data.stats.hard) hardCount.textContent = data.stats.hard;
-                    
-                    const insaneCount = document.getElementById('insaneCount');
-                    if (insaneCount && data.stats.insane) insaneCount.textContent = data.stats.insane;
-                })
-                .catch(error => {
-                    console.error('Error loading machine data:', error);
-                });
-
-            // Filter functionality
-            const filterBtns = document.querySelectorAll('.filter-btn');
-            const writeupsGrid = document.getElementById('writeupsGrid');
-
-            filterBtns.forEach(btn => {
-                btn.addEventListener('click', function() {
-                    // Update active state
-                    filterBtns.forEach(b => b.classList.remove('active'));
-                    this.classList.add('active');
-                    
-                    // Get filter value
-                    const filter = this.dataset.filter;
-                    
-                    // Filter writeups
-                    const writeupCards = writeupsGrid.querySelectorAll('.writeup-card');
-                    writeupCards.forEach(card => {
-                        if (filter === 'all') {
-                            card.style.display = 'block';
-                        } else {
-                            const cardClasses = card.className;
-                            if (cardClasses.includes(filter)) {
-                                card.style.display = 'block';
-                            } else {
-                                card.style.display = 'none';
-                            }
-                        }
-                    });
-                });
-            });
-
-            // Load writeups (if you have a writeups.js file)
-            if (typeof loadWriteups === 'function') {
-                loadWriteups();
-            }
+            // The filtering logic is now handled entirely by writeups.js
         });
     </script>
     
