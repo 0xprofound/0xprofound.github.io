@@ -1,0 +1,102 @@
+{
+  "writeups": [
+    {
+      "title": "Lame",
+      "slug": "lame",
+      "excerpt": "Classic SMB enumeration and exploitation. Perfect entry point for beginners.",
+      "date": "2024-02-15",
+      "read_time": "8 min",
+      "tags": ["Easy", "Linux", "SMB", "Samba 3.0.20", "Remote Code Execution"],
+      "difficulty": "Easy",
+      "os": "Linux",
+      "ip": "10.10.10.3",
+      "techniques": ["SMB", "Samba 3.0.20", "Remote Code Execution"],
+      "status": "completed",
+      "rating": 4
+    },
+    {
+      "title": "Blue",
+      "slug": "blue",
+      "excerpt": "EternalBlue exploitation on Windows 7. Classic NSA exploit demonstration.",
+      "date": "2024-03-02",
+      "read_time": "12 min",
+      "tags": ["Medium", "Windows", "MS17-010", "EternalBlue", "SMB Exploitation"],
+      "difficulty": "Medium",
+      "os": "Windows",
+      "ip": "10.10.10.4",
+      "techniques": ["MS17-010", "EternalBlue", "SMB Exploitation"],
+      "status": "completed",
+      "rating": 5
+    },
+    {
+      "title": "Cronos",
+      "slug": "cronos",
+      "excerpt": "DNS zone transfer, SQL injection, and cron job privilege escalation.",
+      "date": "2024-04-18",
+      "read_time": "18 min",
+      "tags": ["Hard", "Linux", "DNS Enumeration", "SQLi", "Cron Jobs"],
+      "difficulty": "Hard",
+      "os": "Linux",
+      "ip": "10.10.10.5",
+      "techniques": ["DNS Enumeration", "SQLi", "Cron Jobs"],
+      "status": "completed",
+      "rating": 4
+    },
+    {
+      "title": "Legacy",
+      "slug": "legacy",
+      "excerpt": "Windows XP vulnerable to MS08-067. Historical vulnerability showcase.",
+      "date": "2024-02-28",
+      "read_time": "8 min",
+      "tags": ["Easy", "Windows", "MS08-067", "Buffer Overflow", "RPC"],
+      "difficulty": "Easy",
+      "os": "Windows",
+      "ip": "10.10.10.2",
+      "techniques": ["MS08-067", "Buffer Overflow", "RPC"],
+      "status": "completed",
+      "rating": 3
+    },
+    {
+      "title": "Rope",
+      "slug": "rope",
+      "excerpt": "Advanced binary exploitation, ROP chains, and custom exploit development.",
+      "date": "2024-05-30",
+      "read_time": "25 min",
+      "tags": ["Insane", "Linux", "Binary Exploitation", "ROP", "Custom Exploits"],
+      "difficulty": "Insane",
+      "os": "Linux",
+      "ip": "10.10.10.6",
+      "techniques": ["Binary Exploitation", "ROP", "Custom Exploits"],
+      "status": "completed",
+      "rating": 5
+    },
+    {
+      "title": "Poison",
+      "slug": "poison",
+      "excerpt": "Log poisoning, LFI to RCE, and VNC tunneling techniques.",
+      "date": "2024-04-05",
+      "read_time": "12 min",
+      "tags": ["Medium", "FreeBSD", "Log Poisoning", "LFI", "VNC Tunneling"],
+      "difficulty": "Medium",
+      "os": "FreeBSD",
+      "ip": "10.10.10.7",
+      "techniques": ["Log Poisoning", "LFI", "VNC Tunneling"],
+      "status": "completed",
+      "rating": 4
+    }
+  ],
+  "stats": {
+    "total": 6,
+    "by_difficulty": {
+      "Easy": 2,
+      "Medium": 2,
+      "Hard": 1,
+      "Insane": 1
+    },
+    "by_os": {
+      "Linux": 3,
+      "Windows": 2,
+      "FreeBSD": 1
+    }
+  }
+}
