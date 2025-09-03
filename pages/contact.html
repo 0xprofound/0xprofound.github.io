@@ -3,287 +3,145 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About - 0xProfound</title>
+    <title>Contact - 0xProfound</title>
     <link rel="stylesheet" href="../assets/css/main.css">
-    <link rel="stylesheet" href="../assets/css/blog.css">
+    <link rel="stylesheet" href="../assets/css/animations.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        .contact-header {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-        
-        .contact-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-        
-        .contact-info {
-            background: rgba(0, 0, 0, 0.8);
-            border: 2px solid #333;
-            border-radius: 15px;
-            padding: 2rem;
-        }
-        
-        .contact-form {
-            background: rgba(0, 0, 0, 0.8);
-            border: 2px solid #333;
-            border-radius: 15px;
-            padding: 2rem;
-        }
-        
-        .contact-method {
-            display: flex;
-            align-items: center;
-            margin-bottom: 1.5rem;
-            padding: 1rem;
-            border: 1px solid #333;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-        }
-        
-        .contact-method:hover {
-            border-color: var(--primary-color);
-            background: rgba(0, 255, 0, 0.05);
-        }
-        
-        .contact-icon {
-            width: 40px;
-            height: 40px;
-            background: var(--primary-color);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 1rem;
-            color: #000;
-            font-size: 1.2rem;
-        }
-        
-        .contact-details h3 {
-            color: var(--primary-color);
-            margin-bottom: 0.25rem;
-        }
-        
-        .contact-details p {
-            color: var(--text-color);
-            margin: 0;
-        }
-        
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-        
-        .form-group label {
-            display: block;
-            color: var(--text-color);
-            margin-bottom: 0.5rem;
-        }
-        
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 0.75rem;
-            background: rgba(0, 0, 0, 0.8);
-            border: 1px solid #333;
-            border-radius: 5px;
-            color: var(--text-color);
-            font-family: 'Courier New', monospace;
-        }
-        
-        .form-group input:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: var(--primary-color);
-        }
-        
-        .form-group textarea {
-            min-height: 150px;
-            resize: vertical;
-        }
-        
-        .submit-btn {
-            padding: 0.75rem 2rem;
-            background: transparent;
-            border: 2px solid var(--primary-color);
-            color: var(--primary-color);
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: 'Courier New', monospace;
-            font-weight: bold;
-        }
-        
-        .submit-btn:hover {
-            background: rgba(0, 255, 0, 0.1);
-        }
-        
-        .social-links {
-            display: flex;
-            gap: 1rem;
-            margin-top: 2rem;
-            justify-content: center;
-        }
-        
-        .social-link {
-            padding: 0.5rem 1rem;
-            background: transparent;
-            border: 2px solid var(--primary-color);
-            color: var(--primary-color);
-            text-decoration: none;
-            border-radius: 5px;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .social-link:hover {
-            background: rgba(0, 255, 0, 0.1);
-        }
-        
-        @media (max-width: 768px) {
-            .contact-content {
-                grid-template-columns: 1fr;
-            }
-            
-            .social-links {
-                flex-direction: column;
-            }
-        }
-    </style>
 </head>
 <body>
-    <div class="particles" id="particles"></div>
-
     <div id="particles-placeholder"></div>
     
     <!-- Menu placeholder -->
     <div id="menu-placeholder"></div>
 
-    <section class="container">
-        <div class="contact-header">
-            <h1 class="section-title">Connect & Collaborate</h1>
-            <p class="subtitle">Ready to discuss cybersecurity, share knowledge, or collaborate on projects</p>
-        </div>
-        
-        <div class="contact-content">
-            <div class="contact-info">
-                <h2 style="color: var(--primary-color); margin-bottom: 2rem;">Get In Touch</h2>
-                
-                <div class="contact-method">
-                    <div class="contact-icon">📧</div>
-                    <div class="contact-details">
-                        <h3>Email</h3>
-                        <p>thefastgozef@gmail.com</p>
+    <main>
+        <!-- Hero Section -->
+        <section class="contact-hero">
+            <div class="section-container">
+                <div class="contact-hero-content">
+                    <h1 class="section-title">Get In Touch</h1>
+                    <p class="contact-subtitle">Ready to collaborate or have questions? Let's connect</p>
+                    <div class="scroll-indicator">
+                        <span>Scroll Down</span>
+                        <div class="scroll-arrow"></div>
                     </div>
-                </div>
-                
-                <div class="contact-method">
-                    <div class="contact-icon">💼</div>
-                    <div class="contact-details">
-                        <h3>LinkedIn</h3>
-                        <p>linkedin.com/in/josephgamil</p>
-                    </div>
-                </div>
-                
-                <div class="contact-method">
-                    <div class="contact-icon">🐱</div>
-                    <div class="contact-details">
-                        <h3>GitHub</h3>
-                        <p>github.com/0xprofound</p>
-                    </div>
-                </div>
-                
-                <div class="contact-method">
-                    <div class="contact-icon">🐦</div>
-                    <div class="contact-details">
-                        <h3>Twitter</h3>
-                        <p>twitter.com/0xprofound</p>
-                    </div>
-                </div>
-                
-                <div class="contact-method">
-                    <div class="contact-icon">🎯</div>
-                    <div class="contact-details">
-                        <h3>Hack The Box</h3>
-                        <p>app.hackthebox.com/profile/1335712</p>
-                    </div>
-                </div>
-                
-                <div class="social-links">
-                    <a href="mailto:thefastgozef@gmail.com" class="social-link">
-                        <span>📧</span> Email
-                    </a>
-                    <a href="https://linkedin.com/in/josephgamil" target="_blank" class="social-link">
-                        <span>💼</span> LinkedIn
-                    </a>
-                    <a href="https://github.com/0xprofound" target="_blank" class="social-link">
-                        <span>🐱</span> GitHub
-                    </a>
                 </div>
             </div>
-            
-            <div class="contact-form">
-                <h2 style="color: var(--primary-color); margin-bottom: 2rem;">Send Message</h2>
+        </section>
+
+        <div class="section-container">
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <h3>Contact Information</h3>
+                    
+                    <div class="contact-method">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div>
+                            <h4>Email</h4>
+                            <p>0xprofound@protonmail.com</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-method">
+                        <div class="contact-icon">
+                            <i class="fab fa-github"></i>
+                        </div>
+                        <div>
+                            <h4>GitHub</h4>
+                            <p>github.com/0xProfound</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-method">
+                        <div class="contact-icon">
+                            <i class="fab fa-linkedin"></i>
+                        </div>
+                        <div>
+                            <h4>LinkedIn</h4>
+                            <p>linkedin.com/in/0xprofound</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-method">
+                        <div class="contact-icon">
+                            <i class="fas fa-cube"></i>
+                        </div>
+                        <div>
+                            <h4>Hack The Box</h4>
+                            <p>app.hackthebox.com/profile/0xprofound</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-method">
+                        <div class="contact-icon">
+                            <i class="fab fa-twitter"></i>
+                        </div>
+                        <div>
+                            <h4>Twitter</h4>
+                            <p>twitter.com/0xprofound</p>
+                        </div>
+                    </div>
+                </div>
                 
-                <form id="contactForm">
-                    <div class="form-group">
-                        <label for="name">Name</label>
-                        <input type="text" id="name" name="name" required>
-                    </div>
+                <div class="contact-form">
+                    <h3>Send Me a Message</h3>
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="subject">Subject</label>
+                            <input type="text" id="subject" name="subject" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" required></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn-primary">Send Message</button>
+                    </form>
                     
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" name="email" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="subject">Subject</label>
-                        <input type="text" id="subject" name="subject" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="message">Message</label>
-                        <textarea id="message" name="message" required></textarea>
-                    </div>
-                    
-                    <button type="submit" class="submit-btn">Send Message</button>
-                </form>
-                
-                <div id="formMessage" style="margin-top: 1rem; color: var(--primary-color); display: none;">
-                    Message sent successfully!
+                    <div id="formMessage" style="display: none; margin-top: 1rem; padding: 1rem; border-radius: var(--border-radius);"></div>
                 </div>
             </div>
         </div>
-    </section>
+    </main>
 
     <!-- Footer placeholder -->
     <div id="footer-placeholder"></div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const contactForm = document.getElementById('contactForm');
-            const formMessage = document.getElementById('formMessage');
-            
-            contactForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                // Simulate form submission
-                formMessage.style.display = 'block';
-                contactForm.reset();
-                
-                // Hide message after 3 seconds
-                setTimeout(() => {
-                    formMessage.style.display = 'none';
-                }, 3000);
-            });
-        });
-    </script>
     <script src="../assets/js/particles.js"></script>
     <script src="../assets/js/components.js"></script>
+    <script>
+        // Simple form validation
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formMessage = document.getElementById('formMessage');
+            formMessage.style.display = 'block';
+            formMessage.textContent = 'Thank you for your message! I\'ll get back to you soon.';
+            formMessage.style.background = 'rgba(0, 255, 0, 0.1)';
+            formMessage.style.color = 'var(--primary-color)';
+            formMessage.style.border = '1px solid var(--primary-color)';
+            
+            // Clear form
+            this.reset();
+            
+            // Hide message after 5 seconds
+            setTimeout(() => {
+                formMessage.style.display = 'none';
+            }, 5000);
+        });
+    </script>
 </body>
 </html>
