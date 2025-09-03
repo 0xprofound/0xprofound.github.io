@@ -7,6 +7,454 @@
     <link rel="stylesheet" href="../assets/css/main.css">
     <link rel="stylesheet" href="../assets/css/animations.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Modern Layout Styles */
+        .machines-layout {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 3rem;
+            align-items: start;
+            margin-top: 2rem;
+        }
+        
+        .machines-main {
+            min-width: 0;
+        }
+        
+        .machines-sidebar {
+            position: sticky;
+            top: 2rem;
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid #333;
+            border-radius: 15px;
+            padding: 2rem;
+            height: fit-content;
+        }
+        
+        .search-header {
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid #333;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            grid-column: 1 / -1;
+        }
+        
+        .search-container {
+            position: relative;
+            max-width: 100%;
+            margin: 0;
+        }
+        
+        .search-container .search-icon {
+            position: absolute;
+            left: 1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+            z-index: 2;
+            font-size: 1.2rem;
+        }
+        
+        .search-container #machinesSearch {
+            width: 100%;
+            padding: 1.25rem 1.5rem 1.25rem 4rem;
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid #333;
+            border-radius: 15px;
+            color: var(--text-color);
+            font-family: 'Courier New', monospace;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .search-container #machinesSearch:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 25px rgba(0, 255, 0, 0.3);
+            background: rgba(0, 0, 0, 0.95);
+        }
+        
+        .search-container #machinesSearch::placeholder {
+            color: var(--text-light);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin-bottom: 2.5rem;
+        }
+        
+        .stat-card {
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid #333;
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 255, 0, 0.2);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+        }
+        
+        .stat-label {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .sidebar-filters {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        
+        .sidebar-filter-btn {
+            padding: 1rem 1.25rem;
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid #333;
+            color: var(--text-color);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+        
+        .sidebar-filter-btn.active,
+        .sidebar-filter-btn:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            background: rgba(0, 255, 0, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 255, 0, 0.2);
+        }
+        
+        .filter-count {
+            background: rgba(0, 255, 0, 0.15);
+            color: var(--primary-color);
+            padding: 0.3rem 0.7rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            min-width: 2.2rem;
+            text-align: center;
+            border: 1px solid rgba(0, 255, 0, 0.3);
+        }
+        
+        .sort-controls {
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid #333;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .sort-controls label {
+            display: block;
+            margin-bottom: 1rem;
+            color: var(--text-light);
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        #sortSelect {
+            width: 100%;
+            padding: 0.9rem;
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid #333;
+            border-radius: 8px;
+            color: var(--text-color);
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        #sortSelect:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.2);
+        }
+        
+        .sidebar-section-title {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-size: 1.3rem;
+            font-weight: 600;
+            text-shadow: 0 0 8px rgba(0, 255, 0, 0.2);
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #333;
+        }
+        
+        /* Progress Bars Styling */
+        .progress-bars {
+            margin-top: 2rem;
+        }
+        
+        .progress-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid #333;
+            border-radius: 8px;
+        }
+        
+        .progress-item span:first-child {
+            color: var(--text-color);
+            font-weight: 500;
+            min-width: 120px;
+        }
+        
+        .progress-bar {
+            flex-grow: 1;
+            height: 8px;
+            background: #333;
+            border-radius: 4px;
+            margin: 0 1rem;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: var(--primary-color);
+            border-radius: 4px;
+            transition: width 1s ease-in-out;
+        }
+        
+        .progress-item span:last-child {
+            color: var(--text-light);
+            font-weight: 600;
+            min-width: 60px;
+            text-align: right;
+        }
+        
+        /* Machine Cards Styling */
+        .machines-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+        
+        .machine-card {
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid #333;
+            border-radius: 15px;
+            padding: 2rem;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        .machine-card.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .machine-card:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 255, 0, 0.25);
+        }
+        
+        .machine-image {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .machine-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .machine-card:hover .machine-image img {
+            transform: scale(1.05);
+        }
+        
+        .machine-info h3 {
+            color: #fff;
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        
+        .machine-meta {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .difficulty {
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .difficulty.easy {
+            background: rgba(76, 175, 80, 0.2);
+            color: #4CAF50;
+            border: 1px solid #4CAF50;
+        }
+        
+        .difficulty.medium {
+            background: rgba(255, 152, 0, 0.2);
+            color: #FF9800;
+            border: 1px solid #FF9800;
+        }
+        
+        .difficulty.hard {
+            background: rgba(244, 67, 54, 0.2);
+            color: #F44336;
+            border: 1px solid #F44336;
+        }
+        
+        .difficulty.insane {
+            background: rgba(156, 39, 176, 0.2);
+            color: #9C27B0;
+            border: 1px solid #9C27B0;
+        }
+        
+        .os {
+            padding: 0.3rem 0.8rem;
+            background: rgba(0, 255, 0, 0.1);
+            color: var(--primary-color);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border: 1px solid var(--primary-color);
+        }
+        
+        .machine-info p {
+            color: var(--text-color);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+        
+        .machine-actions {
+            text-align: center;
+        }
+        
+        .btn-primary {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+        
+        .btn-primary:hover {
+            background: rgba(0, 255, 0, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 255, 0, 0.3);
+        }
+        
+        .loading, .no-machines {
+            text-align: center;
+            color: var(--text-light);
+            padding: 3rem;
+            grid-column: 1 / -1;
+            font-size: 1.1rem;
+        }
+        
+        .loading i {
+            margin-right: 0.5rem;
+            animation: spin 1s linear infinite;
+            color: var(--primary-color);
+        }
+        
+        .no-machines i {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @media (max-width: 1024px) {
+            .machines-layout {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .machines-sidebar {
+                position: static;
+                order: -1;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .search-header {
+                padding: 1.5rem;
+            }
+            
+            .machines-sidebar {
+                padding: 1.5rem;
+            }
+            
+            .stat-number {
+                font-size: 2rem;
+            }
+            
+            .search-container #machinesSearch {
+                padding: 1rem 1rem 1rem 3.5rem;
+                font-size: 1rem;
+            }
+            
+            .search-container .search-icon {
+                left: 1.25rem;
+            }
+            
+            .machines-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .progress-item {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0.5rem;
+            }
+            
+            .progress-bar {
+                margin: 0.5rem 0;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="particles" id="particles"></div>
@@ -48,69 +496,139 @@
         <section class="machines-hero">
             <div class="section-container">
                 <div class="machines-hero-content">
-                    <h1 class="section-title">HTB Machine Conquests</h1>
+                    <h1 class="section-title">HTB Machine</h1>
                     <p class="machines-subtitle">My journey through Hack The Box challenges</p>
                 </div>
             </div>
         </section>
 
-        <!-- Machines Filter Section -->
-        <section class="machines-filter-section">
+        <section class="machines-content-section">
             <div class="section-container">
-                <div class="machines-filter">
-                    <div class="filter-btn active" data-filter="all">All (37)</div>
-                    <div class="filter-btn" data-filter="easy">Easy (15)</div>
-                    <div class="filter-btn" data-filter="medium">Medium (12)</div>
-                    <div class="filter-btn" data-filter="hard">Hard (8)</div>
-                    <div class="filter-btn" data-filter="insane">Insane (2)</div>
-                    <div class="filter-btn" data-filter="linux">Linux (22)</div>
-                    <div class="filter-btn" data-filter="windows">Windows (15)</div>
+                <!-- Search Header -->
+                <div class="search-header">
+                    <div class="search-container">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" id="machinesSearch" placeholder="Search machines by name, OS, or difficulty...">
+                    </div>
                 </div>
-            </div>
-        </section>
-
-        <!-- Machines Grid Section -->
-        <section class="machines-grid-section">
-            <div class="section-container">
-                <div class="machines-grid" id="machinesGrid">
-                    <!-- Machines will be loaded dynamically from JSON -->
-                </div>
-            </div>
-        </section>
-
-        <!-- Machines Stats Section -->
-        <section class="machines-stats-section">
-            <div class="section-container">
-                <div class="machines-stats">
-                    <h3 class="section-title">Overall Progress</h3>
-                    <div class="progress-bars">
-                        <div class="progress-item">
-                            <span>Easy Machines</span>
-                            <div class="progress-bar">
-                                <div class="progress-fill" data-percentage="100"></div>
-                            </div>
-                            <span>15/15</span>
+                
+                <div class="machines-layout">
+                    <!-- Main Content Area -->
+                    <div class="machines-main">
+                        <!-- Sort Controls -->
+                        <div class="sort-controls">
+                            <label for="sortSelect">Sort Machines:</label>
+                            <select id="sortSelect">
+                                <option value="difficulty-asc">Difficulty: Easy to Hard</option>
+                                <option value="difficulty-desc">Difficulty: Hard to Easy</option>
+                                <option value="name-asc">Name: A to Z</option>
+                                <option value="name-desc">Name: Z to A</option>
+                                <option value="date-desc">Newest First</option>
+                                <option value="date-asc">Oldest First</option>
+                            </select>
                         </div>
-                        <div class="progress-item">
-                            <span>Medium Machines</span>
-                            <div class="progress-bar">
-                                <div class="progress-fill" data-percentage="100"></div>
+                        
+                        <!-- Machines Grid -->
+                        <div class="machines-grid" id="machinesGrid">
+                            <div class="loading">
+                                <i class="fas fa-spinner"></i>
+                                Loading machines...
                             </div>
-                            <span>12/12</span>
                         </div>
-                        <div class="progress-item">
-                            <span>Hard Machines</span>
-                            <div class="progress-bar">
-                                <div class="progress-fill" data-percentage="100"></div>
+                    </div>
+                    
+                    <!-- Sidebar -->
+                    <div class="machines-sidebar">
+                        <h3 class="sidebar-section-title">Overview</h3>
+                        
+                        <!-- Stats Section -->
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-number" id="totalCount">0</div>
+                                <div class="stat-label">Total Machines</div>
                             </div>
-                            <span>8/8</span>
+                            <div class="stat-card">
+                                <div class="stat-number" id="easyCount">0</div>
+                                <div class="stat-label">Easy Machines</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number" id="mediumCount">0</div>
+                                <div class="stat-label">Medium Machines</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number" id="hardCount">0</div>
+                                <div class="stat-label">Hard Machines</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number" id="insaneCount">0</div>
+                                <div class="stat-label">Insane Machines</div>
+                            </div>
                         </div>
-                        <div class="progress-item">
-                            <span>Insane Machines</span>
-                            <div class="progress-bar">
-                                <div class="progress-fill" data-percentage="100"></div>
+                        
+                        <!-- Quick Filters -->
+                        <h3 class="sidebar-section-title">Quick Filters</h3>
+                        <div class="sidebar-filters">
+                            <div class="sidebar-filter-btn active" data-filter="all">
+                                <span>All Machines</span>
+                                <span class="filter-count" id="countAll">0</span>
                             </div>
-                            <span>2/2</span>
+                            <div class="sidebar-filter-btn" data-filter="easy">
+                                <span>Easy</span>
+                                <span class="filter-count" id="countEasy">0</span>
+                            </div>
+                            <div class="sidebar-filter-btn" data-filter="medium">
+                                <span>Medium</span>
+                                <span class="filter-count" id="countMedium">0</span>
+                            </div>
+                            <div class="sidebar-filter-btn" data-filter="hard">
+                                <span>Hard</span>
+                                <span class="filter-count" id="countHard">0</span>
+                            </div>
+                            <div class="sidebar-filter-btn" data-filter="insane">
+                                <span>Insane</span>
+                                <span class="filter-count" id="countInsane">0</span>
+                            </div>
+                            <div class="sidebar-filter-btn" data-filter="linux">
+                                <span>Linux</span>
+                                <span class="filter-count" id="countLinux">0</span>
+                            </div>
+                            <div class="sidebar-filter-btn" data-filter="windows">
+                                <span>Windows</span>
+                                <span class="filter-count" id="countWindows">0</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Progress Section -->
+                        <h3 class="sidebar-section-title">Overall Progress</h3>
+                        <div class="progress-bars">
+                            <div class="progress-item">
+                                <span>Easy Machines</span>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" data-percentage="100"></div>
+                                </div>
+                                <span id="easyProgress">0/0</span>
+                            </div>
+                            <div class="progress-item">
+                                <span>Medium Machines</span>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" data-percentage="100"></div>
+                                </div>
+                                <span id="mediumProgress">0/0</span>
+                            </div>
+                            <div class="progress-item">
+                                <span>Hard Machines</span>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" data-percentage="100"></div>
+                                </div>
+                                <span id="hardProgress">0/0</span>
+                            </div>
+                            <div class="progress-item">
+                                <span>Insane Machines</span>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" data-percentage="100"></div>
+                                </div>
+                                <span id="insaneProgress">0/0</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -124,18 +642,18 @@
             <div class="footer-content">
                 <div class="footer-brand">
                     <h3>0xProfound</h3>
-                    <p>Elite Penetration Tester | DEPI VAPT Track | HTB Conqueror</p>
+                    <p>Jr Penetration Tester | DEPI VAPT Track | HTB Pro Hacker</p>
                     <div class="footer-social">
-                        <a href="#" class="social-icon" aria-label="GitHub">
+                        <a href="https://github.com/0xprofound" class="social-icon" aria-label="GitHub">
                             <i class="fab fa-github"></i>
                         </a>
-                        <a href="#" class="social-icon" aria-label="LinkedIn">
+                        <a href="www.linkedin.com/in/josephgamil" class="social-icon" aria-label="LinkedIn">
                             <i class="fab fa-linkedin"></i>
                         </a>
                         <a href="#" class="social-icon" aria-label="Twitter">
                             <i class="fab fa-twitter"></i>
                         </a>
-                        <a href="#" class="social-icon" aria-label="Hack The Box">
+                        <a href="https://app.hackthebox.com/profile/1335712" class="social-icon" aria-label="Hack The Box">
                             <i class="fas fa-cube"></i>
                         </a>
                     </div>
@@ -167,7 +685,7 @@
             </div>
             
             <div class="footer-bottom">
-                <p class="footer-credits">&copy; 2024 0xProfound. All rights reserved.</p>
+                <p class="footer-credits">&copy; 2025 0xProfound. All rights reserved.</p>
                 <p>Built with passion for cybersecurity</p>
             </div>
         </div>
@@ -230,61 +748,101 @@
                 });
             }
 
-            // Filter functionality
-            const filterBtns = document.querySelectorAll('.filter-btn');
-            const machinesGrid = document.getElementById('machinesGrid');
-
-            filterBtns.forEach(btn => {
+            // Sidebar filter functionality
+            const sidebarFilterBtns = document.querySelectorAll('.sidebar-filter-btn');
+            
+            sidebarFilterBtns.forEach(btn => {
                 btn.addEventListener('click', function() {
                     // Remove active class from all buttons
-                    filterBtns.forEach(b => b.classList.remove('active'));
+                    sidebarFilterBtns.forEach(b => b.classList.remove('active'));
                     // Add active class to clicked button
                     this.classList.add('active');
                     
                     const filter = this.dataset.filter;
-                    // Add your filter logic here
-                    console.log('Filter:', filter);
+                    
+                    // Trigger the filter functionality
+                    if (window.applyMachineFilter) {
+                        window.applyMachineFilter(filter);
+                    }
+                    
+                    // Clear search input
+                    document.getElementById('machinesSearch').value = '';
                 });
             });
+
+            // Sort functionality
+            const sortSelect = document.getElementById('sortSelect');
+            if (sortSelect) {
+                sortSelect.addEventListener('change', function() {
+                    if (window.applyMachineSort) {
+                        window.applyMachineSort(this.value);
+                    }
+                });
+            }
+
+            // Search functionality
+            const searchInput = document.getElementById('machinesSearch');
+            if (searchInput) {
+                searchInput.addEventListener('input', function() {
+                    if (window.applyMachineSearch) {
+                        window.applyMachineSearch(this.value);
+                    }
+                });
+            }
 
             // Load machines data
             fetch('../assets/data/machines.json')
                 .then(response => response.json())
                 .then(data => {
+                    // Update stats
+                    document.getElementById('totalCount').textContent = data.stats.total;
+                    document.getElementById('easyCount').textContent = data.stats.by_difficulty.easy;
+                    document.getElementById('mediumCount').textContent = data.stats.by_difficulty.medium;
+                    document.getElementById('hardCount').textContent = data.stats.by_difficulty.hard;
+                    document.getElementById('insaneCount').textContent = data.stats.by_difficulty.insane;
+
+                    // Update progress bars
+                    document.getElementById('easyProgress').textContent = `${data.stats.by_difficulty.easy}/${data.stats.by_difficulty.easy}`;
+                    document.getElementById('mediumProgress').textContent = `${data.stats.by_difficulty.medium}/${data.stats.by_difficulty.medium}`;
+                    document.getElementById('hardProgress').textContent = `${data.stats.by_difficulty.hard}/${data.stats.by_difficulty.hard}`;
+                    document.getElementById('insaneProgress').textContent = `${data.stats.by_difficulty.insane}/${data.stats.by_difficulty.insane}`;
+
                     // Update filter counts
-                    document.querySelector('[data-filter="all"]').textContent = `All (${data.stats.total})`;
-                    document.querySelector('[data-filter="easy"]').textContent = `Easy (${data.stats.easy})`;
-                    document.querySelector('[data-filter="medium"]').textContent = `Medium (${data.stats.medium})`;
-                    document.querySelector('[data-filter="hard"]').textContent = `Hard (${data.stats.hard})`;
-                    document.querySelector('[data-filter="insane"]').textContent = `Insane (${data.stats.insane})`;
-                    
-                    // Populate machines grid
-                    if (data.machines && machinesGrid) {
-                        machinesGrid.innerHTML = data.machines.map(machine => `
-                            <div class="machine-card" data-difficulty="${machine.difficulty.toLowerCase()}" data-os="${machine.os.toLowerCase()}">
-                                <div class="machine-image">
-                                    <img src="../assets/images/htb-machines/${machine.image}" alt="${machine.name}">
-                                </div>
-                                <div class="machine-info">
-                                    <h3>${machine.name}</h3>
-                                    <div class="machine-meta">
-                                        <span class="difficulty ${machine.difficulty.toLowerCase()}">${machine.difficulty}</span>
-                                        <span class="os">${machine.os}</span>
-                                    </div>
-                                    <p>${machine.description}</p>
-                                    <div class="machine-actions">
-                                        <a href="../writeups/${machine.slug}.html" class="btn-primary">View Writeup</a>
-                                    </div>
-                                </div>
-                            </div>
-                        `).join('');
+                    if (window.updateMachineFilterCounts) {
+                        window.updateMachineFilterCounts({
+                            all: data.stats.total,
+                            easy: data.stats.by_difficulty.easy,
+                            medium: data.stats.by_difficulty.medium,
+                            hard: data.stats.by_difficulty.hard,
+                            insane: data.stats.by_difficulty.insane,
+                            linux: data.stats.by_os.linux,
+                            windows: data.stats.by_os.windows
+                        });
                     }
+
+                    // Animate progress bars
+                    setTimeout(() => {
+                        document.querySelectorAll('.progress-fill').forEach(bar => {
+                            const percentage = bar.getAttribute('data-percentage');
+                            bar.style.width = percentage + '%';
+                        });
+                    }, 500);
                 })
                 .catch(error => {
-                    console.error('Error loading machines data:', error);
+                    console.error('Error loading machine data:', error);
                 });
         });
+
+        // Expose functions for machines.js
+        window.updateMachineFilterCounts = function(counts) {
+            document.getElementById('countAll').textContent = counts.all || 0;
+            document.getElementById('countEasy').textContent = counts.easy || 0;
+            document.getElementById('countMedium').textContent = counts.medium || 0;
+            document.getElementById('countHard').textContent = counts.hard || 0;
+            document.getElementById('countInsane').textContent = counts.insane || 0;
+            document.getElementById('countLinux').textContent = counts.linux || 0;
+            document.getElementById('countWindows').textContent = counts.windows || 0;
+        };
     </script>
 </body>
 </html>
-
