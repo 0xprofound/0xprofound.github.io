@@ -2,19 +2,20 @@
 document.addEventListener('DOMContentLoaded', function() {
     const writeupsGrid = document.getElementById('writeupsGrid');
     let allWriteups = [];
-    let allMachines = [];
 
-    // Load writeups from machines.json
+    // Load writeups from writeups.json
     async function loadWriteups() {
         try {
+            console.log('Loading writeups from JSON...');
             const response = await fetch('../assets/data/writeups.json');
             if (!response.ok) {
-                throw new Error('Failed to load machine data');
+                throw new Error('Failed to load writeups data');
             }
             
             const data = await response.json();
-            allMachines = data.machines || [];
-                                 
+            allWriteups = data.writeups || [];
+            console.log('Loaded writeups:', allWriteups.length);
+            
             // Update stats
             updateStats(data.stats);
             
@@ -25,38 +26,59 @@ document.addEventListener('DOMContentLoaded', function() {
             
         } catch (error) {
             console.error('Error loading writeups:', error);
-            writeupsGrid.innerHTML = `
-                <div class="no-posts">
-                    <i class="fas fa-exclamation-triangle" style="font-size: 2rem; margin-bottom: 1rem; color: var(--primary-color);"></i>
-                    <p>Error loading writeups. Please try again later.</p>
-                    <p style="font-size: 0.9rem; margin-top: 1rem;">${error.message}</p>
-                </div>
-            `;
+            if (writeupsGrid) {
+                writeupsGrid.innerHTML = `
+                    <div class="no-posts">
+                        <i class="fas fa-exclamation-triangle" style="font-size: 2rem; margin-bottom: 1rem; color: var(--primary-color);"></i>
+                        <p>Error loading writeups. Please try again later.</p>
+                        <p style="font-size: 0.9rem; margin-top: 1rem;">${error.message}</p>
+                    </div>
+                `;
+            }
         }
     }
 
     // Update stats from data
     function updateStats(stats) {
+        console.log('Updating stats:', stats);
         if (stats) {
             const writeupCount = document.getElementById('writeupCount');
             if (writeupCount) writeupCount.textContent = stats.total;
             
             const easyCount = document.getElementById('easyCount');
-            if (easyCount) easyCount.textContent = stats.easy || 0;
+            if (easyCount) easyCount.textContent = stats.by_difficulty?.Easy || 0;
             
             const mediumCount = document.getElementById('mediumCount');
-            if (mediumCount) mediumCount.textContent = stats.medium || 0;
+            if (mediumCount) mediumCount.textContent = stats.by_difficulty?.Medium || 0;
             
             const hardCount = document.getElementById('hardCount');
-            if (hardCount) hardCount.textContent = stats.hard || 0;
+            if (hardCount) hardCount.textContent = stats.by_difficulty?.Hard || 0;
             
             const insaneCount = document.getElementById('insaneCount');
-            if (insaneCount) insaneCount.textContent = stats.insane || 0;
+            if (insaneCount) insaneCount.textContent = stats.by_difficulty?.Insane || 0;
+
+            // Update filter counts
+            if (window.updateFilterCounts) {
+                window.updateFilterCounts({
+                    all: stats.total,
+                    easy: stats.by_difficulty?.Easy || 0,
+                    medium: stats.by_difficulty?.Medium || 0,
+                    hard: stats.by_difficulty?.Hard || 0,
+                    insane: stats.by_difficulty?.Insane || 0,
+                    linux: stats.by_os?.Linux || 0,
+                    windows: stats.by_os?.Windows || 0
+                });
+            }
         }
     }
     
     // Render writeups
     function renderWriteups(writeups) {
+        if (!writeupsGrid) {
+            console.error('Writeups grid element not found');
+            return;
+        }
+        
         writeupsGrid.innerHTML = '';
         
         if (writeups.length === 0) {
@@ -88,6 +110,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const osIcons = {
                 'Linux': 'fab fa-linux',
                 'Windows': 'fab fa-windows',
+                'FreeBSD': 'fas fa-server',
                 'Other': 'fas fa-server'
             };
             
@@ -324,6 +347,31 @@ document.addEventListener('DOMContentLoaded', function() {
                 return sorted;
         }
     }
+
+    // Expose functions for global access
+    window.applyFilter = function(filter) {
+        const filteredWriteups = allWriteups.filter(writeup => {
+            if (filter === 'all') return true;
+            return writeup.difficulty.toLowerCase() === filter.toLowerCase() ||
+                   writeup.os.toLowerCase() === filter.toLowerCase() ||
+                   writeup.techniques.some(tech => tech.toLowerCase().includes(filter.toLowerCase()));
+        });
+        renderWriteups(filteredWriteups);
+    };
+
+    window.applySort = function(sortBy) {
+        const sorted = sortWriteups(allWriteups, sortBy);
+        renderWriteups(sorted);
+    };
+
+    window.applySearch = function(searchTerm) {
+        const filteredWriteups = allWriteups.filter(writeup => 
+            writeup.title.toLowerCase().includes(searchTerm) ||
+            writeup.excerpt.toLowerCase().includes(searchTerm) ||
+            writeup.techniques.some(tech => tech.toLowerCase().includes(searchTerm))
+        );
+        renderWriteups(filteredWriteups);
+    };
     
     // Initialize
     loadWriteups();
@@ -333,189 +381,3 @@ document.addEventListener('DOMContentLoaded', function() {
         addSortingControls();
     }, 100);
 });
-
-// Additional utility functions for individual writeup pages
-function initWriteupPage() {
-    // Add navigation between writeups
-    addWriteupNavigation();
-    
-    // Add copy buttons to code blocks
-    addCopyButtonsToCodeBlocks();
-    
-    // Add image zoom functionality
-    addImageZoom();
-    
-    // Generate table of contents
-    generateWriteupTOC();
-}
-
-// Add navigation between writeups
-function addWriteupNavigation() {
-    const navContainer = document.createElement('div');
-    navContainer.className = 'writeup-navigation';
-    navContainer.style.cssText = `
-        display: flex;
-        justify-content: space-between;
-        margin: 2rem 0;
-        padding: 1rem;
-        background: rgba(0,0,0,0.8);
-        border-radius: 10px;
-        border: 1px solid #333;
-    `;
-    
-    // This would be populated based on the current writeup and available writeups
-    navContainer.innerHTML = `
-        <a href="javascript:history.back()" class="nav-btn">
-            <i class="fas fa-arrow-left"></i> Back to Writeups
-        </a>
-        <div class="writeup-nav-links">
-            <a href="#" class="nav-btn disabled">
-                <i class="fas fa-chevron-left"></i> Previous
-            </a>
-            <a href="#" class="nav-btn disabled">
-                Next <i class="fas fa-chevron-right"></i>
-            </a>
-        </div>
-    `;
-    
-    const main = document.querySelector('main');
-    if (main) {
-        main.appendChild(navContainer);
-    }
-}
-
-// Add copy functionality to code blocks
-function addCopyButtonsToCodeBlocks() {
-    const codeBlocks = document.querySelectorAll('pre code, .code-block');
-    
-    codeBlocks.forEach(block => {
-        const button = document.createElement('button');
-        button.className = 'copy-code-btn';
-        button.innerHTML = '<i class="fas fa-copy"></i>';
-        button.title = 'Copy to clipboard';
-        
-        button.style.cssText = `
-            position: absolute;
-            top: 0.5rem;
-            right: 0.5rem;
-            background: rgba(0, 255, 0, 0.1);
-            color: var(--primary-color);
-            border: 1px solid var(--primary-color);
-            border-radius: 4px;
-            padding: 0.5rem;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-        `;
-        
-        button.addEventListener('click', async () => {
-            const text = block.textContent;
-            try {
-                await navigator.clipboard.writeText(text);
-                button.innerHTML = '<i class="fas fa-check"></i>';
-                setTimeout(() => {
-                    button.innerHTML = '<i class="fas fa-copy"></i>';
-                }, 2000);
-            } catch (err) {
-                console.error('Failed to copy:', err);
-            }
-        });
-        
-        const parent = block.parentNode;
-        if (parent && parent.tagName === 'PRE') {
-            parent.style.position = 'relative';
-            parent.appendChild(button);
-        }
-    });
-}
-
-// Add image zoom functionality
-function addImageZoom() {
-    const images = document.querySelectorAll('img');
-    
-    images.forEach(img => {
-        img.style.cursor = 'pointer';
-        img.addEventListener('click', function() {
-            // Create modal overlay
-            const modal = document.createElement('div');
-            modal.style.cssText = `
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: rgba(0,0,0,0.9);
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                z-index: 10000;
-                cursor: pointer;
-            `;
-            
-            const modalImg = document.createElement('img');
-            modalImg.src = this.src;
-            modalImg.style.cssText = `
-                max-width: 90%;
-                max-height: 90%;
-                object-fit: contain;
-            `;
-            
-            modal.appendChild(modalImg);
-            document.body.appendChild(modal);
-            
-            // Close on click
-            modal.addEventListener('click', () => {
-                document.body.removeChild(modal);
-            });
-        });
-    });
-}
-
-// Generate table of contents for writeups
-function generateWriteupTOC() {
-    const headings = document.querySelectorAll('h2, h3, h4');
-    if (headings.length === 0) return;
-    
-    const tocContainer = document.createElement('div');
-    tocContainer.className = 'writeup-toc';
-    tocContainer.style.cssText = `
-        background: rgba(0,0,0,0.8);
-        border: 1px solid #333;
-        border-radius: 10px;
-        padding: 1.5rem;
-        margin: 2rem 0;
-        position: sticky;
-        top: 2rem;
-    `;
-    
-    let tocHTML = '<h3 style="color: var(--primary-color); margin-bottom: 1rem;">Contents</h3><ul style="list-style: none; padding: 0;">';
-    
-    headings.forEach((heading, index) => {
-        if (!heading.id) {
-            heading.id = `heading-${index}`;
-        }
-        
-        const level = parseInt(heading.tagName.substring(1));
-        const indent = (level - 2) * 20;
-        
-        tocHTML += `
-            <li style="margin: 0.5rem 0; padding-left: ${indent}px;">
-                <a href="#${heading.id}" style="color: var(--text-color); text-decoration: none; transition: color 0.3s ease;">
-                    ${heading.textContent}
-                </a>
-            </li>
-        `;
-    });
-    
-    tocHTML += '</ul>';
-    tocContainer.innerHTML = tocHTML;
-    
-    // Insert after the first paragraph
-    const firstParagraph = document.querySelector('p');
-    if (firstParagraph) {
-        firstParagraph.parentNode.insertBefore(tocContainer, firstParagraph.nextSibling);
-    }
-}
-
-// Export functions for use in individual writeup pages
-window.initWriteupPage = initWriteupPage;
