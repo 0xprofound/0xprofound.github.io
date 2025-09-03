@@ -16,17 +16,16 @@
 }
   ],
   "stats": {
-    "total": 6,
+    "total": 1,
     "by_difficulty": {
-      "Easy": 2,
-      "Medium": 2,
-      "Hard": 1,
-      "Insane": 1
+      "Easy": 0,
+      "Medium": 1,
+      "Hard": 0,
+      "Insane": 0
     },
     "by_os": {
-      "Linux": 3,
-      "Windows": 2,
-      "FreeBSD": 1
+      "Linux": 0,
+      "Windows": 1
     }
   }
 }
