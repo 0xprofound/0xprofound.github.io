@@ -1,182 +1,231 @@
-// Component loader for consistent header, navigation, and footer
-class PortfolioComponents {
+// components.js - Universal Navbar and Footer System
+// This file should be placed in assets/js/components.js
+
+class NavigationComponent {
     constructor() {
-        this.componentsLoaded = false;
+        this.currentPath = window.location.pathname;
+        this.baseDepth = this.calculateDepth();
+        this.init();
     }
 
-    // Load all components
-    async loadAllComponents() {
-        if (this.componentsLoaded) return;
+    calculateDepth() {
+        const path = this.currentPath;
         
-        try {
-            await this.loadMenu();
-            await this.loadFooter();
-            await this.loadParticles();
-            this.initializeComponents();
-            this.componentsLoaded = true;
-        } catch (error) {
-            console.error('Error loading components:', error);
+        // Root level (index.html)
+        if (path === '/' || path.endsWith('/index.html') || path.match(/\/portfolio\/?$/)) {
+            return '';
         }
+        
+        // First level (pages/, blog/, projects/, writeups/)
+        if (path.includes('/pages/') || path.includes('/blog/') || 
+            path.includes('/projects/') || path.includes('/writeups/')) {
+            return '../';
+        }
+        
+        // Could be extended for deeper levels if needed
+        return '../';
     }
 
-    // Load menu component
-    async loadMenu() {
-        const menuPlaceholder = document.getElementById('menu-placeholder');
-        if (!menuPlaceholder) return;
-
-        try {
-            const response = await fetch('components/menu.html');
-            if (response.ok) {
-                menuPlaceholder.outerHTML = await response.text();
-                this.setActiveNavLink(); // Set active link after loading menu
-            }
-        } catch (error) {
-            console.error('Error loading menu:', error);
-            // Fallback to basic menu if fetch fails
-            menuPlaceholder.outerHTML = this.createFallbackMenu();
-            this.setActiveNavLink();
-        }
-    }
-
-    // Create fallback menu if component loading fails
-    createFallbackMenu() {
+    getNavHTML() {
+        const basePath = this.baseDepth;
+        
         return `
-            <header>
-                <nav class="nav-container">
-                    <div class="nav-brand">
+        <header>
+            <nav class="nav-container">
+                <div class="nav-brand">
+                    <a href="${basePath}index.html" class="logo-link">
                         <span class="logo-text">0xProfound</span>
-                    </div>
-                    <ul class="nav-menu" id="navMenu">
-                        <li><a href="../index.html" class="nav-link">Home</a></li>
-                        <li><a href="../pages/about.html" class="nav-link">About</a></li>
-                        <li><a href="../pages/machines.html" class="nav-link">HTB Machines</a></li>
-                        <li><a href="../blog/index.html" class="nav-link">Blog</a></li>
-                        <li><a href="../pages/contact.html" class="nav-link">Contact</a></li>
-                    </ul>
-                </nav>
-            </header>
-            <div class="mobile-menu-btn" id="mobileMenuBtn">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        `;
+                    </a>
+                </div>
+                
+                <!-- Mobile menu button -->
+                <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle navigation">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+
+                <ul class="nav-menu" id="navMenu">
+                    <li><a href="${basePath}index.html" class="nav-link ${this.isActive('index.html') ? 'active' : ''}">Home</a></li>
+                    <li><a href="${basePath}index.html#terminal" class="nav-link">Terminal</a></li>
+                    <li><a href="${basePath}pages/about.html" class="nav-link ${this.isActive('about.html') ? 'active' : ''}">About</a></li>
+                    <li><a href="${basePath}index.html#skills" class="nav-link">Skills</a></li>
+                    <li><a href="${basePath}pages/machines.html" class="nav-link ${this.isActive('machines.html') ? 'active' : ''}">HTB Machines</a></li>
+                    <li><a href="${basePath}writeups/index.html" class="nav-link ${this.isActive('writeups') ? 'active' : ''}">Writeups</a></li>
+                    <li><a href="${basePath}blog/index.html" class="nav-link ${this.isActive('blog') ? 'active' : ''}">Blog</a></li>
+                    <li><a href="${basePath}projects/index.html" class="nav-link ${this.isActive('projects') ? 'active' : ''}">Projects</a></li>
+                    <li><a href="${basePath}pages/timeline.html" class="nav-link ${this.isActive('timeline.html') ? 'active' : ''}">Journey</a></li>
+                    <li><a href="${basePath}pages/tools.html" class="nav-link ${this.isActive('tools.html') ? 'active' : ''}">Tools</a></li>
+                    <li><a href="${basePath}pages/contact.html" class="nav-link ${this.isActive('contact.html') ? 'active' : ''}">Contact</a></li>
+                </ul>
+            </nav>
+        </header>`;
     }
 
-    // Load footer component
-    async loadFooter() {
-        const footerPlaceholder = document.getElementById('footer-placeholder');
-        if (!footerPlaceholder) return;
-
-        try {
-            const response = await fetch('components/footer.html');
-            if (response.ok) {
-                footerPlaceholder.outerHTML = await response.text();
-            }
-        } catch (error) {
-            console.error('Error loading footer:', error);
-            // Fallback to basic footer
-            footerPlaceholder.outerHTML = this.createFallbackFooter();
-        }
-    }
-
-    // Create fallback footer
-    createFallbackFooter() {
+    getFooterHTML() {
+        const basePath = this.baseDepth;
+        const currentYear = new Date().getFullYear();
+        
         return `
-            <footer class="footer">
-                <div class="section-container">
-                    <div class="footer-content">
-                        <div class="footer-brand">
-                            <h3>0xProfound</h3>
-                            <p>Elite Cybersecurity Specialist</p>
-                        </div>
-                        <div class="footer-links">
-                            <a href="../pages/contact.html">Contact</a>
-                            <a href="https://github.com/0xProfound" target="_blank">GitHub</a>
-                            <a href="https://linkedin.com/in/0xprofound" target="_blank">LinkedIn</a>
+        <footer class="footer">
+            <div class="section-container">
+                <div class="footer-content">
+                    <div class="footer-brand">
+                        <h3>0xProfound</h3>
+                        <p>Elite Penetration Tester | DEPI VAPT Track | HTB Conqueror</p>
+                        <div class="footer-social">
+                            <a href="#" class="social-icon" aria-label="GitHub">
+                                <i class="fab fa-github"></i>
+                            </a>
+                            <a href="#" class="social-icon" aria-label="LinkedIn">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                            <a href="#" class="social-icon" aria-label="Twitter">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="#" class="social-icon" aria-label="Hack The Box">
+                                <i class="fas fa-cube"></i>
+                            </a>
                         </div>
                     </div>
-                    <div class="footer-bottom">
-                        <p>&copy; 2024 0xProfound. All rights reserved.</p>
+                    
+                    <div class="footer-links">
+                        <h4>Quick Links</h4>
+                        <a href="${basePath}pages/about.html">About Me</a>
+                        <a href="${basePath}pages/machines.html">HTB Machines</a>
+                        <a href="${basePath}blog/index.html">Blog Posts</a>
+                        <a href="${basePath}pages/timeline.html">Journey</a>
+                    </div>
+                    
+                    <div class="footer-links">
+                        <h4>Resources</h4>
+                        <a href="${basePath}writeups/index.html">Writeups</a>
+                        <a href="${basePath}projects/index.html">Projects</a>
+                        <a href="${basePath}pages/tools.html">Tools</a>
+                        <a href="${basePath}pages/contact.html">Contact</a>
+                    </div>
+                    
+                    <div class="footer-links">
+                        <h4>Learning</h4>
+                        <a href="https://hackthebox.com" target="_blank">Hack The Box</a>
+                        <a href="https://tryhackme.com" target="_blank">TryHackMe</a>
+                        <a href="https://portswigger.net/web-security" target="_blank">PortSwigger Academy</a>
+                        <a href="https://owasp.org" target="_blank">OWASP</a>
                     </div>
                 </div>
-            </footer>
-        `;
-    }
-
-    // Load particles background
-    async loadParticles() {
-        const particlesPlaceholder = document.getElementById('particles-placeholder');
-        if (!particlesPlaceholder) return;
-
-        particlesPlaceholder.outerHTML = '<div class="particles" id="particles"></div>';
-    }
-
-    // Initialize all components
-    initializeComponents() {
-        this.initMobileMenu();
-        this.initBackToTop();
-        this.initSmoothScrolling();
-    }
-
-    // Mobile menu functionality
-    initMobileMenu() {
-        // Wait a bit for DOM to be fully ready
-        setTimeout(() => {
-            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-            const navMenu = document.getElementById('navMenu');
-            
-            if (mobileMenuBtn && navMenu) {
-                mobileMenuBtn.addEventListener('click', () => {
-                    mobileMenuBtn.classList.toggle('active');
-                    navMenu.classList.toggle('active');
-                    
-                    // Prevent body scrolling when menu is open
-                    if (navMenu.classList.contains('active')) {
-                        document.body.style.overflow = 'hidden';
-                    } else {
-                        document.body.style.overflow = '';
-                    }
-                });
                 
-                // Close menu when clicking on links
-                const navLinks = document.querySelectorAll('.nav-link');
-                navLinks.forEach(link => {
-                    link.addEventListener('click', () => {
-                        mobileMenuBtn.classList.remove('active');
-                        navMenu.classList.remove('active');
-                        document.body.style.overflow = '';
-                    });
-                });
-                
-                // Close menu when clicking outside
-                document.addEventListener('click', (e) => {
-                    if (navMenu.classList.contains('active') && 
-                        !navMenu.contains(e.target) && 
-                        !mobileMenuBtn.contains(e.target)) {
-                        mobileMenuBtn.classList.remove('active');
-                        navMenu.classList.remove('active');
-                        document.body.style.overflow = '';
-                    }
-                });
-            }
-        }, 100);
+                <div class="footer-bottom">
+                    <p class="footer-credits">&copy; ${currentYear} 0xProfound. All rights reserved.</p>
+                    <p>Built with passion for cybersecurity</p>
+                </div>
+            </div>
+        </footer>`;
     }
 
-    // Back to top functionality
-    initBackToTop() {
-        const backToTopBtn = document.getElementById('backToTop');
-        if (!backToTopBtn) return;
+    isActive(page) {
+        const currentFile = this.currentPath.split('/').pop() || 'index.html';
+        const currentDir = this.currentPath.split('/').slice(-2)[0];
         
+        // Handle index.html cases
+        if (page === 'index.html') {
+            return currentFile === 'index.html' && !this.currentPath.includes('/pages/') && 
+                   !this.currentPath.includes('/blog/') && !this.currentPath.includes('/projects/') && 
+                   !this.currentPath.includes('/writeups/');
+        }
+        
+        // Handle directory-based navigation
+        if (page === 'blog' && (currentDir === 'blog' || this.currentPath.includes('/blog/'))) return true;
+        if (page === 'projects' && (currentDir === 'projects' || this.currentPath.includes('/projects/'))) return true;
+        if (page === 'writeups' && (currentDir === 'writeups' || this.currentPath.includes('/writeups/'))) return true;
+        
+        // Handle specific pages
+        return currentFile === page;
+    }
+
+    setupMobileMenu() {
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navMenu = document.getElementById('navMenu');
+        
+        if (mobileMenuBtn && navMenu) {
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenuBtn.classList.toggle('active');
+                navMenu.classList.toggle('active');
+            });
+
+            // Close menu when clicking nav links
+            const navLinks = navMenu.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenuBtn.classList.remove('active');
+                    navMenu.classList.remove('active');
+                });
+            });
+
+            // Close menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!mobileMenuBtn.contains(e.target) && !navMenu.contains(e.target)) {
+                    mobileMenuBtn.classList.remove('active');
+                    navMenu.classList.remove('active');
+                }
+            });
+        }
+    }
+
+    setupSmoothScrolling() {
+        // Handle smooth scrolling for anchor links
+        const anchorLinks = document.querySelectorAll('a[href*="#"]');
+        
+        anchorLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                
+                // Only handle internal anchor links
+                if (href.startsWith('#') || href.includes('index.html#')) {
+                    const targetId = href.split('#')[1];
+                    const targetElement = document.getElementById(targetId);
+                    
+                    if (targetElement) {
+                        e.preventDefault();
+                        
+                        // If we're on a different page, redirect with hash
+                        if (href.includes('index.html#') && !window.location.pathname.endsWith('index.html')) {
+                            window.location.href = href.replace('index.html', this.baseDepth + 'index.html');
+                            return;
+                        }
+                        
+                        // Smooth scroll to target
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                        
+                        // Update URL
+                        history.pushState(null, null, '#' + targetId);
+                    }
+                }
+            });
+        });
+    }
+
+    addBackToTopButton() {
+        // Create back to top button
+        const backToTop = document.createElement('button');
+        backToTop.innerHTML = '<i class="fas fa-arrow-up"></i>';
+        backToTop.className = 'back-to-top';
+        backToTop.setAttribute('aria-label', 'Back to top');
+        document.body.appendChild(backToTop);
+
+        // Show/hide on scroll
         window.addEventListener('scroll', () => {
             if (window.pageYOffset > 300) {
-                backToTopBtn.classList.add('visible');
+                backToTop.classList.add('visible');
             } else {
-                backToTopBtn.classList.remove('visible');
+                backToTop.classList.remove('visible');
             }
         });
-        
-        backToTopBtn.addEventListener('click', () => {
+
+        // Scroll to top on click
+        backToTop.addEventListener('click', () => {
             window.scrollTo({
                 top: 0,
                 behavior: 'smooth'
@@ -184,87 +233,97 @@ class PortfolioComponents {
         });
     }
 
-    // Smooth scrolling
-    initSmoothScrolling() {
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href');
-                if (targetId === '#') return;
-                
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    const headerOffset = 80;
-                    const elementPosition = targetElement.getBoundingClientRect().top;
-                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-                    
-                    window.scrollTo({
-                        top: offsetPosition,
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-    }
+    init() {
+        // Inject navbar
+        const menuPlaceholder = document.getElementById('menu-placeholder');
+        if (menuPlaceholder) {
+            menuPlaceholder.innerHTML = this.getNavHTML();
+        } else {
+            // Fallback: insert at beginning of body
+            document.body.insertAdjacentHTML('afterbegin', this.getNavHTML());
+        }
 
-    // Set active navigation link based on current page
-    // Set active navigation link based on current page
-setActiveNavLink() {
-    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-    const navLinks = document.querySelectorAll('.nav-link');
-    
-    // First, remove active class from all links
-    navLinks.forEach(link => link.classList.remove('active'));
-    
-    // Then find and activate the correct link
-    navLinks.forEach(link => {
-        const linkHref = link.getAttribute('href');
+        // Inject footer
+        const footerPlaceholder = document.getElementById('footer-placeholder');
+        if (footerPlaceholder) {
+            footerPlaceholder.innerHTML = this.getFooterHTML();
+        }
+
+        // Initialize functionality
+        this.setupMobileMenu();
+        this.setupSmoothScrolling();
+        this.addBackToTopButton();
         
-        // Handle index page
-        if (currentPage === 'index.html') {
-            if (linkHref === '../index.html' || linkHref === 'index.html' || linkHref === '#') {
-                link.classList.add('active');
-            }
-            // Handle hash links on homepage
-            else if (linkHref.includes('#') && linkHref.startsWith('#')) {
-                link.classList.add('active');
-            }
+        // Handle hash navigation on page load
+        if (window.location.hash) {
+            setTimeout(() => {
+                const target = document.querySelector(window.location.hash);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }, 100);
         }
-        // Handle about page
-        else if (currentPage === 'about.html' && linkHref.includes('about')) {
-            link.classList.add('active');
-        }
-        // Handle machines page
-        else if (currentPage === 'machines.html' && linkHref.includes('machines')) {
-            link.classList.add('active');
-        }
-        // Handle contact page
-        else if (currentPage === 'contact.html' && linkHref.includes('contact')) {
-            link.classList.add('active');
-        }
-        // Handle tools page
-        else if (currentPage === 'tools.html' && linkHref.includes('tools')) {
-            link.classList.add('active');
-        }
-        // Handle timeline page
-        else if (currentPage === 'timeline.html' && linkHref.includes('timeline')) {
-            link.classList.add('active');
-        }
-        // Handle blog pages
-        else if (currentPage.includes('blog') && linkHref.includes('blog')) {
-            link.classList.add('active');
-         }
-      });
-  }
+    }
 }
 
-// Initialize components when DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
-    const portfolio = new PortfolioComponents();
-    portfolio.loadAllComponents();
-    
-    // Also initialize particles
-    if (typeof createParticles === 'function') {
-        createParticles();
+// Particles Component (Optional - for pages that want particles)
+class ParticlesComponent {
+    constructor(containerId = 'particles-placeholder') {
+        this.container = document.getElementById(containerId);
+        if (this.container) {
+            this.init();
+        }
     }
+
+    init() {
+        // Create particles container
+        const particlesDiv = document.createElement('div');
+        particlesDiv.className = 'particles';
+        particlesDiv.id = 'particles';
+        this.container.appendChild(particlesDiv);
+
+        // Create particles
+        this.createParticles();
+    }
+
+    createParticles() {
+        const particlesContainer = document.getElementById('particles');
+        if (!particlesContainer) return;
+
+        const particleCount = Math.min(50, Math.max(20, window.innerWidth / 20));
+
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.innerHTML = Math.random() > 0.5 ? '0' : '1';
+            
+            // Random positioning and animation
+            particle.style.cssText = `
+                position: absolute;
+                color: rgba(0, 255, 0, 0.3);
+                font-family: 'Courier New', monospace;
+                font-size: ${Math.random() * 20 + 10}px;
+                left: ${Math.random() * 100}%;
+                animation-delay: ${Math.random() * 20}s;
+                animation-duration: ${Math.random() * 10 + 15}s;
+            `;
+            
+            particlesContainer.appendChild(particle);
+        }
+    }
+}
+
+// Auto-initialize when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize navigation
+    new NavigationComponent();
+    
+    // Initialize particles if placeholder exists
+    new ParticlesComponent();
+    
+    console.log('🔐 0xProfound Navigation System Loaded');
 });
+
+// Export for manual initialization if needed
+window.NavigationComponent = NavigationComponent;
+window.ParticlesComponent = ParticlesComponent;
