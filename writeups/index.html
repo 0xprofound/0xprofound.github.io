@@ -8,6 +8,198 @@
     <link rel="stylesheet" href="../assets/css/animations.css">
     <link rel="stylesheet" href="../assets/css/blog.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* New Layout Styles for Writeups Page */
+        .writeups-layout {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 3rem;
+            align-items: start;
+            margin-top: 2rem;
+        }
+        
+        .writeups-main {
+            min-width: 0; /* Prevents grid overflow */
+        }
+        
+        .writeups-sidebar {
+            position: sticky;
+            top: 2rem;
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid #333;
+            border-radius: 15px;
+            padding: 2rem;
+            height: fit-content;
+        }
+        
+        .search-header {
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid #333;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .search-container {
+            max-width: 100%;
+            margin: 0;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: rgba(0, 0, 0, 0.9);
+            border: 1px solid #333;
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 255, 0, 0.2);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        
+        .sidebar-filters {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        
+        .sidebar-filter-btn {
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid #333;
+            color: var(--text-color);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            font-size: 0.95rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .sidebar-filter-btn.active,
+        .sidebar-filter-btn:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            background: rgba(0, 255, 0, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .filter-count {
+            background: rgba(0, 255, 0, 0.2);
+            color: var(--primary-color);
+            padding: 0.25rem 0.5rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            min-width: 2rem;
+            text-align: center;
+        }
+        
+        .sort-controls {
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid #333;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .sort-controls label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+        
+        #sortSelect {
+            width: 100%;
+            padding: 0.75rem;
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid #333;
+            border-radius: 8px;
+            color: var(--text-color);
+            font-family: 'Courier New', monospace;
+            transition: all 0.3s ease;
+        }
+        
+        #sortSelect:focus {
+            border-color: var(--primary-color);
+            outline: none;
+        }
+        
+        @media (max-width: 1024px) {
+            .writeups-layout {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .writeups-sidebar {
+                position: static;
+                order: -1;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .search-header {
+                padding: 1.5rem;
+            }
+            
+            .writeups-sidebar {
+                padding: 1.5rem;
+            }
+            
+            .stat-number {
+                font-size: 2rem;
+            }
+        }
+        
+        /* Ensure writeup cards look good in the new layout */
+        .writeups-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+        }
+        
+        .writeup-card {
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid #333;
+            border-radius: 20px;
+            padding: 2.5rem;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .writeup-card:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 255, 0, 0.25);
+        }
+    </style>
 </head>
 <body>
     <div class="particles" id="particles"></div>
@@ -62,50 +254,100 @@
 
         <section class="writeups-content-section">
             <div class="section-container">
-                <!-- Stats Section -->
-                <div class="writeups-stats">
-                    <div class="stat-card">
-                        <div class="stat-number" id="writeupCount">37</div>
-                        <div class="stat-label">Total Writeups</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number" id="easyCount">15</div>
-                        <div class="stat-label">Easy Machines</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number" id="mediumCount">12</div>
-                        <div class="stat-label">Medium Machines</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number" id="hardCount">8</div>
-                        <div class="stat-label">Hard Machines</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number" id="insaneCount">2</div>
-                        <div class="stat-label">Insane Machines</div>
+                <!-- Search Header -->
+                <div class="search-header">
+                    <div class="search-container">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" id="writeupsSearch" placeholder="Search writeups by name, technique, or OS...">
                     </div>
                 </div>
                 
-                <!-- Add this after the stats section -->
-                <div class="search-container" style="margin: 2rem auto; max-width: 500px;">
-                    <i class="fas fa-search search-icon"></i>
-                    <input type="text" id="writeupsSearch" placeholder="Search writeups...">
-                </div>
-                
-                <!-- Filters -->
-                <div class="writeups-filters">
-                    <div class="filter-btn active" data-filter="all">All Writeups</div>
-                    <div class="filter-btn" data-filter="easy">Easy</div>
-                    <div class="filter-btn" data-filter="medium">Medium</div>
-                    <div class="filter-btn" data-filter="hard">Hard</div>
-                    <div class="filter-btn" data-filter="insane">Insane</div>
-                    <div class="filter-btn" data-filter="linux">Linux</div>
-                    <div class="filter-btn" data-filter="windows">Windows</div>
-                </div>
-                
-                <!-- Writeups Grid -->
-                <div class="writeups-grid" id="writeupsGrid">
-                    <!-- Writeups will be loaded dynamically -->
+                <div class="writeups-layout">
+                    <!-- Main Content Area -->
+                    <div class="writeups-main">
+                        <!-- Sort Controls -->
+                        <div class="sort-controls">
+                            <label for="sortSelect">Sort Writeups:</label>
+                            <select id="sortSelect">
+                                <option value="date-desc">Newest First</option>
+                                <option value="date-asc">Oldest First</option>
+                                <option value="difficulty-asc">Difficulty: Easy to Hard</option>
+                                <option value="difficulty-desc">Difficulty: Hard to Easy</option>
+                                <option value="name-asc">Name: A to Z</option>
+                                <option value="name-desc">Name: Z to A</option>
+                                <option value="rating-desc">Highest Rated</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Writeups Grid -->
+                        <div class="writeups-grid" id="writeupsGrid">
+                            <div class="loading">
+                                <i class="fas fa-spinner"></i>
+                                Loading writeups...
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Sidebar -->
+                    <div class="writeups-sidebar">
+                        <!-- Stats Section -->
+                        <h3 style="color: var(--primary-color); margin-bottom: 1.5rem; text-align: center;">Overview</h3>
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-number" id="writeupCount">0</div>
+                                <div class="stat-label">Total Writeups</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number" id="easyCount">0</div>
+                                <div class="stat-label">Easy Machines</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number" id="mediumCount">0</div>
+                                <div class="stat-label">Medium Machines</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number" id="hardCount">0</div>
+                                <div class="stat-label">Hard Machines</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number" id="insaneCount">0</div>
+                                <div class="stat-label">Insane Machines</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Quick Filters -->
+                        <h4 style="color: var(--text-color); margin-bottom: 1rem;">Quick Filters</h4>
+                        <div class="sidebar-filters">
+                            <div class="sidebar-filter-btn active" data-filter="all">
+                                <span>All Writeups</span>
+                                <span class="filter-count" id="countAll">0</span>
+                            </div>
+                            <div class="sidebar-filter-btn" data-filter="easy">
+                                <span>Easy</span>
+                                <span class="filter-count" id="countEasy">0</span>
+                            </div>
+                            <div class="sidebar-filter-btn" data-filter="medium">
+                                <span>Medium</span>
+                                <span class="filter-count" id="countMedium">0</span>
+                            </div>
+                            <div class="sidebar-filter-btn" data-filter="hard">
+                                <span>Hard</span>
+                                <span class="filter-count" id="countHard">0</span>
+                            </div>
+                            <div class="sidebar-filter-btn" data-filter="insane">
+                                <span>Insane</span>
+                                <span class="filter-count" id="countInsane">0</span>
+                            </div>
+                            <div class="sidebar-filter-btn" data-filter="linux">
+                                <span>Linux</span>
+                                <span class="filter-count" id="countLinux">0</span>
+                            </div>
+                            <div class="sidebar-filter-btn" data-filter="windows">
+                                <span>Windows</span>
+                                <span class="filter-count" id="countWindows">0</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -221,11 +463,10 @@
                     });
                 });
             }
-            // The filtering logic is now handled entirely by writeups.js
         });
     </script>
     
-    <!-- Include your existing writeups.js if you have specific functionality -->
+    <!-- Include your writeups.js -->
     <script src="../assets/js/writeups.js"></script>
 </body>
 </html>
