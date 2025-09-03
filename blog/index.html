@@ -91,6 +91,7 @@
             display: flex;
             gap: 0.5rem;
             flex-wrap: wrap;
+            max-width: 70%;
         }
         
         .blog-tag {
@@ -99,11 +100,13 @@
             color: var(--text-color);
             border-radius: 4px;
             font-size: 0.8rem;
+            white-space: nowrap;
         }
         
         .blog-read-time {
             color: var(--text-light);
             font-size: 0.9rem;
+            white-space: nowrap;
         }
         
         .blog-read-more {
@@ -129,6 +132,38 @@
             grid-column: 1 / -1;
         }
         
+        .search-container {
+            margin: 0 auto 2rem;
+            max-width: 500px;
+            position: relative;
+        }
+        
+        #blogSearch {
+            width: 100%; 
+            padding: 0.75rem 1rem; 
+            background: rgba(0,0,0,0.8); 
+            border: 2px solid #333; 
+            border-radius: 25px; 
+            color: var(--text-color);
+            font-family: 'Courier New', monospace;
+            padding-left: 2.5rem;
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+        }
+        
+        .loading {
+            text-align: center;
+            color: var(--text-light);
+            padding: 2rem;
+            grid-column: 1 / -1;
+        }
+        
         @media (max-width: 768px) {
             .blog-grid {
                 grid-template-columns: 1fr;
@@ -137,6 +172,20 @@
             .blog-filters {
                 flex-direction: column;
                 align-items: center;
+            }
+            
+            .blog-meta {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .blog-tags {
+                max-width: 100%;
+            }
+            
+            .blog-read-time {
+                align-self: flex-end;
             }
         }
     </style>
@@ -168,118 +217,57 @@
             <p class="subtitle">Cybersecurity insights, techniques, and knowledge sharing</p>
         </div>
         
+        <div class="search-container">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="blogSearch" placeholder="Search blog posts...">
+        </div>
+        
         <div class="blog-filters">
             <div class="filter-btn active" data-filter="all">All Posts</div>
-            <div class="filter-btn" data-filter="adcs">ADCS</div>
-            <div class="filter-btn" data-filter="active-directory">Active Directory</div>
-            <div class="filter-btn" data-filter="privesc">Privilege Escalation</div>
-            <div class="filter-btn" data-filter="windows">Windows</div>
-            <div class="filter-btn" data-filter="linux">Linux</div>
-            <div class="filter-btn" data-filter="htb">HTB</div>
+            <div class="filter-btn" data-filter="ADCS">ADCS</div>
+            <div class="filter-btn" data-filter="Active Directory">Active Directory</div>
+            <div class="filter-btn" data-filter="Privilege Escalation">Privilege Escalation</div>
+            <div class="filter-btn" data-filter="Windows">Windows</div>
+            <div class="filter-btn" data-filter="Linux">Linux</div>
+            <div class="filter-btn" data-filter="HTB">HTB</div>
         </div>
         
         <div class="blog-grid" id="blogGrid">
-            <!-- Blog posts will be loaded dynamically -->
+            <div class="loading">Loading blog posts...</div>
         </div>
     </section>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Blog posts data - you can add more posts here
-            const blogPosts = [
-                {
-                    id: 'adcs-esc1',
-                    title: 'ADCS ESC1 Vulnerability Deep Dive',
-                    excerpt: 'Exploiting Misconfigured Certificate Templates for Domain Privilege Escalation. Learn how to identify and exploit ESC1 vulnerabilities in Active Directory Certificate Services.',
-                    date: '2024-06-15',
-                    readTime: '15 min',
-                    tags: ['ADCS', 'Active Directory', 'PrivEsc', 'Windows', 'HTB'],
-                    category: 'adcs'
-                },
-                {
-                    id: 'adcs-esc2',
-                    title: 'ADCS ESC2: Certificate Templates with Any Purpose EKU',
-                    excerpt: 'Understanding how certificate templates with "Any Purpose" Extended Key Usage can be abused for authentication and privilege escalation.',
-                    date: '2024-06-20',
-                    readTime: '12 min',
-                    tags: ['ADCS', 'Active Directory', 'PrivEsc', 'Windows'],
-                    category: 'adcs'
-                },
-                {
-                    id: 'adcs-esc3',
-                    title: 'ADCS ESC3: Enrollment Agent Abuse',
-                    excerpt: 'Exploiting Enrollment Agent certificate templates to request certificates on behalf of other users and gain unauthorized access.',
-                    date: '2024-06-25',
-                    readTime: '10 min',
-                    tags: ['ADCS', 'Active Directory', 'PrivEsc', 'Windows'],
-                    category: 'adcs'
-                },
-                {
-                    id: 'adcs-esc4',
-                    title: 'ADCS ESC4: Writeable Certificate Templates',
-                    excerpt: 'How attackers can modify certificate templates with write permissions to create vulnerable configurations for privilege escalation.',
-                    date: '2024-06-30',
-                    readTime: '14 min',
-                    tags: ['ADCS', 'Active Directory', 'PrivEsc', 'Windows'],
-                    category: 'adcs'
-                },
-                {
-                    id: 'adcs-esc6',
-                    title: 'ADCS ESC6: EDITF_ATTRIBUTESUBJECTALTNAME2 Abuse',
-                    excerpt: 'Exploiting the dangerous EDITF_ATTRIBUTESUBJECTALTNAME2 flag that affects all certificates issued by a CA.',
-                    date: '2024-07-05',
-                    readTime: '16 min',
-                    tags: ['ADCS', 'Active Directory', 'PrivEsc', 'Windows'],
-                    category: 'adcs'
-                },
-                {
-                    id: 'adcs-esc8',
-                    title: 'ADCS ESC8: HTTP Web Enrollment NTLM Relay',
-                    excerpt: 'Using NTLM relay attacks against AD CS HTTP Web Enrollment endpoints to achieve domain compromise.',
-                    date: '2024-07-10',
-                    readTime: '18 min',
-                    tags: ['ADCS', 'Active Directory', 'PrivEsc', 'Windows', 'NTLM'],
-                    category: 'adcs'
-                },
-                {
-                    id: 'windows-privesc',
-                    title: 'Windows Privilege Escalation Techniques',
-                    excerpt: 'Comprehensive guide to Windows privilege escalation methods, from service misconfigurations to token manipulation.',
-                    date: '2024-07-15',
-                    readTime: '20 min',
-                    tags: ['Windows', 'PrivEsc', 'Active Directory'],
-                    category: 'windows'
-                },
-                {
-                    id: 'linux-privesc',
-                    title: 'Linux Privilege Escalation Methods',
-                    excerpt: 'Exploring various Linux privilege escalation vectors including SUID binaries, cron jobs, and kernel exploits.',
-                    date: '2024-07-20',
-                    readTime: '18 min',
-                    tags: ['Linux', 'PrivEsc'],
-                    category: 'linux'
-                },
-                {
-                    id: 'bloodhound-guide',
-                    title: 'BloodHound: Active Directory Attack Path Analysis',
-                    excerpt: 'Mastering BloodHound for visualizing and exploiting attack paths in Active Directory environments.',
-                    date: '2024-07-25',
-                    readTime: '22 min',
-                    tags: ['Active Directory', 'BloodHound', 'Reconnaissance'],
-                    category: 'active-directory'
-                },
-                {
-                    id: 'kerberos-attacks',
-                    title: 'Kerberos Attack Techniques',
-                    excerpt: 'Understanding and exploiting Kerberos authentication vulnerabilities including Golden Ticket, Silver Ticket, and Kerberoasting.',
-                    date: '2024-08-01',
-                    readTime: '25 min',
-                    tags: ['Active Directory', 'Kerberos', 'Windows'],
-                    category: 'active-directory'
-                }
-            ];
-            
             const blogGrid = document.getElementById('blogGrid');
+            let allBlogPosts = [];
+            
+            // Load blog posts from JSON
+            async function loadBlogPosts() {
+                try {
+                    const response = await fetch('../assets/data/blog.json');
+                    if (!response.ok) {
+                        throw new Error('Failed to load blog posts');
+                    }
+                    
+                    const data = await response.json();
+                    allBlogPosts = data.posts;
+                    
+                    // Initial render
+                    renderBlogPosts(allBlogPosts);
+                    setupFiltering();
+                    setupSearch();
+                    
+                } catch (error) {
+                    console.error('Error loading blog posts:', error);
+                    blogGrid.innerHTML = `
+                        <div class="no-posts">
+                            <p>Error loading blog posts. Please try again later.</p>
+                            <p>${error.message}</p>
+                        </div>
+                    `;
+                }
+            }
             
             // Render blog posts
             function renderBlogPosts(posts) {
@@ -290,67 +278,69 @@
                     return;
                 }
                 
+                // Sort posts by date (newest first)
+                posts.sort((a, b) => new Date(b.date) - new Date(a.date));
+                
                 posts.forEach(post => {
                     const blogCard = document.createElement('div');
                     blogCard.className = 'blog-card';
                     
                     blogCard.innerHTML = `
-                        <div class="blog-date">${new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</div>
+                        <div class="blog-date">${formatDate(post.date)}</div>
                         <h3 class="blog-title">${post.title}</h3>
                         <p class="blog-excerpt">${post.excerpt}</p>
                         <div class="blog-meta">
                             <div class="blog-tags">
                                 ${post.tags.map(tag => `<span class="blog-tag">${tag}</span>`).join('')}
                             </div>
-                            <span class="blog-read-time">${post.readTime} read</span>
+                            <span class="blog-read-time">${post.read_time} read</span>
                         </div>
-                        <a href="${post.id}.html" class="blog-read-more">Read More</a>
+                        <a href="${post.slug}.html" class="blog-read-more">Read More</a>
                     `;
                     
                     blogGrid.appendChild(blogCard);
                 });
             }
             
-            // Initial render
-            renderBlogPosts(blogPosts);
-            
-            // Filter functionality
-            const filterBtns = document.querySelectorAll('.filter-btn');
-            
-            filterBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    // Remove active class from all buttons
-                    filterBtns.forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    
-                    const filter = btn.dataset.filter;
-                    
-                    if (filter === 'all') {
-                        renderBlogPosts(blogPosts);
-                    } else {
-                        const filteredPosts = blogPosts.filter(post => 
-                            post.category === filter || post.tags.includes(filter)
-                        );
-                        renderBlogPosts(filteredPosts);
-                    }
+            // Format date to readable format
+            function formatDate(dateString) {
+                const date = new Date(dateString);
+                return date.toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
                 });
-            });
+            }
             
-            // Add search functionality
-            const addSearch = () => {
-                const searchContainer = document.createElement('div');
-                searchContainer.style.margin = '0 auto 2rem';
-                searchContainer.style.maxWidth = '500px';
+            // Setup filtering functionality
+            function setupFiltering() {
+                const filterBtns = document.querySelectorAll('.filter-btn');
                 
-                searchContainer.innerHTML = `
-                    <input type="text" id="blogSearch" placeholder="Search blog posts..." 
-                           style="width: 100%; padding: 0.75rem; background: rgba(0,0,0,0.8); 
-                                  border: 2px solid #333; border-radius: 25px; color: var(--text-color);
-                                  font-family: 'Courier New', monospace;">
-                `;
-                
-                document.querySelector('.blog-header').after(searchContainer);
-                
+                filterBtns.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        // Remove active class from all buttons
+                        filterBtns.forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+                        
+                        const filter = btn.dataset.filter;
+                        
+                        if (filter === 'all') {
+                            renderBlogPosts(allBlogPosts);
+                        } else {
+                            const filteredPosts = allBlogPosts.filter(post => 
+                                post.tags.includes(filter)
+                            );
+                            renderBlogPosts(filteredPosts);
+                        }
+                        
+                        // Clear search input
+                        document.getElementById('blogSearch').value = '';
+                    });
+                });
+            }
+            
+            // Setup search functionality
+            function setupSearch() {
                 const searchInput = document.getElementById('blogSearch');
                 
                 searchInput.addEventListener('input', () => {
@@ -360,10 +350,10 @@
                         const activeFilter = document.querySelector('.filter-btn.active').dataset.filter;
                         
                         if (activeFilter === 'all') {
-                            renderBlogPosts(blogPosts);
+                            renderBlogPosts(allBlogPosts);
                         } else {
-                            const filteredPosts = blogPosts.filter(post => 
-                                post.category === activeFilter || post.tags.includes(activeFilter)
+                            const filteredPosts = allBlogPosts.filter(post => 
+                                post.tags.includes(activeFilter)
                             );
                             renderBlogPosts(filteredPosts);
                         }
@@ -371,7 +361,7 @@
                         return;
                     }
                     
-                    const filteredPosts = blogPosts.filter(post => 
+                    const filteredPosts = allBlogPosts.filter(post => 
                         post.title.toLowerCase().includes(searchTerm) ||
                         post.excerpt.toLowerCase().includes(searchTerm) ||
                         post.tags.some(tag => tag.toLowerCase().includes(searchTerm))
@@ -379,9 +369,10 @@
                     
                     renderBlogPosts(filteredPosts);
                 });
-            };
+            }
             
-            addSearch();
+            // Initialize
+            loadBlogPosts();
         });
     </script>
     <script src="../assets/js/particles.js"></script>
