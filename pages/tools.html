@@ -5,17 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tools & Resources - 0xProfound</title>
     <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="stylesheet" href="../assets/css/animations.css">
     <link rel="stylesheet" href="../assets/css/blog.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        .tools-header {
+        .tools-hero {
+            padding: 8rem 0 4rem;
             text-align: center;
-            margin-bottom: 3rem;
+        }
+        
+        .tools-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            margin-top: 1rem;
         }
         
         .tools-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 2rem;
+            margin-top: 3rem;
         }
         
         .tool-category {
@@ -29,6 +38,7 @@
         .tool-category:hover {
             border-color: var(--primary-color);
             transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 255, 0, 0.2);
         }
         
         .tool-category-title {
@@ -43,10 +53,15 @@
             align-items: center;
             padding: 1rem 0;
             border-bottom: 1px solid #333;
+            transition: all 0.3s ease;
         }
         
         .tool-item:last-child {
             border-bottom: none;
+        }
+        
+        .tool-item:hover {
+            padding-left: 0.5rem;
         }
         
         .tool-icon {
@@ -61,6 +76,7 @@
             color: #000;
             font-weight: bold;
             flex-shrink: 0;
+            font-size: 1.2rem;
         }
         
         .tool-info {
@@ -71,178 +87,331 @@
             color: var(--primary-color);
             font-weight: bold;
             margin-bottom: 0.25rem;
+            font-size: 1.1rem;
         }
         
         .tool-description {
             color: var(--text-color);
             font-size: 0.9rem;
+            line-height: 1.4;
         }
         
         @media (max-width: 768px) {
             .tools-grid {
                 grid-template-columns: 1fr;
             }
+            
+            .tool-category {
+                padding: 1.5rem;
+            }
         }
     </style>
 </head>
 <body>
     <div class="particles" id="particles"></div>
-
+    
+    <!-- Navigation Bar -->
     <header>
-        <nav class="container">
-            <ul>
-                <li><a href="../index.html">Home</a></li>
-                <li><a href="../index.html#terminal">Terminal</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="../index.html#skills">Skills</a></li>
-                <li><a href="machines.html">HTB Machines</a></li>
-                <li><a href="blog/index.html">Blog</a></li>
-                <li><a href="timeline.html">Journey</a></li>
-                <li><a href="../index.html#learning">Learning Path</a></li>
-                <li><a class="active" href="tools.html">Tools</a></li>
-                <li><a href="../index.html#activity">Activity</a></li>
-                <li><a href="contact.html">Contact</a></li>
+        <nav class="nav-container">
+            <div class="nav-brand">
+                <a href="../index.html" class="logo-link">
+                    <span class="logo-text">0xProfound</span>
+                </a>
+            </div>
+            
+            <!-- Mobile menu button -->
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="../index.html" class="nav-link">Home</a></li>
+                <li><a href="../index.html#terminal" class="nav-link">Terminal</a></li>
+                <li><a href="../pages/about.html" class="nav-link">About</a></li>
+                <li><a href="../index.html#skills" class="nav-link">Skills</a></li>
+                <li><a href="../pages/machines.html" class="nav-link">HTB Machines</a></li>
+                <li><a href="../writeups/index.html" class="nav-link">Writeups</a></li>
+                <li><a href="../blog/index.html" class="nav-link">Blog</a></li>
+                <li><a href="../projects/index.html" class="nav-link">Projects</a></li>
+                <li><a href="../pages/timeline.html" class="nav-link">Journey</a></li>
+                <li><a href="../pages/tools.html" class="nav-link active">Tools</a></li>
+                <li><a href="../pages/contact.html" class="nav-link">Contact</a></li>
             </ul>
         </nav>
     </header>
 
-    <section class="container">
-        <div class="tools-header">
-            <h1 class="section-title">Arsenal & Resources</h1>
-            <p class="subtitle">Tools, scripts, and resources for penetration testing</p>
+    <main>
+        <!-- Hero Section -->
+        <section class="tools-hero">
+            <div class="section-container">
+                <h1 class="section-title">Arsenal & Resources</h1>
+                <p class="tools-subtitle">Tools, scripts, and resources for penetration testing</p>
+            </div>
+        </section>
+
+        <!-- Tools Content Section -->
+        <section class="tools-content-section">
+            <div class="section-container">
+                <div class="tools-grid">
+                    <div class="tool-category">
+                        <h3 class="tool-category-title">
+                            <i class="fas fa-search" style="margin-right: 0.5rem;"></i>
+                            Reconnaissance
+                        </h3>
+                        <div class="tool-item">
+                            <div class="tool-icon">N</div>
+                            <div class="tool-info">
+                                <div class="tool-name">Nmap</div>
+                                <div class="tool-description">Network discovery and security auditing - the essential port scanner</div>
+                            </div>
+                        </div>
+                        <div class="tool-item">
+                            <div class="tool-icon">G</div>
+                            <div class="tool-info">
+                                <div class="tool-name">Gobuster</div>
+                                <div class="tool-description">Directory/file/DNS busting tool written in Go</div>
+                            </div>
+                        </div>
+                        <div class="tool-item">
+                            <div class="tool-icon">F</div>
+                            <div class="tool-info">
+                                <div class="tool-name">ffuf</div>
+                                <div class="tool-description">Fast web fuzzer written in Go for content discovery</div>
+                            </div>
+                        </div>
+                        <div class="tool-item">
+                            <div class="tool-icon">R</div>
+                            <div class="tool-info">
+                                <div class="tool-name">Recon-ng</div>
+                                <div class="tool-description">Full-featured reconnaissance framework with modules</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tool-category">
+                        <h3 class="tool-category-title">
+                            <i class="fas fa-globe" style="margin-right: 0.5rem;"></i>
+                            Web Application Testing
+                        </h3>
+                        <div class="tool-item">
+                            <div class="tool-icon">B</div>
+                            <div class="tool-info">
+                                <div class="tool-name">Burp Suite</div>
+                                <div class="tool-description">Integrated platform for web app security testing</div>
+                            </div>
+                        </div>
+                        <div class="tool-item">
+                            <div class="tool-icon">S</div>
+                            <div class="tool-info">
+                                <div class="tool-name">SQLMap</div>
+                                <div class="tool-description">Automatic SQL injection exploitation tool</div>
+                            </div>
+                        </div>
+                        <div class="tool-item">
+                            <div class="tool-icon">O</div>
+                            <div class="tool-info">
+                                <div class="tool-name">OWASP ZAP</div>
+                                <div class="tool-description">Free security testing proxy for web applications</div>
+                            </div>
+                        </div>
+                        <div class="tool-item">
+                            <div class="tool-icon">N</div>
+                            <div class="tool-info">
+                                <div class="tool-name">Nikto</div>
+                                <div class="tool-description">Web server scanner for vulnerabilities and misconfigurations</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tool-category">
+                        <h3 class="tool-category-title">
+                            <i class="fas fa-bug" style="margin-right: 0.5rem;"></i>
+                            Exploitation & Post-Exploitation
+                        </h3>
+                        <div class="tool-item">
+                            <div class="tool-icon">M</div>
+                            <div class="tool-info">
+                                <div class="tool-name">Metasploit</div>
+                                <div class="tool-description">Advanced exploitation framework with extensive payload library</div>
+                            </div>
+                        </div>
+                        <div class="tool-item">
+                            <div class="tool-icon">E</div>
+                            <div class="tool-info">
+                                <div class="tool-name">Empire</div>
+                                <div class="tool-description">PowerShell and Python post-exploitation agent</div>
+                            </div>
+                        </div>
+                        <div class="tool-item">
+                            <div class="tool-icon">C</div>
+                            <div class="tool-info">
+                                <div class="tool-name">Cobalt Strike</div>
+                                <div class="tool-description">Advanced threat emulation software for red teams</div>
+                            </div>
+                        </div>
+                        <div class="tool-item">
+                            <div class="tool-icon">L</div>
+                            <div class="tool-info">
+                                <div class="tool-name">LinEnum/WinPEAS</div>
+                                <div class="tool-description">Privilege escalation enumeration scripts</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tool-category">
+                        <h3 class="tool-category-title">
+                            <i class="fas fa-code" style="margin-right: 0.5rem;"></i>
+                            Custom Scripts & Automation
+                        </h3>
+                        <div class="tool-item">
+                            <div class="tool-icon">P</div>
+                            <div class="tool-info">
+                                <div class="tool-name">AutoRecon.py</div>
+                                <div class="tool-description">My custom reconnaissance automation framework</div>
+                            </div>
+                        </div>
+                        <div class="tool-item">
+                            <div class="tool-icon">E</div>
+                            <div class="tool-info">
+                                <div class="tool-name">ExploitHelper.sh</div>
+                                <div class="tool-description">Bash script for rapid exploit deployment</div>
+                            </div>
+                        </div>
+                        <div class="tool-item">
+                            <div class="tool-icon">R</div>
+                            <div class="tool-info">
+                                <div class="tool-name">ReportGen.py</div>
+                                <div class="tool-description">Automated penetration test report generator</div>
+                            </div>
+                        </div>
+                        <div class="tool-item">
+                            <div class="tool-icon">O</div>
+                            <div class="tool-info">
+                                <div class="tool-name">Obsidian Templates</div>
+                                <div class="tool-description">Structured note-taking templates for consistency</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tools Stats Section -->
+        <section class="tools-stats-section">
+            <div class="section-container">
+                <h2 class="section-title">Tool Mastery Progress</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">25+</div>
+                        <div class="stat-label">Security Tools Mastered</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-number">15+</div>
+                        <div class="stat-label">Custom Scripts Developed</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-number">100+</div>
+                        <div class="stat-label">Hours of Tool Training</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-number">∞</div>
+                        <div class="stat-label">Learning New Techniques</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="section-container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h3>0xProfound</h3>
+                    <p>Elite Penetration Tester | DEPI VAPT Track | HTB Conqueror</p>
+                    <div class="footer-social">
+                        <a href="#" class="social-icon" aria-label="GitHub">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="#" class="social-icon" aria-label="LinkedIn">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="#" class="social-icon" aria-label="Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="social-icon" aria-label="Hack The Box">
+                            <i class="fas fa-cube"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <a href="../pages/about.html">About Me</a>
+                    <a href="../pages/machines.html">HTB Machines</a>
+                    <a href="../blog/index.html">Blog Posts</a>
+                    <a href="../pages/timeline.html">Journey</a>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Resources</h4>
+                    <a href="../writeups/index.html">Writeups</a>
+                    <a href="../projects/index.html">Projects</a>
+                    <a href="../pages/tools.html">Tools</a>
+                    <a href="../pages/contact.html">Contact</a>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Learning</h4>
+                    <a href="https://hackthebox.com" target="_blank">Hack The Box</a>
+                    <a href="https://tryhackme.com" target="_blank">TryHackMe</a>
+                    <a href="https://portswigger.net/web-security" target="_blank">PortSwigger Academy</a>
+                    <a href="https://owasp.org" target="_blank">OWASP</a>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p class="footer-credits">&copy; 2024 0xProfound. All rights reserved.</p>
+                <p>Built with passion for cybersecurity</p>
+            </div>
         </div>
-        
-        <div class="tools-grid">
-            <div class="tool-category">
-                <h3 class="tool-category-title">Reconnaissance</h3>
-                <div class="tool-item">
-                    <div class="tool-icon">N</div>
-                    <div class="tool-info">
-                        <div class="tool-name">Nmap</div>
-                        <div class="tool-description">Network discovery and security auditing</div>
-                    </div>
-                </div>
-                <div class="tool-item">
-                    <div class="tool-icon">G</div>
-                    <div class="tool-info">
-                        <div class="tool-name">Gobuster</div>
-                        <div class="tool-description">Directory/file/DNS busting tool</div>
-                    </div>
-                </div>
-                <div class="tool-item">
-                    <div class="tool-icon">F</div>
-                    <div class="tool-info">
-                        <div class="tool-name">ffuf</div>
-                        <div class="tool-description">Fast web fuzzer written in Go</div>
-                    </div>
-                </div>
-                <div class="tool-item">
-                    <div class="tool-icon">R</div>
-                    <div class="tool-info">
-                        <div class="tool-name">Recon-ng</div>
-                        <div class="tool-description">Full-featured reconnaissance framework</div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="tool-category">
-                <h3 class="tool-category-title">Web Application Testing</h3>
-                <div class="tool-item">
-                    <div class="tool-icon">B</div>
-                    <div class="tool-info">
-                        <div class="tool-name">Burp Suite</div>
-                        <div class="tool-description">Integrated platform for web app security testing</div>
-                    </div>
-                </div>
-                <div class="tool-item">
-                    <div class="tool-icon">S</div>
-                    <div class="tool-info">
-                        <div class="tool-name">SQLMap</div>
-                        <div class="tool-description">Automatic SQL injection exploitation tool</div>
-                    </div>
-                </div>
-                <div class="tool-item">
-                    <div class="tool-icon">O</div>
-                    <div class="tool-info">
-                        <div class="tool-name">OWASP ZAP</div>
-                        <div class="tool-description">Free security testing proxy</div>
-                    </div>
-                </div>
-                <div class="tool-item">
-                    <div class="tool-icon">N</div>
-                    <div class="tool-info">
-                        <div class="tool-name">Nikto</div>
-                        <div class="tool-description">Web server scanner for vulnerabilities</div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="tool-category">
-                <h3 class="tool-category-title">Exploitation & Post-Exploitation</h3>
-                <div class="tool-item">
-                    <div class="tool-icon">M</div>
-                    <div class="tool-info">
-                        <div class="tool-name">Metasploit</div>
-                        <div class="tool-description">Advanced exploitation framework</div>
-                    </div>
-                </div>
-                <div class="tool-item">
-                    <div class="tool-icon">E</div>
-                    <div class="tool-info">
-                        <div class="tool-name">Empire</div>
-                        <div class="tool-description">PowerShell and Python post-exploitation agent</div>
-                    </div>
-                </div>
-                <div class="tool-item">
-                    <div class="tool-icon">C</div>
-                    <div class="tool-info">
-                        <div class="tool-name">Cobalt Strike</div>
-                        <div class="tool-description">Advanced threat emulation software</div>
-                    </div>
-                </div>
-                <div class="tool-item">
-                    <div class="tool-icon">L</div>
-                    <div class="tool-info">
-                        <div class="tool-name">LinEnum/WinPEAS</div>
-                        <div class="tool-description">Privilege escalation enumeration scripts</div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="tool-category">
-                <h3 class="tool-category-title">Custom Scripts & Automation</h3>
-                <div class="tool-item">
-                    <div class="tool-icon">P</div>
-                    <div class="tool-info">
-                        <div class="tool-name">AutoRecon.py</div>
-                        <div class="tool-description">My custom reconnaissance automation framework</div>
-                    </div>
-                </div>
-                <div class="tool-item">
-                    <div class="tool-icon">E</div>
-                    <div class="tool-info">
-                        <div class="tool-name">ExploitHelper.sh</div>
-                        <div class="tool-description">Bash script for rapid exploit deployment</div>
-                    </div>
-                </div>
-                <div class="tool-item">
-                    <div class="tool-icon">R</div>
-                    <div class="tool-info">
-                        <div class="tool-name">ReportGen.py</div>
-                        <div class="tool-description">Automated penetration test report generator</div>
-                    </div>
-                </div>
-                <div class="tool-item">
-                    <div class="tool-icon">O</div>
-                    <div class="tool-info">
-                        <div class="tool-name">Obsidian Templates</div>
-                        <div class="tool-description">Structured note-taking templates for consistency</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    </footer>
+
+    <!-- Back to top button -->
+    <button class="back-to-top" id="backToTop" aria-label="Back to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
 
     <script src="../assets/js/particles.js"></script>
-</body>
-</html>
+    <script>
+        // Mobile menu functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const navMenu = document.getElementById('navMenu');
+            const backToTop = document.getElementById('backToTop');
+
+            // Mobile menu toggle
+            if (mobileMenuBtn && navMenu) {
+                mobileMenuBtn.addEventListener('click', function() {
+                    mobileMenuBtn.classList.toggle('active');
+                    navMenu.classList.toggle('active');
+                });
+
+                // Close menu when clicking nav links
+                const navLinks = navMenu.querySelectorAll('.nav-link');
+                navLinks.forEach(link => {
+                    link.addEventListener('click', function() {
+                        mobileMenuBtn.classList.remove('active');
+                        navMenu.classList.remove('active');
+                    });
+                });
+
+                // Close menu when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (!mobileMenuBtn.contains(e.target) && !navMenu.contains(e.target)) {
+                        mobileMenuBtn.classList
