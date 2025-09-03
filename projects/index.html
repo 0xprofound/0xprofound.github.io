@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects - 0xProfound</title>
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="stylesheet" href="../assets/css/animations.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Modern Layout Styles */
+        .projects-layout {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 3rem;
+            align-items: start;
+            margin-top: 2rem;
+        }
+        
+        .projects-main {
+            min-width: 0;
+        }
+        
+        .projects-sidebar {
+            position: sticky;
+            top: 2rem;
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid #333;
+            border-radius: 15px;
+            padding: 2rem;
+            height: fit-content;
+        }
+        
+        .welcome-message {
+            background: rgba(0, 255, 0, 0.1);
+            border: 2px solid var(--primary-color);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            grid-column: 1 / -1;
+        }
+        
+        .welcome-message h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+        }
+        
+        .welcome-message p {
+            color: var(--text-color);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        
+        .motivation-text {
+            font-style: italic;
+            color: var(--text-light);
+            border-left: 3px solid var(--primary-color);
+            padding-left: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        .search-header {
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid #333;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            grid-column: 1 / -1;
+        }
+        
+        .search-container {
+            position: relative;
+            max-width: 100%;
+            margin: 0;
+        }
+        
+        .search-container .search-icon {
+            position: absolute;
+            left: 1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+            z-index: 2;
+            font-size: 1.2rem;
+        }
+        
+        .search-container #projectsSearch {
+            width: 100%;
+            padding: 1.25rem 1.5rem 1.25rem 4rem;
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid #333;
+            border-radius: 15px;
+            color: var(--text-color);
+            font-family: 'Courier New', monospace;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .search-container #projectsSearch:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 25px rgba(0, 255, 0, 0.3);
+            background: rgba(0, 0, 0, 0.95);
+        }
+        
+        .search-container #projectsSearch::placeholder {
+            color: var(--text-light);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin-bottom: 2.5rem;
+        }
+        
+        .stat-card {
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid #333;
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 255, 0, 0.2);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+        }
+        
+        .stat-label {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .sidebar-filters {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        
+        .sidebar-filter-btn {
+            padding: 1rem 1.25rem;
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid #333;
+            color: var(--text-color);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+        
+        .sidebar-filter-btn.active,
+        .sidebar-filter-btn:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            background: rgba(0, 255, 0, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 255, 0, 0.2);
+        }
+        
+        .filter-count {
+            background: rgba(0, 255, 0, 0.15);
+            color: var(--primary-color);
+            padding: 0.3rem 0.7rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            min-width: 2.2rem;
+            text-align: center;
+            border: 1px solid rgba(0, 255, 0, 0.3);
+        }
+        
+        .sort-controls {
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid #333;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .sort-controls label {
+            display: block;
+            margin-bottom: 1rem;
+            color: var(--text-light);
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        #sortSelect {
+            width: 100%;
+            padding: 0.9rem;
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid #333;
+            border-radius: 8px;
+            color: var(--text-color);
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        #sortSelect:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.2);
+        }
+        
+        .sidebar-section-title {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-size: 1.3rem;
+            font-weight: 600;
+            text-shadow: 0 0 8px rgba(0, 255, 0, 0.2);
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #333;
+        }
+        
+        /* Project Cards Styling */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+        }
+        
+        .project-card {
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid #333;
+            border-radius: 15px;
+            padding: 2.5rem;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        .project-card.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .project-card:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 255, 0, 0.25);
+        }
+        
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+        }
+        
+        .project-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .project-date, .project-category, .project-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+        
+        .project-status {
+            font-weight: 600;
+        }
+        
+        .status-planning {
+            color: #2196F3;
+        }
+        
+        .status-idea {
+            color: #FF9800;
+        }
+        
+        .project-title {
+            color: #fff;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+        
+        .project-excerpt {
+            color: var(--text-color);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+            font-size: 1rem;
+        }
+        
+        .project-technologies {
+            margin-bottom: 1.5rem;
+        }
+        
+        .technology-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .technology-tag {
+            padding: 0.35rem 0.75rem;
+            background: rgba(0, 255, 0, 0.15);
+            color: var(--primary-color);
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            white-space: nowrap;
+            border: 1px solid rgba(0, 255, 0, 0.3);
+        }
+        
+        .project-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+        }
+        
+        .project-links {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .project-link {
+            padding: 0.75rem 1.5rem;
+            background: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .project-link:hover {
+            background: rgba(0, 255, 0, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 255, 0, 0.3);
+        }
+        
+        .project-link.github {
+            border-color: #6e5494;
+            color: #6e5494;
+        }
+        
+        .project-link.github:hover {
+            background: rgba(110, 84, 148, 0.1);
+        }
+        
+        .project-link.learn {
+            border-color: #2196F3;
+            color: #2196F3;
+        }
+        
+        .project-link.learn:hover {
+            background: rgba(33, 150, 243, 0.1);
+        }
+        
+        .coming-soon {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-light);
+            font-style: italic;
+        }
+        
+        .loading, .no-projects {
+            text-align: center;
+            color: var(--text-light);
+            padding: 3rem;
+            grid-column: 1 / -1;
+            font-size: 1.1rem;
+        }
+        
+        .loading i {
+            margin-right: 0.5rem;
+            animation: spin 1s linear infinite;
+            color: var(--primary-color);
+        }
+        
+        .no-projects i {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @media (max-width: 1024px) {
+            .projects-layout {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .projects-sidebar {
+                position: static;
+                order: -1;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .search-header {
+                padding: 1.5rem;
+            }
+            
+            .projects-sidebar {
+                padding: 1.5rem;
+            }
+            
+            .stat-number {
+                font-size: 2rem;
+            }
+            
+            .search-container #projectsSearch {
+                padding: 1rem 1rem 1rem 3.5rem;
+                font-size: 1rem;
+            }
+            
+            .search-container .search-icon {
+                left: 1.25rem;
+            }
+            
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .project-footer {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: stretch;
+            }
+            
+            .project-links {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+    
+    <!-- Navigation Bar -->
+    <header>
+        <nav class="nav-container">
+            <div class="nav-brand">
+                <a href="../index.html" class="logo-link">
+                    <span class="logo-text">0xProfound</span>
+                </a>
+            </div>
+            
+            <!-- Mobile menu button -->
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="../index.html" class="nav-link">Home</a></li>
+                <li><a href="../index.html#terminal" class="nav-link">Terminal</a></li>
+                <li><a href="../pages/about.html" class="nav-link">About</a></li>
+                <li><a href="../index.html#skills" class="nav-link">Skills</a></li>
+                <li><a href="../pages/machines.html" class="nav-link">HTB Machines</a></li>
+                <li><a href="../writeups/index.html" class="nav-link">Writeups</a></li>
+                <li><a href="../projects/index.html" class="nav-link active">Projects</a></li>
+                <li><a href="../pages/timeline.html" class="nav-link">Journey</a></li>
+                <li><a href="../pages/tools.html" class="nav-link">Tools</a></li>
+                <li><a href="../pages/contact.html" class="nav-link">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="projects-hero">
+            <div class="section-container">
+                <div class="projects-hero-content">
+                    <h1 class="section-title">Cybersecurity Projects</h1>
+                    <p class="projects-subtitle">My learning journey and upcoming projects in cybersecurity</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="projects-content-section">
+            <div class="section-container">
+                <!-- Welcome Message -->
+                <div class="welcome-message">
+                    <h2>🚧 Projects Under Construction 🚧</h2>
+                    <p>I'm currently focused on building my skills through Hack The Box machines and developing my methodology. This section will showcase my projects as I create them!</p>
+                    
+                    <div class="motivation-text">
+                        "The expert in anything was once a beginner. What matters is the commitment to keep learning and building."
+                    </div>
+                    
+                    <p>In the meantime, check out my <a href="../writeups/index.html" style="color: var(--primary-color);">HTB Writeups</a> to see my technical progress and problem-solving approach!</p>
+                </div>
+                
+                <!-- Search Header -->
+                <div class="search-header">
+                    <div class="search-container">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" id="projectsSearch" placeholder="Search upcoming projects...">
+                    </div>
+                </div>
+                
+                <div class="projects-layout">
+                    <!-- Main Content Area -->
+                    <div class="projects-main">
+                        <!-- Sort Controls -->
+                        <div class="sort-controls">
+                            <label for="sortSelect">Sort Projects:</label>
+                            <select id="sortSelect">
+                                <option value="priority-desc">Priority (High to Low)</option>
+                                <option value="date-desc">Newest First</option>
+                                <option value="date-asc">Oldest First</option>
+                                <option value="name-asc">Name: A to Z</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Projects Grid -->
+                        <div class="projects-grid" id="projectsGrid">
+                            <div class="loading">
+                                <i class="fas fa-spinner"></i>
+                                Loading upcoming projects...
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Sidebar -->
+                    <div class="projects-sidebar">
+                        <h3 class="sidebar-section-title">My Journey</h3>
+                        
+                        <!-- Stats Section -->
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-number" id="totalCount">5</div>
+                                <div class="stat-label">Planned Projects</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number" id="htbCount">37</div>
+                                <div class="stat-label">HTB Machines</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number" id="skillsCount">15+</div>
+                                <div class="stat-label">Skills Learning</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number" id="growthCount">100%</div>
+                                <div class="stat-label">Growth Focus</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Quick Filters -->
+                        <h3 class="sidebar-section-title">Project Categories</h3>
+                        <div class="sidebar-filters">
+                            <div class="sidebar-filter-btn active" data-filter="all">
+                                <span>All Projects</span>
+                                <span class="filter-count" id="countAll">5</span>
+                            </div>
+                            <div class="sidebar-filter-btn" data-filter="tool">
+                                <span>Security Tools</span>
+                                <span class="filter-count" id="countTool">2</span>
+                            </div>
+                            <div class="sidebar-filter-btn" data-filter="script">
+                                <span>Automation Scripts</span>
+                                <span class="filter-count" id="countScript">2</span>
+                            </div>
+                            <div class="sidebar-filter-btn" data-filter="research">
+                                <span>Research</span>
+                                <span class="filter-count" id="countResearch">1</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Learning Path -->
+                        <h3 class="sidebar-section-title">Currently Learning</h3>
+                        <div class="technology-tags">
+                            <span class="technology-tag">Python</span>
+                            <span class="technology-tag">Bash</span>
+                            <span class="technology-tag">PowerShell</span>
+                            <span class="technology-tag">Active Directory</span>
+                            <span class="technology-tag">Web Security</span>
+                            <span class="technology-tag">Network Pentesting</span>
+                        </div>
+                        
+                        <!-- Call to Action -->
+                        <div style="margin-top: 2rem; text-align: center;">
+                            <p style="color: var(--text-light); margin-bottom: 1rem;">Want to collaborate or suggest a project?</p>
+                            <a href="../pages/contact.html" class="project-link">
+                                <i class="fas fa-envelope"></i>
+                                Get In Touch
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="section-container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h3>0xProfound</h3>
+                    <p>Jr Penetration Tester | DEPI VAPT Track | HTB Pro Hacker</p>
+                    <div class="footer-social">
+                        <a href="https://github.com/0xprofound" class="social-icon" aria-label="GitHub">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/josephgamil" class="social-icon" aria-label="LinkedIn">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="#" class="social-icon" aria-label="Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="https://app.hackthebox.com/profile/1335712" class="social-icon" aria-label="Hack The Box">
+                            <i class="fas fa-cube"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <a href="../pages/about.html">About Me</a>
+                    <a href="../pages/machines.html">HTB Machines</a>
+                    <a href="../blog/index.html">Blog Posts</a>
+                    <a href="../pages/timeline.html">Journey</a>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Resources</h4>
+                    <a href="../writeups/index.html">Writeups</a>
+                    <a href="../projects/index.html">Projects</a>
+                    <a href="../pages/tools.html">Tools</a>
+                    <a href="../pages/contact.html">Contact</a>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Learning</h4>
+                    <a href="https://hackthebox.com" target="_blank">Hack The Box</a>
+                    <a href="https://tryhackme.com" target="_blank">TryHackMe</a>
+                    <a href="https://portswigger.net/web-security" target="_blank">PortSwigger Academy</a>
+                    <a href="https://owasp.org" target="_blank">OWASP</a>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p class="footer-credits">&copy; 2025 0xProfound. All rights reserved.</p>
+                <p>Built with passion for cybersecurity</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../assets/js/particles.js"></script>
+    <script>
+        // Mobile menu functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const navMenu = document.getElementById('navMenu');
+            const backToTop = document.getElementById('backToTop');
+
+            // Mobile menu toggle
+            if (mobileMenuBtn && navMenu) {
+                mobileMenuBtn.addEventListener('click', function() {
+                    mobileMenuBtn.classList.toggle('active');
+                    navMenu.classList.toggle('active');
+                });
+
+                // Close menu when clicking nav links
+                const navLinks = navMenu.querySelectorAll('.nav-link');
+                navLinks.forEach(link => {
+                    link.addEventListener('click', function() {
+                        mobileMenuBtn.classList.remove('active');
+                        navMenu.classList.remove('active');
+                    });
+                });
+
+                // Close menu when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (!mobileMenuBtn.contains(e.target) && !navMenu.contains(e.target)) {
+                        mobileMenuBtn.classList.remove('active');
+                        navMenu.classList.remove('active');
+                    }
+                });
+            }
+
+            // Back to top button
+            if (backToTop) {
+                window.addEventListener('scroll', function() {
+                    if (window.pageYOffset > 300) {
+                        backToTop.classList.add('visible');
+                    } else {
+                        backToTop.classList.remove('visible');
+                    }
+                });
+
+                backToTop.addEventListener('click', function() {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                });
+            }
+
+            // Load planned projects
+            const plannedProjects = [
+                {
+                    title: "AutoRecon Pro",
+                    excerpt: "Advanced automated reconnaissance tool with integrated vulnerability scanning and reporting features.",
+                    date: "2024-08-01",
+                    category: "tool",
+                    status: "planning",
+                    technologies: ["Python", "Bash", "Nmap", "Subfinder"],
+                    priority: "high"
+                },
+                {
+                    title: "HTB Machine Analyzer",
+                    excerpt: "Tool to analyze HTB machine patterns, common vulnerabilities, and create personalized learning paths.",
+                    date: "2024-09-15",
+                    category: "script",
+                    status: "planning",
+                    technologies: ["Python", "Data Analysis", "HTB API"],
+                    priority: "high"
+                },
+                {
+                    title: "Active Directory Lab Builder",
+                    excerpt: "Automated setup for AD lab environments for practice and testing of various attack techniques.",
+                    date: "2024-10-01",
+                    category: "tool",
+                    status: "planning",
+                    technologies: ["PowerShell", "Virtualization", "Active Directory"],
+                    priority: "medium"
+                },
+                {
+                    title: "Web App Security Scanner",
+                    excerpt: "Custom web application vulnerability scanner with focus on OWASP Top 10 vulnerabilities.",
+                    date: "2024-11-01",
+                    category: "script",
+                    status: "planning",
+                    technologies: ["Python", "Web Security", "OWASP"],
+                    priority: "medium"
+                },
+                {
+                    title: "Cybersecurity Learning Platform",
+                    excerpt: "Interactive platform with guided learning paths, challenges, and progress tracking.",
+                    date: "2025-01-01",
+                    category: "research",
+                    status: "planning",
+                    technologies: ["React", "Node.js", "MongoDB"],
+                    priority: "low"
+                }
+            ];
+
+            // Render planned projects
+            function renderProjects() {
+                const projectsGrid = document.getElementById('projectsGrid');
+                if (!projectsGrid) return;
+
+                projectsGrid.innerHTML = '';
+
+                plannedProjects.forEach((project, index) => {
+                    const projectCard = document.createElement('div');
+                    projectCard.className = `project-card ${project.category} ${project.status}`;
+                    
+                    projectCard.innerHTML = `
+                        <div class="project-header">
+                            <div class="project-meta">
+                                <div class="project-date">
+                                    <i class="fas fa-calendar"></i>
+                                    ${new Date(project.date).toLocaleDateString('en-US', { 
+                                        year: 'numeric', 
+                                        month: 'short'
+                                    })}
+                                </div>
+                                <div class="project-category">
+                                    <i class="fas fa-folder"></i>
+                                    ${project.category.charAt(0).toUpperCase() + project.category.slice(1)}
+                                </div>
+                            </div>
+                            <div class="project-status status-planning">
+                                <i class="fas fa-lightbulb"></i>
+                                Planning Phase
+                            </div>
+                        </div>
+                        
+                        <h3 class="project-title">${project.title}</h3>
+                        
+                        <p class="project-excerpt">${project.excerpt}</p>
+                        
+                        <div class="project-technologies">
+                            <div class="technology-tags">
+                                ${project.technologies.map(tech => 
+                                    `<span class="technology-tag">${tech}</span>`
+                                ).join('')}
+                            </div>
+                        </div>
+                        
+                        <div class="project-footer">
+                            <div class="project-links">
+                                <a href="#" class="project-link learn" onclick="event.preventDefault(); alert('This project is in planning phase. Check back soon!');">
+                                    <i class="fas fa-book"></i>
+                                    Learn More
+                                </a>
+                            </div>
+                            <div style="color: var(--text-light); font-size: 0.9rem;">
+                                Priority: ${project.priority}
+                            </div>
+                        </div>
+                    `;
+                    
+                    projectsGrid.appendChild(projectCard);
+                    
+                    // Animate cards on load
+                    setTimeout(() => {
+                        projectCard.classList.add('animate');
+                    }, index * 100);
+                });
+            }
+
+            // Initial render
+            renderProjects();
+        });
+    </script>
+</body>
+</html>
