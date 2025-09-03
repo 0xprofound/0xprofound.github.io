@@ -5,29 +5,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blog - 0xProfound</title>
     <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="stylesheet" href="../assets/css/animations.css">
     <link rel="stylesheet" href="../assets/css/blog.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        .blog-header {
+        .blog-hero {
+            padding: 8rem 0 4rem;
             text-align: center;
-            margin-bottom: 3rem;
+        }
+        
+        .blog-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            margin-top: 1rem;
         }
         
         .blog-filters {
             display: flex;
             justify-content: center;
             gap: 1rem;
-            margin-bottom: 2rem;
+            margin: 3rem 0 2rem;
             flex-wrap: wrap;
         }
         
         .filter-btn {
-            padding: 0.5rem 1rem;
+            padding: 0.75rem 1.5rem;
             background: rgba(0, 0, 0, 0.8);
             border: 2px solid #333;
             color: var(--text-color);
             border-radius: 25px;
             cursor: pointer;
             transition: all 0.3s ease;
+            font-size: 0.9rem;
+            font-weight: 500;
         }
         
         .filter-btn.active,
@@ -35,101 +45,8 @@
             border-color: var(--primary-color);
             color: var(--primary-color);
             background: rgba(0, 255, 0, 0.1);
-        }
-        
-        .blog-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 2rem;
-        }
-        
-        .blog-card {
-            background: rgba(0, 0, 0, 0.8);
-            border: 2px solid #333;
-            border-radius: 15px;
-            padding: 2rem;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .blog-card:hover {
-            border-color: var(--primary-color);
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0, 255, 0, 0.2);
-        }
-        
-        .blog-date {
-            color: var(--text-light);
-            font-size: 0.9rem;
-            margin-bottom: 1rem;
-        }
-        
-        .blog-title {
-            color: var(--primary-color);
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-        }
-        
-        .blog-excerpt {
-            color: var(--text-color);
-            line-height: 1.6;
-            margin-bottom: 1.5rem;
-            flex-grow: 1;
-        }
-        
-        .blog-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-        }
-        
-        .blog-tags {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-            max-width: 70%;
-        }
-        
-        .blog-tag {
-            padding: 0.25rem 0.5rem;
-            background: rgba(0, 255, 0, 0.1);
-            color: var(--text-color);
-            border-radius: 4px;
-            font-size: 0.8rem;
-            white-space: nowrap;
-        }
-        
-        .blog-read-time {
-            color: var(--text-light);
-            font-size: 0.9rem;
-            white-space: nowrap;
-        }
-        
-        .blog-read-more {
-            display: inline-block;
-            padding: 0.5rem 1rem;
-            background: transparent;
-            border: 2px solid var(--primary-color);
-            color: var(--primary-color);
-            text-decoration: none;
-            border-radius: 5px;
-            transition: all 0.3s ease;
-            text-align: center;
-        }
-        
-        .blog-read-more:hover {
-            background: rgba(0, 255, 0, 0.1);
-        }
-        
-        .no-posts {
-            text-align: center;
-            color: var(--text-light);
-            padding: 2rem;
-            grid-column: 1 / -1;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 255, 0, 0.2);
         }
         
         .search-container {
@@ -140,13 +57,20 @@
         
         #blogSearch {
             width: 100%; 
-            padding: 0.75rem 1rem; 
+            padding: 1rem 1rem 1rem 3rem; 
             background: rgba(0,0,0,0.8); 
             border: 2px solid #333; 
             border-radius: 25px; 
             color: var(--text-color);
             font-family: 'Courier New', monospace;
-            padding-left: 2.5rem;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        #blogSearch:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+            outline: none;
         }
         
         .search-icon {
@@ -155,13 +79,145 @@
             top: 50%;
             transform: translateY(-50%);
             color: var(--text-light);
+            font-size: 1.2rem;
         }
         
-        .loading {
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .blog-card {
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid #333;
+            border-radius: 20px;
+            padding: 2.5rem;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        .blog-card.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .blog-card:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 255, 0, 0.25);
+        }
+        
+        .blog-date {
+            color: var(--primary-color);
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .blog-date i {
+            margin-right: 0.5rem;
+        }
+        
+        .blog-title {
+            color: #fff;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+        
+        .blog-excerpt {
+            color: var(--text-color);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+            font-size: 1rem;
+        }
+        
+        .blog-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid #333;
+        }
+        
+        .blog-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            max-width: 70%;
+        }
+        
+        .blog-tag {
+            padding: 0.35rem 0.75rem;
+            background: rgba(0, 255, 0, 0.15);
+            color: var(--primary-color);
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            white-space: nowrap;
+            border: 1px solid rgba(0, 255, 0, 0.3);
+        }
+        
+        .blog-read-time {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+        }
+        
+        .blog-read-time i {
+            margin-right: 0.5rem;
+        }
+        
+        .blog-read-more {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-weight: 600;
+            align-self: flex-start;
+        }
+        
+        .blog-read-more:hover {
+            background: rgba(0, 255, 0, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 255, 0, 0.3);
+        }
+        
+        .no-posts, .loading {
             text-align: center;
             color: var(--text-light);
-            padding: 2rem;
+            padding: 3rem;
             grid-column: 1 / -1;
+            font-size: 1.1rem;
+        }
+        
+        .loading i {
+            margin-right: 0.5rem;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
         
         @media (max-width: 768px) {
@@ -172,6 +228,16 @@
             .blog-filters {
                 flex-direction: column;
                 align-items: center;
+                gap: 0.75rem;
+            }
+            
+            .filter-btn {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.85rem;
+            }
+            
+            .blog-card {
+                padding: 2rem;
             }
             
             .blog-meta {
@@ -188,59 +254,201 @@
                 align-self: flex-end;
             }
         }
+        
+        @media (max-width: 480px) {
+            .blog-hero {
+                padding: 6rem 0 3rem;
+            }
+            
+            .search-container {
+                margin: 0 1rem 2rem;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="particles" id="particles"></div>
-
+    
+    <!-- Navigation Bar -->
     <header>
-        <nav class="container">
-            <ul>
-                <li><a href="../index.html">Home</a></li>
-                <li><a href="../index.html#terminal">Terminal</a></li>
-                <li><a href="../pages/about.html">About</a></li>
-                <li><a href="../index.html#skills">Skills</a></li>
-                <li><a href="../pages/machines.html">HTB Machines</a></li>
-                <li><a class="active" href="index.html">Blog</a></li>
-                <li><a href="../pages/timeline.html">Journey</a></li>
-                <li><a href="../index.html#learning">Learning Path</a></li>
-                <li><a href="../pages/tools.html">Tools</a></li>
-                <li><a href="../index.html#activity">Activity</a></li>
-                <li><a href="../pages/contact.html">Contact</a></li>
+        <nav class="nav-container">
+            <div class="nav-brand">
+                <a href="../index.html" class="logo-link">
+                    <span class="logo-text">0xProfound</span>
+                </a>
+            </div>
+            
+            <!-- Mobile menu button -->
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="../index.html" class="nav-link">Home</a></li>
+                <li><a href="../index.html#terminal" class="nav-link">Terminal</a></li>
+                <li><a href="../pages/about.html" class="nav-link">About</a></li>
+                <li><a href="../index.html#skills" class="nav-link">Skills</a></li>
+                <li><a href="../pages/machines.html" class="nav-link">HTB Machines</a></li>
+                <li><a href="../writeups/index.html" class="nav-link">Writeups</a></li>
+                <li><a href="../blog/index.html" class="nav-link active">Blog</a></li>
+                <li><a href="../projects/index.html" class="nav-link">Projects</a></li>
+                <li><a href="../pages/timeline.html" class="nav-link">Journey</a></li>
+                <li><a href="../pages/tools.html" class="nav-link">Tools</a></li>
+                <li><a href="../pages/contact.html" class="nav-link">Contact</a></li>
             </ul>
         </nav>
     </header>
 
-    <section class="container">
-        <div class="blog-header">
-            <h1 class="section-title">Research & Blog</h1>
-            <p class="subtitle">Cybersecurity insights, techniques, and knowledge sharing</p>
-        </div>
-        
-        <div class="search-container">
-            <span class="search-icon">🔍</span>
-            <input type="text" id="blogSearch" placeholder="Search blog posts...">
-        </div>
-        
-        <div class="blog-filters">
-            <div class="filter-btn active" data-filter="all">All Posts</div>
-            <div class="filter-btn" data-filter="ADCS">ADCS</div>
-            <div class="filter-btn" data-filter="Active Directory">Active Directory</div>
-            <div class="filter-btn" data-filter="Privilege Escalation">Privilege Escalation</div>
-            <div class="filter-btn" data-filter="Windows">Windows</div>
-            <div class="filter-btn" data-filter="Linux">Linux</div>
-            <div class="filter-btn" data-filter="HTB">HTB</div>
-        </div>
-        
-        <div class="blog-grid" id="blogGrid">
-            <div class="loading">Loading blog posts...</div>
-        </div>
-    </section>
+    <main>
+        <!-- Hero Section -->
+        <section class="blog-hero">
+            <div class="section-container">
+                <h1 class="section-title">Research & Blog</h1>
+                <p class="blog-subtitle">Cybersecurity insights, techniques, and knowledge sharing</p>
+            </div>
+        </section>
 
+        <!-- Blog Content Section -->
+        <section class="blog-content-section">
+            <div class="section-container">
+                <div class="search-container">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="blogSearch" placeholder="Search blog posts...">
+                </div>
+                
+                <div class="blog-filters">
+                    <div class="filter-btn active" data-filter="all">All Posts</div>
+                    <div class="filter-btn" data-filter="ADCS">ADCS</div>
+                    <div class="filter-btn" data-filter="Active Directory">Active Directory</div>
+                    <div class="filter-btn" data-filter="Privilege Escalation">Privilege Escalation</div>
+                    <div class="filter-btn" data-filter="Windows">Windows</div>
+                    <div class="filter-btn" data-filter="Linux">Linux</div>
+                    <div class="filter-btn" data-filter="HTB">HTB</div>
+                </div>
+                
+                <div class="blog-grid" id="blogGrid">
+                    <div class="loading">
+                        <i class="fas fa-spinner"></i>
+                        Loading blog posts...
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="section-container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h3>0xProfound</h3>
+                    <p>Elite Penetration Tester | DEPI VAPT Track | HTB Conqueror</p>
+                    <div class="footer-social">
+                        <a href="#" class="social-icon" aria-label="GitHub">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="#" class="social-icon" aria-label="LinkedIn">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="#" class="social-icon" aria-label="Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="social-icon" aria-label="Hack The Box">
+                            <i class="fas fa-cube"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <a href="../pages/about.html">About Me</a>
+                    <a href="../pages/machines.html">HTB Machines</a>
+                    <a href="../blog/index.html">Blog Posts</a>
+                    <a href="../pages/timeline.html">Journey</a>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Resources</h4>
+                    <a href="../writeups/index.html">Writeups</a>
+                    <a href="../projects/index.html">Projects</a>
+                    <a href="../pages/tools.html">Tools</a>
+                    <a href="../pages/contact.html">Contact</a>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Learning</h4>
+                    <a href="https://hackthebox.com" target="_blank">Hack The Box</a>
+                    <a href="https://tryhackme.com" target="_blank">TryHackMe</a>
+                    <a href="https://portswigger.net/web-security" target="_blank">PortSwigger Academy</a>
+                    <a href="https://owasp.org" target="_blank">OWASP</a>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p class="footer-credits">&copy; 2024 0xProfound. All rights reserved.</p>
+                <p>Built with passion for cybersecurity</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to top button -->
+    <button class="back-to-top" id="backToTop" aria-label="Back to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script src="../assets/js/particles.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const navMenu = document.getElementById('navMenu');
+            const backToTop = document.getElementById('backToTop');
             const blogGrid = document.getElementById('blogGrid');
             let allBlogPosts = [];
+
+            // Mobile menu functionality
+            if (mobileMenuBtn && navMenu) {
+                mobileMenuBtn.addEventListener('click', function() {
+                    mobileMenuBtn.classList.toggle('active');
+                    navMenu.classList.toggle('active');
+                });
+
+                // Close menu when clicking nav links
+                const navLinks = navMenu.querySelectorAll('.nav-link');
+                navLinks.forEach(link => {
+                    link.addEventListener('click', function() {
+                        mobileMenuBtn.classList.remove('active');
+                        navMenu.classList.remove('active');
+                    });
+                });
+
+                // Close menu when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (!mobileMenuBtn.contains(e.target) && !navMenu.contains(e.target)) {
+                        mobileMenuBtn.classList.remove('active');
+                        navMenu.classList.remove('active');
+                    }
+                });
+            }
+
+            // Back to top button
+            if (backToTop) {
+                window.addEventListener('scroll', function() {
+                    if (window.pageYOffset > 300) {
+                        backToTop.classList.add('visible');
+                    } else {
+                        backToTop.classList.remove('visible');
+                    }
+                });
+
+                backToTop.addEventListener('click', function() {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                });
+            }
             
             // Load blog posts from JSON
             async function loadBlogPosts() {
@@ -251,7 +459,7 @@
                     }
                     
                     const data = await response.json();
-                    allBlogPosts = data.posts;
+                    allBlogPosts = data.posts || [];
                     
                     // Initial render
                     renderBlogPosts(allBlogPosts);
@@ -262,8 +470,9 @@
                     console.error('Error loading blog posts:', error);
                     blogGrid.innerHTML = `
                         <div class="no-posts">
+                            <i class="fas fa-exclamation-triangle" style="font-size: 2rem; margin-bottom: 1rem; color: var(--primary-color);"></i>
                             <p>Error loading blog posts. Please try again later.</p>
-                            <p>${error.message}</p>
+                            <p style="font-size: 0.9rem; margin-top: 1rem;">${error.message}</p>
                         </div>
                     `;
                 }
@@ -274,31 +483,49 @@
                 blogGrid.innerHTML = '';
                 
                 if (posts.length === 0) {
-                    blogGrid.innerHTML = '<div class="no-posts">No blog posts found matching your filter.</div>';
+                    blogGrid.innerHTML = `
+                        <div class="no-posts">
+                            <i class="fas fa-search" style="font-size: 2rem; margin-bottom: 1rem; color: var(--primary-color);"></i>
+                            <p>No blog posts found matching your filter.</p>
+                        </div>
+                    `;
                     return;
                 }
                 
                 // Sort posts by date (newest first)
                 posts.sort((a, b) => new Date(b.date) - new Date(a.date));
                 
-                posts.forEach(post => {
+                posts.forEach((post, index) => {
                     const blogCard = document.createElement('div');
                     blogCard.className = 'blog-card';
                     
                     blogCard.innerHTML = `
-                        <div class="blog-date">${formatDate(post.date)}</div>
+                        <div class="blog-date">
+                            <i class="fas fa-calendar"></i>
+                            ${formatDate(post.date)}
+                        </div>
                         <h3 class="blog-title">${post.title}</h3>
                         <p class="blog-excerpt">${post.excerpt}</p>
                         <div class="blog-meta">
                             <div class="blog-tags">
                                 ${post.tags.map(tag => `<span class="blog-tag">${tag}</span>`).join('')}
                             </div>
-                            <span class="blog-read-time">${post.read_time} read</span>
+                            <span class="blog-read-time">
+                                <i class="fas fa-clock"></i>
+                                ${post.read_time} read
+                            </span>
                         </div>
-                        <a href="${post.slug}.html" class="blog-read-more">Read More</a>
+                        <a href="${post.slug}.html" class="blog-read-more">
+                            Read More <i class="fas fa-arrow-right" style="margin-left: 0.5rem;"></i>
+                        </a>
                     `;
                     
                     blogGrid.appendChild(blogCard);
+                    
+                    // Animate cards on load
+                    setTimeout(() => {
+                        blogCard.classList.add('animate');
+                    }, index * 100);
                 });
             }
             
@@ -375,6 +602,5 @@
             loadBlogPosts();
         });
     </script>
-    <script src="../assets/js/particles.js"></script>
 </body>
 </html>
