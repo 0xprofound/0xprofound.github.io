@@ -72,18 +72,18 @@ class NavigationComponent {
                 <div class="footer-content">
                     <div class="footer-brand">
                         <h3>0xProfound</h3>
-                        <p>Elite Penetration Tester | DEPI VAPT Track | HTB Conqueror</p>
+                        <p>Jr Penetration Tester | DEPI VAPT Track | HTB Pro Hacker</p>
                         <div class="footer-social">
-                            <a href="#" class="social-icon" aria-label="GitHub">
+                            <a href="https://github.com/0xprofound" class="social-icon" aria-label="GitHub">
                                 <i class="fab fa-github"></i>
                             </a>
-                            <a href="#" class="social-icon" aria-label="LinkedIn">
+                            <a href="https://www.linkedin.com/in/josephgamil" class="social-icon" aria-label="LinkedIn">
                                 <i class="fab fa-linkedin"></i>
                             </a>
                             <a href="#" class="social-icon" aria-label="Twitter">
                                 <i class="fab fa-twitter"></i>
                             </a>
-                            <a href="#" class="social-icon" aria-label="Hack The Box">
+                            <a href="https://app.hackthebox.com/profile/1335712" class="social-icon" aria-label="Hack The Box">
                                 <i class="fas fa-cube"></i>
                             </a>
                         </div>
