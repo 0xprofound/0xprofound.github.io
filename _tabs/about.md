@@ -7,17 +7,27 @@ order: 4
 <!-- > Add Markdown syntax content to file `_tabs/about.md`{: .filepath } and it will show up on this page.
 {: .prompt-tip } -->
 
-Hey, I'm 0xprofound and I've been focusing on Active Directory and Red Teaming for the past 14 months.
+Hey, I'm 0xprofound and I've been focusing on Active Directory and Red Teaming for over a 2 years now.
+
 Most of this journey has been through HTB Academy — working through modules, breaking things, and slowly connecting the dots. For web pentesting I've been going back and forth between HTB Academy and PortSwigger's Web Security Academy, keeping up with the gaps so they don't become blind spots.
-Right now I'm locked in on the CAPE path — HackTheBox's Certified Active Directory Pentesting Expert. Saving cubes, grinding labs, getting there.
 
 
-**Goals:** 
+I bought ZPS's bundle and had done CRTO, next is CRTL. As I progress, I plan to slowly do more certs, but that's after CRTL. My Certifications plan includes CDSA (defensive side), BSCP (web), eMAPT(mobile), and CAPE (HTB's cert for Active Directory Pentest).
 
-The main target is finishing CAPE — however long that takes, whether it's a year or two depending on what I can invest. The exam comes after, but the path itself is the work.
+Apart from cyber stuff, I try to develop my skills in mechanical design, electrical design, and aerodynamics, since I'm a mechatronics engineer.
 
-Beyond that, I recently submitted my first machine to HTB Labs for review — a project I worked on for about 2 months. Whether it gets accepted or not, building it taught me a lot.
+#### **My Certificates:**
+###### _**CRTO**_
+> ![image.png]( {{ site.url }}/assets/Certs/CRTO.png)
 
+###### _**APTLABS ProLab**_
+> ![image.png]( {{ site.url }}/assets/Certs/APTLabs.png)
+
+###### _**Ifrit ProLab**_
+> ![image.png]( {{ site.url }}/assets/Certs/Ifrit.png)
+
+###### _**Zephyr ProLab**_
+> ![image.png]( {{ site.url }}/assets/Certs/Zephyr.png)
 
 **HTB:**
 - 100+ machines pwned
